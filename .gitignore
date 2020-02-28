@@ -3,5 +3,9 @@ db.sqlite3
 functional_test/.DS_Store
 onlinestore_venv/
 dinosauria/__pycache__/*
+.DS_Store
+.DS_Store/*
+ignore/
+.ignore/*
 
 
