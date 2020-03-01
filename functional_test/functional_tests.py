@@ -17,9 +17,13 @@ class FirstVisitTest(unittest.TestCase):
 
         # User notices Dinosauria title
         self.assertIn('Dinosauria store', self.browser.title)
-        self.fail('Finish the test')
+        # self.fail('Finish the test')
 
         # User notices Dinosauria logo at the top center of the page
+        logo_text = self.browser.find_element_by_id('logo-text')
+        self.assertEqual('Dinosauria', logo_text.text)
+        logo_img = self.browser.find_element_by_id('logo-img')
+        self.assertIn('logo-img.png', logo_img.get_attribute('src'))
 
         # User can see the products listed in the home page as image, name and price
 

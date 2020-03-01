@@ -1,0 +1,62 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+    <div class="col m-auto mt-5 pt-5 text-center" id="intro-text">
+        <h3>Welcome to the Dinosauria store</h3>
+        <p> Here you can find the finest, most various types of dinosaurs that you'll love to cuddle.</p>
+    </div>
+    <div class="col m-auto mt-5  text-center" >
+        <img id="intro-pic" src="{% static 'img/dino_kid1.jpg' %}">
+    </div>
+</div>
+<h4 class="text-center my-5"> our trending products </h4>
+<section class="trending mx-5">
+    <div class="card-group">
+        <div class="card">
+            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img.png' %}" alt="Card image cap">
+            <div class="card-body bg-light">
+                <h3 class="card-title text-center pretty-font">Dinosaur name</h3>
+                <p class="text-center">10.99</p>
+                <div class="card-buttons ">
+                    <div class="row text-center p-3">
+                        <div class="col ">see details</div>
+                        <div class="col ">add to cart</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card">
+            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img.png' %}" alt="Card image cap">
+            <div class="card-body bg-light">
+                <h3 class="card-title text-center pretty-font">Dinosaur name</h3>
+                <p class="text-center">10.99</p>
+                <div class="card-buttons ">
+                    <div class="row text-center p-3">
+                        <div class="col ">see details</div>
+                        <div class="col ">add to cart</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card">
+            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img.png' %}" alt="Card image cap">
+            <div class="card-body bg-light">
+                <h3 class="card-title text-center pretty-font">Dinosaur name</h3>
+                <p class="text-center">10.99</p>
+                <div class="card-buttons ">
+                    <div class="row text-center p-3">
+                        <div class="col ">see details</div>
+                        <div class="col ">add to cart</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock content %}

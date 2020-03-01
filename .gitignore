@@ -7,5 +7,6 @@ dinosauria/__pycache__/*
 .DS_Store/*
 ignore/
 .ignore/*
-
+*.pyc
+__pycache__/*
 
