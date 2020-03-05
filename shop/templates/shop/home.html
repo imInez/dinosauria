@@ -1,7 +1,10 @@
 {% extends 'shop/base.html' %}
 {% load static %}
-{% block content %}
 
+{% block title %}
+Dinosauria store
+{% endblock title %}
+{% block content %}
 <div class="row">
     <div class="col m-auto mt-5 pt-5 text-center" id="intro-text">
         <h3>Welcome to the Dinosauria store</h3>
@@ -15,7 +18,21 @@
 <section class="trending mx-5">
     <div class="card-group">
         <div class="card">
-            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img.png' %}" alt="Card image cap">
+            <img class="card-img-top p-5 w-75 text-center m-auto" id="dinosaur-img" src="{% static 'img/logo-img.png' %}" alt="">
+            <div class="card-body bg-light">
+                <h3 class="card-title text-center pretty-font" id="dinosaur-name">Dinosaur name</h3>
+                <p class="text-center" id="dinosaur-price">10.99</p>
+                <div class="card-buttons ">
+                    <div class="row text-center p-3">
+                        <div class="col ">see details</div>
+                        <div class="col ">add to cart</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card">
+            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img.png' %}" alt="">
             <div class="card-body bg-light">
                 <h3 class="card-title text-center pretty-font">Dinosaur name</h3>
                 <p class="text-center">10.99</p>
@@ -29,21 +46,7 @@
 
         </div>
         <div class="card">
-            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img.png' %}" alt="Card image cap">
-            <div class="card-body bg-light">
-                <h3 class="card-title text-center pretty-font">Dinosaur name</h3>
-                <p class="text-center">10.99</p>
-                <div class="card-buttons ">
-                    <div class="row text-center p-3">
-                        <div class="col ">see details</div>
-                        <div class="col ">add to cart</div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="card">
-            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img.png' %}" alt="Card image cap">
+            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img.png' %}" alt=""">
             <div class="card-body bg-light">
                 <h3 class="card-title text-center pretty-font">Dinosaur name</h3>
                 <p class="text-center">10.99</p>

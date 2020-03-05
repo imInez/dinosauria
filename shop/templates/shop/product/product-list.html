@@ -1,0 +1,32 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}
+Dinosauria store - Products
+{% endblock title %}
+
+{% block content %}
+
+<section id="products-list">
+    {% for product in products %}
+    {% if forloop.counter|divisibleby:3 or forloop.counter == 1 %}
+    </div>
+    <div class="row mx-5 text-center">
+        <div class="col product">
+            <a href="{{ product.get_absolute_url }}" class="product-link"><img src="{{ product.image.url }}" class="product-img" alt="{{ product.name }}">
+                <h5 class="product-name">{{ product.name }}, {{ product.price }} </h5></a>
+            <button>Add to basket</button>
+        </div>
+        {% else %}
+        <div class="col">
+            <a href="{{ product.get_absolute_url }}" class="product-link"><img src="{{ product.image.url }}" class="product-img">
+                <h5>{{ product.name }}, {{ product.price }} </h5></a>
+            <button class="add-to-cart-btn">Add to basket</button>
+        </div>
+        {% endif %}
+
+        {% endfor %}
+
+    </div>
+</section>
+{% endblock content %}

@@ -1,8 +1,12 @@
 from selenium import webdriver
 import unittest
+import time
+from selenium.common.exceptions import WebDriverException
 
 
 class FirstVisitTest(unittest.TestCase):
+
+    MAX_WAIT = 10
 
     def setUp(self) -> None:
         self.browser = webdriver.Safari()
@@ -25,19 +29,54 @@ class FirstVisitTest(unittest.TestCase):
         logo_img = self.browser.find_element_by_id('logo-img')
         self.assertIn('logo-img.png', logo_img.get_attribute('src'))
 
-        # User can see the products listed in the home page as image, name and price
+        # User can see trending products listed in the home page as image, name and price
+        trending_img = self.browser.find_element_by_id('dinosaur-img')
+        trending_name = self.browser.find_element_by_id('dinosaur-name')
+        trending_price = self.browser.find_element_by_id('dinosaur-price')
+        self.assertTrue(trending_img)
+        self.assertTrue(trending_name)
+        self.assertTrue(trending_price)
 
-        # User can click on 'products' button to see full list of products
+
+    def wait_for_product_in_cart(self, product_name):
+        start_time = time.time()
+        while True:
+            try:
+                product_table = self.browser.find_element_by_id('products')
+                product_rows = product_table.find_elements_by_tag_name('tr')
+                self.assertIn(product_name, [row.text for row in product_rows])
+            except (AssertionError, WebDriverException) as e:
+                if time.time()-start_time > self.MAX_WAIT:
+                    raise e
+                time.sleep(0.5)
+
 
     def test_can_view_products_list_and_add_to_cart(self):
-        pass
-        # User can see all products listed
+        self.browser.get('http://localhost:8000')
+        # User can click on 'products' button to see products
+        products_link = self.browser.find_element_by_link_text('Products')
+        self.browser.get(products_link.get_attribute('href'))
+        self.assertIn('Dinosauria store - Products', self.browser.title)
+        self.assertTrue(self.browser.find_element_by_id('products-list'))
+
+        items_found = list(self.browser.find_elements_by_class_name('product-link'))
+        self.assertTrue(len(items_found)>0, 'There are products visible')
 
         # User can add to cart products from the list
+        product = self.browser.find_element_by_class_name('product')
+        product_name = product.find_element_by_class_name('product-name')
+        add_button = product.find_element_by_tag_name('button')
+        add_button.click()
+
+        # user is notified that product has been added to the basket
+        notification = self.browser.find_element_by_id('added-to-cart-notification')
+        self.assertTrue(notification)
 
         # cart items value gets updated
+        cart_link = self.browser.find_element_by_id('cart')
+        self.browser.get(cart_link.get_attribute('href'))
+        self.wait_for_product_in_cart(product_name)
 
-        # user is notified that producuct has been added to the basket
 
     def test_can_view_product_details(self):
         pass
