@@ -27,19 +27,17 @@ class ProductModelTestCase(TestCase):
         new_product2.save()
 
         new_products = Product.objects.all()
-        print(new_products)
         self.assertEqual(new_products.count(), 2)
-
         self.assertEqual(new_products[0].name, 'Test Product1')
         self.assertEqual(new_products[1].name, 'Test Product2')
 
-class BasketTest(TestCase):
-    def test_add_to_basket_and_check(self):
-        if len(Product.objects.all()) == 0:
-            new_product1 = Product()
-            new_product1.name = 'Test Product1'
-            new_product1.price = 100
-            new_product1.save()
+# class BasketTest(TestCase):
+#     def test_add_to_basket_and_check(self):
+#         if len(Product.objects.all()) == 0:
+#             new_product1 = Product()
+#             new_product1.name = 'Test Product1'
+#             new_product1.price = 100
+#             new_product1.save()
 
 
 
