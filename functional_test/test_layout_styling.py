@@ -71,6 +71,24 @@ class CartLayoutStyling(FunctionalTest):
         # they see all these options available
         pass
 
+    def test_user_is_asked_for_address_if_its_missing_from_account_info(self):
+        # User is registered and logged in but it's their first order.
+        # They have items in a basket and go to cart page
+        # They see address form where they need to provide their shippment data
+
+        # When correct data is provided, the Make order button occurs
+        pass
+
+    def test_addres_form_shows_up_when_order_as_guest_option_was_chosen(self):
+        # User has items in a basket and they go to cart page
+
+        # They want to order as a guest, without registration, and click on Order as a guest button
+
+        # Shipment addres form shows up
+
+        # When shipment address form is correct, the Make order button shows up
+        pass
+
     def test_user_can_make_an_order_immediately_when_logged_in(self):
         # User logs in
 
