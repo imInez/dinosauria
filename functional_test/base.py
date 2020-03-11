@@ -71,8 +71,13 @@ class FunctionalTest(StaticLiveServerTestCase):
     def _go_to_cart(self):
         self.browser.get(self.browser.current_url+'/cart/')
 
-    def _make_an_order(self):
+    def _make_a_successful_order(self):
         pass
+
+    def _make_a_failure_order(self):
+        pass
+
+
 
 
 

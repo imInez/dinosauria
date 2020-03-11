@@ -3,30 +3,40 @@ from base import FunctionalTest
 
 class NewOrderTest(FunctionalTest):
 
-    def _put_items_to_cart(self):
-        pass
-
-    def _login_user(self):
-        pass
-
-    def _go_to_cart(self):
-        pass
-
 
     def test_logged_in_user_can_make_an_order(self):
         # Users is logged in and have items in cart, they go to cart page, they have address saved
+        self._create_test_user()
+        self._login_user()
+        self._create_test_items()
+        self._add_items_to_cart()
+        self._go_to_cart()
+        # They click on make an order and new order is saved to db
+        self.__make_a_successful_order()
 
-        # They click on make an order and new order is saved to db with payment=ongoing flag
+        # They are forwarded to order summary page
+        self.assertIn('Your order: ', self.browser.find_element_by_tag_name('h2').text)
+        # They can see their order in their profile
+        self.browser.find_element_by_name('profile').click()
 
-        pass
+        self.assertIn('Your orders', self.browser.find_element_by_tag_name('h1').text)
+
+        # TODO get order info to check if visible
+
 
     def test_guest_user_can_make_an_order(self):
         # User is not logged in, they have items in cart, they go to cart page and click on Order as a guest
+        self._create_test_items()
+        self._add_items_to_cart()
+        self._go_to_cart()
 
         # They correctly fill up the shipment form
+        # TODO how to find input box?
 
-        # They click on Make an order button and one-time user is created ifn db to handle the order,
-        # and an order is created in db
+        # They are forwarded to order summary page
+        # TODO add order id to header
+        self.assertIn('Your order: ', self.browser.find_element_by_tag_name('h2').text)
+
         pass
 
     def test_user_is_forwarder_to_payment(self):
