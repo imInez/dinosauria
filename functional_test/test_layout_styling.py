@@ -70,7 +70,7 @@ class ProductDetailLayoutStylingTest(FunctionalTest):
             self.assertIn(self.browser.page_source, i)
 
         # User can also see add to cart button
-        self.assertTrue(self.browser.find_element_by_id('add-to-cart'))
+        self.assertTrue(self.browser.find_element_by_id('add-to-cart').isDisplayed())
 
 
 class CartLayoutStyling(FunctionalTest):
