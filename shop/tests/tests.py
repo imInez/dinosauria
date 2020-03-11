@@ -3,7 +3,7 @@ from django.urls import resolve
 from django.test import TestCase
 from django.http import HttpRequest
 from shop.views import home, products
-from .models import Product
+from shop.models import Product
 
 class PagesTest(TestCase):
     def test_root_url_resolves_to_home_view(self):
