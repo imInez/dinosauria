@@ -1,1 +1,1 @@
-from .base import FunctionalTest
+from base import FunctionalTest

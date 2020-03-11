@@ -1,8 +1,9 @@
-from .base import FunctionalTest
+from base import FunctionalTest
 
 class RegistationAndLoggingInTest(FunctionalTest):
 
     def new_user_can_register(self):
+
         # Anonymous user visits dinosauria store
 
         # They click on register in navbar
