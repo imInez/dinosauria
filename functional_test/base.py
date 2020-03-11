@@ -4,6 +4,8 @@ import time
 from selenium.common.exceptions import WebDriverException
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import os
+import time
+from shop.models import Product
 
 MAX_WAIT = 10
 
@@ -28,3 +30,49 @@ class FunctionalTest(StaticLiveServerTestCase):
                 if time.time()-start_time > self.MAX_WAIT:
                     raise e
                 time.sleep(0.5)
+
+    def wait_for(self, f):
+        start_time = time.now()
+        while True:
+            try:
+                return f()
+            except (AssertionError, WebDriverException) as e:
+                if time.time() - start_time > MAX_WAIT:
+                    raise e
+                time.sleep(0.5)
+
+    # def get_input_field(self):
+    #     return self.browser.find_element_by_id('id_text')
+
+    def _create_test_items(self):
+        new_prod1 = Product(name='Test Dino 1', price=100)
+        new_prod1.save()
+
+        new_prod2 = Product(name='Test Dino 2', price=200)
+        new_prod2.save()
+
+        new_prod3 = Product(name='Test Dino 3', price=300)
+        new_prod3.save()
+
+    def _add_items_to_cart(self):
+        self.browser.get(f'{self.browser.current_url}/products/')
+
+        product_elements = self.browser.find_elements_by_id('product')
+        for el in product_elements:
+            el.click()
+            self.browser.find_element_by_id('add-to-cart').click()
+
+    def _create_test_user(self):
+        pass
+
+    def _login_user(self):
+        pass
+
+    def _go_to_cart(self):
+        self.browser.get(self.browser.current_url+'/cart/')
+
+    def _make_an_order(self):
+        pass
+
+
+
