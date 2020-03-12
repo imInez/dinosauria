@@ -2,86 +2,117 @@ from base import FunctionalTest
 from shop.models import Product
 import requests
 from helpers import tests_helpers
-
-""" Shop app FTs """
-class HomePageLayoutStylingTest(FunctionalTest):
-    def test_can_see_homepage_structure(self):
-
-        # User wants to buy georgeous dinosaur, they go to dinosauria online store
-        self.browser.get(self.live_server_url)
-
-        # User notices Dinosauria title
-        self.assertIn('Dinosauria store', self.browser.title)
-
-        # User notices Dinosauria logo at the top center of the page
-        logo_text = self.browser.find_element_by_id('logo-text')
-        self.assertEqual('Dinosauria', logo_text.text)
-        logo_img = self.browser.find_element_by_id('logo-img')
-        self.assertIn('logo-img.png', logo_img.get_attribute('src'))
-
-        # User can see trending products listed in the home page as image, name and price
-        trending_img = self.browser.find_element_by_id('dinosaur-img')
-        trending_name = self.browser.find_element_by_id('dinosaur-name')
-        trending_price = self.browser.find_element_by_id('dinosaur-price')
-        self.assertTrue(trending_img)
-        self.assertTrue(trending_name)
-        self.assertTrue(trending_price)
+from selenium.webdriver.common.keys import Keys
 
 
-class ProductListLayoutStylingTest(FunctionalTest):
+# """ Shop app FTs """
+# class HomePageLayoutStylingTest(FunctionalTest):
+#     def test_can_see_homepage_structure(self):
+#
+#         # User wants to buy georgeous dinosaur, they go to dinosauria online store
+#         self.browser.get(self.live_server_url)
+#
+#         # User notices Dinosauria title
+#         self.assertIn('Dinosauria store', self.browser.title)
+#
+#         # User notices Dinosauria logo at the top center of the page
+#         logo_text = self.browser.find_element_by_id('logo-text')
+#         self.assertEqual('Dinosauria', logo_text.text)
+#         logo_img = self.browser.find_element_by_id('logo-img')
+#         self.assertIn('logo-img.png', logo_img.get_attribute('src'))
+#
+#         # User can see trending products listed in the home page as image, name and price
+#         trending_img = self.browser.find_element_by_id('dinosaur-img')
+#         trending_name = self.browser.find_element_by_id('dinosaur-name')
+#         trending_price = self.browser.find_element_by_id('dinosaur-price')
+#         self.assertTrue(trending_img)
+#         self.assertTrue(trending_name)
+#         self.assertTrue(trending_price)
+#
+#
+# class ProductListLayoutStylingTest(FunctionalTest):
+#
+#     def test_can_see_all_products_list_and_details_links(self):
+#         # User wants to see all available products and go to All products link
+#         self.browser.get(self.live_server_url)
+#         products_link = self.browser.find_element_by_link_text('Products').get_attribute('href')
+#         self.browser.get(products_link)
+#         # products_link.click()
+#         self.wait_for(lambda:
+#                       self.assertIn(self.browser.find_element_by_tag_name('h3').text, 'All products'))
+#
+#         # User can see all products as pictures in rows
+#         all_products = self.browser.find_elements_by_class_name('product-link')
+#         self.assertEqual(len(Product.objects.all()), len(all_products))
+#
+#         tests_helpers.create_test_items()
+#         self.browser.get(products_link)
+#         all_products = self.browser.find_elements_by_class_name('product-link')
+#         self.assertEqual(len(Product.objects.all()), len(all_products))
+#
+#         # TODO this will work with js, for now make mvc
+#         # User clicks on a picture to see available actions - add to basket or see details
+#         self.assertTrue(self.browser.find_element_by_class_name('add-to-cart-btn'))
+#         self.assertTrue(self.browser.find_element_by_class_name('product-img'))
+#
+# class ProductDetailLayoutStylingTest(FunctionalTest):
+#
+#     def test_can_see_product_details(self):
+#         product = tests_helpers.create_test_items(create_one=True).first()
+#         self.browser.get(f'{self.live_server_url}/products/')
+#         # User clicks on product image to see aviailable action and clicks  on See details button
+#         details_link = self.browser.find_element_by_class_name('product-link').get_attribute('href')
+#         self.browser.get(details_link)
+#
+#         # product_element.click()
+#         # details_link = self.browser.find_element_by_link_text('See details').get_attribute('src')
+#
+#         # User is taken to product detail page
+#         self.browser.get(details_link)
+#         product_id = self.browser.find_element_by_name('product-id').text
+#
+#         self.assertEqual(product_id, str(product.id))
+#
+#         # on product page they see images gallery, price, description
+#         imgs = 'product-img'
+#         price = 'product-price'
+#         desc = 'product-desc'
+#         product_info = [imgs, price, desc]
+#
+#         for i in product_info:
+#             self.assertIn(i, self.browser.page_source)
+#
+#         # User can also see add to cart button
+#         self.assertTrue(self.browser.find_element_by_id('add-to-cart'))
 
-    def test_can_see_all_products_list_and_details_links(self):
-        # User wants to see all available products and go to All products link
-        self.browser.get(self.live_server_url)
-        products_link = self.browser.find_element_by_link_text('Products').get_attribute('href')
-        self.browser.get(products_link)
-        # products_link.click()
-        self.wait_for(lambda:
-                      self.assertIn(self.browser.find_element_by_tag_name('h3').text, 'All products'))
 
-        # User can see all products as pictures in rows
-        all_products = self.browser.find_elements_by_class_name('product-link')
-        self.assertEqual(len(Product.objects.all()), len(all_products))
+""" Users app FTs """
+class UserAccountLayoutStyling(FunctionalTest):
 
-        tests_helpers.create_test_items()
-        self.browser.get(products_link)
-        all_products = self.browser.find_elements_by_class_name('product-link')
-        self.assertEqual(len(Product.objects.all()), len(all_products))
 
-        # TODO this will work with js, for now make mvc
-        # User clicks on a picture to see available actions - add to basket or see details
-        self.assertTrue(self.browser.find_element_by_class_name('add-to-cart-btn'))
-        self.assertTrue(self.browser.find_element_by_class_name('product-img'))
 
-class ProductDetailLayoutStylingTest(FunctionalTest):
+    def test_can_see_orders_table_in_account(self):
+        # User logs in
+        usr = self._create_test_user()
+        self._login_user()
 
-    def test_can_see_product_details(self):
-        product = tests_helpers.create_test_items(create_one=True).first()
-        self.browser.get(f'{self.live_server_url}/products/')
-        # User clicks on product image to see aviailable action and clicks  on See details button
-        details_link = self.browser.find_element_by_class_name('product-link').get_attribute('href')
-        self.browser.get(details_link)
+        self._make_an_order()
+        # They go to their account page and see a list of their orders
+        self.browser.find_element_by_name('profile').click()
 
-        # product_element.click()
-        # details_link = self.browser.find_element_by_link_text('See details').get_attribute('src')
+        self.assertIn('Your orders', self.browser.find_element_by_tag_name('h1').text)
 
-        # User is taken to product detail page
-        self.browser.get(details_link)
-        product_id = self.browser.find_element_by_name('product-id').text
+        #TODO check if order data is here
 
-        self.assertEqual(product_id, str(product.id))
+    def test_can_see_address(self):
+        # User logs in
+        usr = self._create_test_user()
+        self._login_user()
 
-        # on product page they see images gallery, price, description
-        imgs = 'product-img'
-        price = 'product-price'
-        desc = 'product-desc'
-        product_info = [imgs, price, desc]
+        # They go to their account page and see their address and account information - email and password change button
+        self.assertTrue(self.browser.find_element_by_id('address-form').isDisplayed())
 
-        for i in product_info:
-            self.assertIn(i, self.browser.page_source)
 
-        # User can also see add to cart button
-        self.assertTrue(self.browser.find_element_by_id('add-to-cart'))
 
 """ Cart app FTs """
 # class CartLayoutStyling(FunctionalTest):
@@ -165,26 +196,4 @@ class ProductDetailLayoutStylingTest(FunctionalTest):
 #         self.assertTrue(self.browser.find_element_by_id('buy-button').isDisplayed())
 
 
-""" Users app FTs """
-# class UserAccountLayoutStyling(FunctionalTest):
-#
-#     def test_can_see_orders_table_in_account(self):
-#         # User logs in
-#         usr = self._create_test_user()
-#         self._login_user()
-#
-#         self._make_an_order()
-#         # They go to their account page and see a list of their orders
-#         self.browser.find_element_by_name('profile').click()
-#
-#         self.assertIn('Your orders', self.browser.find_element_by_tag_name('h1').text)
-#
-#         #TODO check if order data is here
-#
-#     def test_can_see_address(self):
-#         # User logs in
-#         usr = self._create_test_user()
-#         self._login_user()
-#
-#         # They go to their account page and see their address and account information - email and password change button
-#         self.assertTrue(self.browser.find_element_by_id('addres-form').isDisplayed())
+
