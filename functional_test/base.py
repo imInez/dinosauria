@@ -17,7 +17,9 @@ class FunctionalTest(StaticLiveServerTestCase):
             self.live_server_url = 'http://' + staging_server
 
     def tearDown(self) -> None:
+        # Product.objects.all().delete()
         self.browser.quit()
+
 
     def wait_for_product_in_cart(self, product_name):
         start_time = time.time()
