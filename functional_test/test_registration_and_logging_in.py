@@ -3,11 +3,12 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from django.contrib.auth import get_user_model
 from django.test import Client
+from helpers import tests_helpers
 
 
 User = get_user_model()
 c = Client()
-class RegistrationAndLoggingInTest(FunctionalTest):
+class RegistrationTest(FunctionalTest):
 
     def test_registration_creates_user(self):
         # User wants to become a part of Dinosauria land and go to registration page
@@ -70,7 +71,6 @@ class RegistrationAndLoggingInTest(FunctionalTest):
         self.assertEqual(self.browser.current_url, products_link)
 
 
-
     def test_registration_stay_loggedin(self):
         # User wants to register to Dinosauria and dont want to have to log in after hat
         self.browser.get(self.live_server_url+'/users/register/')
@@ -91,8 +91,6 @@ class RegistrationAndLoggingInTest(FunctionalTest):
         pass2_input.send_keys('testingPassword101')
         pass2_input.send_keys(Keys.ENTER)
 
-        # pass1_input = self.browser.find_element_by_name('password1')
-
         # They click on register button
         register_btn = self.browser.find_element_by_id('register-btn')
         self.assertEqual(register_btn.text, 'Register')
@@ -106,18 +104,17 @@ class RegistrationAndLoggingInTest(FunctionalTest):
         else:
             self.fail('register found, user not logged in')
 
+class LoginTest(FunctionalTest):
+    def test_existing_user_can_login(self):
 
+        self.browser.get(self.live_server_url + '/login/')
+        # TODO story
 
+        # They provide necessary data
+        email_input = self.browser.find_element_by_name('email')
+        email_input.send_keys('testing@random.com')
+        email_input.send_keys(Keys.ENTER)
 
-    # def test_login(self):
-    #     self.browser.get(self.live_server_url + '/login/')
-    #     # TODO story
-    #
-    #     # They provide necessary data
-    #     email_input = self.browser.find_element_by_name('email')
-    #     email_input.send_keys('testing@random.com')
-    #     email_input.send_keys(Keys.ENTER)
-    #
-    #     pass_input = self.browser.find_element_by_name('passwrd')
-    #     email_input.send_keys('testingPassword101')
-    #     email_input.send_keys(Keys.ENTER)
+        pass_input = self.browser.find_element_by_name('passwrd')
+        email_input.send_keys('testingPassword101')
+        email_input.send_keys(Keys.ENTER)
