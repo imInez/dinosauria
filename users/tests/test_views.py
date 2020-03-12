@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from users import views
 from django.urls import resolve
 from django.contrib.auth import authenticate, get_user
-
+from helpers import tests_helpers
 User = get_user_model()
 
 class RegistrationTest(TestCase):
@@ -41,3 +41,18 @@ class RegistrationTest(TestCase):
                                                               'password2': 'testingpassword101',
                                                               'next': '/products/'})
         self.assertRedirects(response, '/products/')
+
+
+class LoginTest(TestCase):
+
+    def test_login_url_resolves_django_login_view(self):
+        found = resolve('/users/login/')
+        self.assertEqual(found.func, views.login)
+
+    def test_login_view_uses_login_template(self):
+        response = self.client.get('/users/login/')
+        self.assertTemplateUsed(response, 'users/login.html')
+
+    def test_login_POST_redirects_back(self):
+        usr = tests_helpers.create_test_user(User)
+        response = self.client.post('/users/login', data={'email': usr.email, 'password': usr.password})
