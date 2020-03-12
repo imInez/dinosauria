@@ -1,5 +1,8 @@
 from shop.models import Product
+from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate
 
+User = get_user_model()
 
 def create_test_user(user_model, create_one=True):
     new_user1 = user_model(email='testing1@random.com', password='testingPassword010')
@@ -15,9 +18,12 @@ def create_test_user(user_model, create_one=True):
         new_user3.username = new_user3.email
         new_user3.save()
 
+    return user_model.objects.all()
 
-def login_user(self):
-    pass
+def login_user(self, user, request):
+    usr = create_test_user(User).first()
+    authenticate(request, usr)
+
 
 def _slugify(name):
     return(name.replace(' ', '-'))
