@@ -57,7 +57,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         new_prod3.save()
 
     def _add_items_to_cart(self):
-        self.browser.get(f'{self.browser.current_url}/products/')
+        self.browser.get(self.live_server_url + '/products/')
 
         product_elements = self.browser.find_elements_by_id('product')
         for el in product_elements:
