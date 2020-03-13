@@ -1,0 +1,18 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}
+Your cart - Dinosauria store
+{% endblock title %}
+{% block content %}
+<h5> Your cart</h5>
+<hr>
+
+<ol>
+{% for item in cart %}
+    {% with product=item.product %}
+        <li>product.name</li>
+    {% endwith %}
+{% endfor %}
+</ol>
+{% endblock content %}

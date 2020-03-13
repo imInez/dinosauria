@@ -23,6 +23,10 @@ class Cart():
         else:
             self.cart[p_id]['quantity'] += quanity
 
+    def add_product(self, product):
+        self.cart[product.id] = {'product': product, 'price': product.price,
+                                 'quantity': 1, 'total_price': product.price}
+
     def subtract(self, product):
         p_id = str(product.id)
         if p_id in self.cart:
