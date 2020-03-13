@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import resolve
 from cart.views import cart
 from helpers import tests_helpers
+from shop.models import Product
 
 class CartTest(TestCase):
 
