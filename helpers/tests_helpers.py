@@ -3,21 +3,19 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 
 User = get_user_model()
-
+TEST_USER_PASSWORD = 'testingPassword010'
 
 def create_test_user(user_model, create_one=True):
-    new_user1 = user_model(email='testing1@random.com', password='testingPassword010', username='testing1@random.com')
-    # new_user1.username = new_user1.email
-    new_user1.save()
+    new_user1 = user_model.objects.create_user(username='testing1@random.com', email='testing1@random.com',
+                                               password=TEST_USER_PASSWORD)
 
     if not create_one:
-        new_user2 = user_model(email='testing@2random.com', password='testingPassword010')
-        new_user2.username = new_user2.email
-        new_user2.save()
+        new_user2 = user_model.objects.create_user(username='testing2@random.com',email='testing@2random.com',
+                                                   password=TEST_USER_PASSWORD)
 
-        new_user3 = user_model(email='testing@3random.com', password='testingPassword010')
-        new_user3.username = new_user3.email
-        new_user3.save()
+        new_user3 = user_model.objects.create_user(username='testing3@random.com', email='testing@3random.com',
+                                                   password=TEST_USER_PASSWORD)
+
     return user_model.objects.all()
 
 
