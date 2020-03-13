@@ -36,17 +36,37 @@ class Cart():
     def save(self):
         self.session.modified = True
 
+    def get_total_price(self):
+        return sum(Decimal(item['quanitity']) * item['price'] for item in self.cart.values())
+
+    def get_all_items(self):
+        return self.cart
+
     def __len__(self):
         """Count all items"""
         return sum([item['quantity'] for item in self.cart.values()])
 
-    def get_total_price(self):
-        return sum(Decimal(item['quanitity']) * item['price'] for item in self.cart.values())
+    def __iter__(self):
+        """Iterate over cart products and get them form database"""
+        products_ids = self.cart.keys()
+        products = Product.objects.filter(id__in=products_ids)
+
+        cart = self.cart.copy()
+        for product in products:
+            cart[str(product.id)]['product'] = product
+            cart[str(product.id)]['price'] = product.price
+            cart[str(product.id)]['total_price'] = product.price * cart[str(product.id)]['quantity']
+
+        for item in cart.values():
+            yield item
 
 
-    # def __iter__(self):
-    #     """Iterate over cart products and get them form database"""
-    #     products_ids = self.cart.keys()
+
+
+
+
+
+
 
 
 
