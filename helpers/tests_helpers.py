@@ -4,9 +4,10 @@ from django.contrib.auth import authenticate
 
 User = get_user_model()
 
+
 def create_test_user(user_model, create_one=True):
-    new_user1 = user_model(email='testing1@random.com', password='testingPassword010')
-    new_user1.username = new_user1.email
+    new_user1 = user_model(email='testing1@random.com', password='testingPassword010', username='testing1@random.com')
+    # new_user1.username = new_user1.email
     new_user1.save()
 
     if not create_one:
@@ -17,8 +18,8 @@ def create_test_user(user_model, create_one=True):
         new_user3 = user_model(email='testing@3random.com', password='testingPassword010')
         new_user3.username = new_user3.email
         new_user3.save()
-
     return user_model.objects.all()
+
 
 def login_user(self, user, request):
     usr = create_test_user(User).first()
@@ -27,6 +28,7 @@ def login_user(self, user, request):
 
 def _slugify(name):
     return(name.replace(' ', '-'))
+
 
 def create_test_items(create_one=False):
     new_prod1 = Product(name='Test Dino 1', price=100)
@@ -46,6 +48,7 @@ def create_test_items(create_one=False):
 
     return Product.objects.all()
 
+
 def add_items_to_cart(self):
     self.browser.get(f'{self.browser.current_url}/products/')
 
@@ -57,6 +60,7 @@ def add_items_to_cart(self):
 
 def go_to_cart(self):
     self.browser.get(self.browser.current_url + '/cart/')
+
 
 def make_a_successful_order(self):
     pass

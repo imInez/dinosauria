@@ -4,7 +4,7 @@ from selenium.common.exceptions import NoSuchElementException
 from django.contrib.auth import get_user_model
 from django.test import Client
 from helpers import tests_helpers
-
+import time
 
 User = get_user_model()
 c = Client()
@@ -109,30 +109,34 @@ class LoginTest(FunctionalTest):
         # User who already has an account wants to login
         tests_helpers.create_test_user(User)
 
-        self.browser.get(self.live_server_url + '/login/')
+        self.assertEqual(len(User.objects.all()), 1)
+        self.browser.get(self.live_server_url + '/users/login/')
 
         # They provide necessary data
-        email_input = self.browser.find_element_by_name('email')
+        email_input = self.browser.find_element_by_name('username')
         email_input.send_keys('testing@random.com')
         email_input.send_keys(Keys.ENTER)
 
-        pass_input = self.browser.find_element_by_name('password1')
+        pass_input = self.browser.find_element_by_name('password')
         pass_input.send_keys('testingPassword101')
         pass_input.send_keys(Keys.ENTER)
 
-        pass_input = self.browser.find_element_by_name('password2')
-        email_input.send_keys('testingPassword101')
-        email_input.send_keys(Keys.ENTER)
-
         # They click on login button
-        register_btn = self.browser.find_element_by_id('login-btn')
-        self.assertEqual(register_btn.text, 'Login')
-        register_btn.click()
-
+        login_btn = self.browser.find_element_by_id('login-btn')
+        self.assertEqual(login_btn.text, 'Login')
+        login_btn.click()
+        # They are now logged in
+        try:
+            self.browser.find_element_by_link_text('register')
+        except NoSuchElementException:
+            pass
+        else:
+            self.fail('register found, user not logged in')
 
     def test_login_redirects_back(self):
         # User is viewing all products and decides to log in, but wants to be taken back to products
         usr = tests_helpers.create_test_user(User).first()
+        self.assertEqual(len(User.objects.all()), 1)
 
         # Now they're on products page
         products_link = self.live_server_url + '/products/'
@@ -141,21 +145,25 @@ class LoginTest(FunctionalTest):
         # They click on login link in navbar
         login_link = self.browser.find_element_by_link_text('login').get_attribute('href')
         self.browser.get(login_link)
+        self.wait_for(lambda:self.assertEqual(self.browser.current_url,
+                                              self.live_server_url + '/users/login/?next=/products/'))
 
         # They provide necessary data
-        email_input = self.browser.find_element_by_name('email')
-        email_input.send_keys(usr.email)
+        email_input = self.browser.find_element_by_name('username')
+        email_input.send_keys(usr.username)
         email_input.send_keys(Keys.ENTER)
 
-        pass1_input = self.browser.find_element_by_name('password')
-        pass1_input.send_keys(usr.password)
-        pass1_input.send_keys(Keys.ENTER)
+        pass_input = self.browser.find_element_by_name('password')
+        pass_input.send_keys(usr.password)
+        pass_input.send_keys(Keys.ENTER)
+
+        c.login(username=usr.username, password=usr.password)
 
         # They click on login button
-        register_btn = self.browser.find_element_by_id('login-btn')
-        self.assertEqual(register_btn.text, 'Login')
-        register_btn.click()
-
+        # login_btn = self.browser.find_element_by_id('login-btn')
+        # self.assertEqual(login_btn.text, 'Login')
+        self.browser.find_element_by_id('login-btn').click()
+        time.sleep(2)
         # They are now logged in and redirected to where they came from
         self.assertEqual(self.browser.current_url, products_link)
 

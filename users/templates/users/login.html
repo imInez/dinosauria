@@ -1,0 +1,22 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}
+Login - Dinosauria store
+{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <h2>Login</h2>
+    <div class="row">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+            <button type="submit" id="login-btn">Login</button>
+        </form>
+    </div>
+
+</div>
+{% endblock content %}
