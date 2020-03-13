@@ -3,7 +3,18 @@ from helpers import tests_helpers
 
 class NewOrderTest(FunctionalTest):
 
-    def test_logged_in_user_can_make_an_order(self):
+    def AddItemsToCartTest(self):
+        self.browser.get(self.live_server_url  + '/products/')
+        self.assertEqual(self.browser.current_url, 'http://localhost:8000/products/')
+
+        product_elements = self.browser.find_elements_by_id('product')
+        for el in product_elements:
+            if 'Test' not in el.find_element_by_class_name('product-name').text:
+                el.click()
+                self.browser.find_element_by_id('add-to-cart').click()
+
+
+    def LoggedInUserCanMakeOrderTest(self):
         # Users is logged in and have items in cart, they go to cart page, they have address saved
         tests_helpers.create_test_user()
         tests_helpers.login_user()
@@ -23,7 +34,7 @@ class NewOrderTest(FunctionalTest):
         # TODO get order info to check if visible
 
 
-    # def test_guest_user_can_make_an_order(self):
+    def GuestUserCanMakeOrderTest(self):
     #     # User is not logged in, they have items in cart, they go to cart page and click on Order as a guest
     #     self._create_test_items()
     #     self._add_items_to_cart()
@@ -35,28 +46,28 @@ class NewOrderTest(FunctionalTest):
     #     # They are forwarded to order summary page
     #     # TODO add order id to header
     #     self.assertIn('Your order: ', self.browser.find_element_by_tag_name('h2').text)
-    #     pass
+        pass
 
-    def test_user_is_forwarder_to_payment(self):
+    def ForwardToPaymentTest(self):
         # User wants to make an order, and clicks on Make an order button
         # They are forwarded to payment gateway
 
         # All data there is correct
         pass
 
-    def test_return_order_confirmation_page_when_payment_successful(self):
+    def OrderPaymentConfirmationTest(self):
         # User clicked on make an order and were forwarded to payment gateway
         # the payemnt was sucsessful and they were forwarded back to dinosauria
         # they see order confirmation page
         pass
 
-    def test_return_order_failure_page_when_payment_unsuccessful(self):
+    def OrderPaymentFailureTest(self):
         # User clicked on make an order and were forwarded to payment gateway
         # the payemnt was not sucsessful and they were forwarded back to dinosauria
         # they see order failure page
         pass
 
-    def test_send_order_email_confirmation(self):
+    def OrderEmailTest(self):
         # User makes an order, pays and is forwarded to order confirmation page
         # the order confirmation mail is sent to user email address
         pass
