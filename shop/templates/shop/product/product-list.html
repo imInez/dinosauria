@@ -21,7 +21,12 @@ Dinosauria store - Products
         <div class="col">
             <a href="{{ product.get_absolute_url }}" class="product-link"><img src="{{ product.image.url }}" class="product-img">
                 <h5>{{ product.name }}, {{ product.price }} </h5></a>
-            <button class="add-to-cart-btn">Add to basket</button>
+            <form action="{& url 'cart:cart_add' product.id %}" method="POST">
+                {{ cart_form }}
+                {% csrf_token %}
+                <button class="add-to-cart-btn" type="submit">Add to cart</button>
+            </form>
+
         </div>
         {% endif %}
 

@@ -13,7 +13,11 @@ Dinosauria store - Products
             <img src="{{ product.image.url }}" class="w-50 product-img">
         </div>
         <div class="col">
-            <button id='add-to-cart'>Add to cart</button>
+            <form action="{& url 'cart:cart_add' product.id %}" method="POST">
+                {{ cart_form }}
+                {% csrf_token %}
+                <button class="add-to-cart-btn" id='add-to-cart' type="submit">Add to cart</button>
+            </form>
             <h5>Product name: {{ product.name }}</h5>
             <p>Product ID: <span name="product-id">{{ product.id }}</span></p>
             <h5>Product price: <span name="product-price">{{ product.price }}</span></h5>
