@@ -1,9 +1,11 @@
 from shop.models import Product
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
+import os
 
 User = get_user_model()
 TEST_USER_PASSWORD = 'testingPassword010'
+STAGING_SERVER = 'http://' + 'localhost:8000'
 
 def create_test_user(user_model, create_one=True):
     new_user1 = user_model.objects.create_user(username='testing1@random.com', email='testing1@random.com',
@@ -19,9 +21,9 @@ def create_test_user(user_model, create_one=True):
     return user_model.objects.all()
 
 
-def login_user(self, user, request):
+def login_user(self, user, client):
     usr = create_test_user(User).first()
-    authenticate(request, usr)
+    client.login(username=usr.email, password=usr.password)
 
 
 def _slugify(name):
@@ -48,7 +50,8 @@ def create_test_items(create_one=False):
 
 
 def add_items_to_cart(self):
-    self.browser.get(f'{self.browser.current_url}/products/')
+    self.browser.get(STAGING_SERVER + '/products/')
+    self.assertEwual(self.browser.current_url, 'http://localhost:8000/products/')
 
     product_elements = self.browser.find_elements_by_id('product')
     for el in product_elements:
@@ -57,7 +60,7 @@ def add_items_to_cart(self):
 
 
 def go_to_cart(self):
-    self.browser.get(self.browser.current_url + '/cart/')
+    self.browser.get(STAGING_SERVER + '/cart/')
 
 
 def make_a_successful_order(self):
