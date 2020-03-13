@@ -4,7 +4,12 @@ from .cart import Cart
 from .forms import CartAddNewProductForm
 from shop.models import Product
 
-# Create your views here.
+
+def cart(request):
+    cart = Cart(request)
+
+    return render(request, 'cart/cart.html', {'cart': cart})
+
 def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
