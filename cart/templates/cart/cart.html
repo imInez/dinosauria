@@ -1,18 +1,54 @@
-{% extends 'shop/base.html' %}
+{% extends "shop/base.html" %}
 {% load static %}
 
 {% block title %}
-Your cart - Dinosauria store
-{% endblock title %}
-{% block content %}
-<h5> Your cart</h5>
-<hr>
+Your shopping cart
+{% endblock %}
 
-<ol>
-{% for item in cart %}
-    {% with product=item.product %}
-        <li>product.name</li>
-    {% endwith %}
-{% endfor %}
-</ol>
-{% endblock content %}
+{% block content %}
+
+<div class="container">
+<h1>Your shopping cart:  </h1>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col"></th>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for item in cart %}
+            {% with product=item.product %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td><a href="{{ product.get_absolute_url }}">
+                <img class="w-10em" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+            </a></td>
+            <td>{{ product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.total_price }} ({{ item.price }})</td>
+            <td>
+                <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+                    {{ form.as_p }}
+                    {% csrf_token %}
+                    <button type = 'submit'>remove</button>
+                </form>
+            </td>
+
+        </tr>
+        {% endwith %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <p class="text-right">
+        <a href="{% url 'shop:products' %}" class="button light">Continue shopping</a>
+    </p>
+</div>
+{% endblock %}

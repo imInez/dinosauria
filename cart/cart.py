@@ -1,8 +1,8 @@
 from decimal import Decimal
 from django.conf import settings
 from shop.models import Product
-
-class Cart():
+import time
+class Cart(object):
     def __init__(self, request):
         """Initialize the cart"""
         self.session = request.session
@@ -12,16 +12,17 @@ class Cart():
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self, product, quanity=1, quantity_update=False):
+    def add(self, product, quantity=1, quantity_update=False):
         """Add chosen product to cart"""
         p_id = str(product.id)
         if p_id not in self.cart:
             self.cart[p_id] = {'quantity': 0}
         if quantity_update:
-            self.cart[p_id]['quantity'] = quanity
+            self.cart[p_id]['quantity'] = quantity
             # self.cart[p_id]['price'] = product.price
         else:
-            self.cart[p_id]['quantity'] += quanity
+            self.cart[p_id]['quantity'] += quantity
+        self.save()
 
     def add_product(self, product):
         self.cart[product.id] = {'product': product, 'price': product.price,
@@ -33,18 +34,19 @@ class Cart():
             self.cart[p_id]['quantity'] -= 1
 
     def remove(self, product):
-        if str(product.id) in self.cart:
-            del self.cart[product.id]
+        product_id = str(product.id)
+        if product_id in self.cart:
+            del self.cart[product_id]
             self.save()
 
     def save(self):
         self.session.modified = True
 
     def get_total_price(self):
-        return sum(Decimal(item['quanitity']) * item['price'] for item in self.cart.values())
+        return sum(Decimal(item['quantity']) * item['price'] for item in self.cart.values())
 
     def get_all_items(self):
-        return self.cart
+        return self.cart.keys()
 
     def __len__(self):
         """Count all items"""
@@ -60,6 +62,7 @@ class Cart():
             cart[str(product.id)]['product'] = product
             cart[str(product.id)]['price'] = product.price
             cart[str(product.id)]['total_price'] = product.price * cart[str(product.id)]['quantity']
+
 
         for item in cart.values():
             yield item

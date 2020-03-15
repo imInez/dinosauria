@@ -49,19 +49,12 @@ def create_test_items(create_one=False):
     return Product.objects.all()
 
 
-def add_items_to_cart(self):
-    self.browser.get(STAGING_SERVER + '/products/')
-    self.assertEqual(self.browser.current_url, 'http://localhost:8000/products/')
+def add_items_to_cart(cart, products):
+    for product in products:
+        cart.add_product(product)
+        cart.save()
 
-    product_elements = self.browser.find_elements_by_id('product')
-    for el in product_elements:
-        if 'Test' not in el.find_element_by_class_name('product-name').text:
-            el.click()
-            self.browser.find_element_by_id('add-to-cart').click()
-
-
-def go_to_cart(self):
-    return self.browser.get(STAGING_SERVER + '/cart/')
+    return cart
 
 
 def make_a_successful_order(self):

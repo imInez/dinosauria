@@ -23,3 +23,8 @@ color: white;
     max-width:20%;
     height: auto;
 }
+
+
+.w-10em{
+max-width: 10em;
+}

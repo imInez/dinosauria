@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import resolve
-from cart.views import cart as cart_view
+from cart.views import cart_checkout
 from helpers import tests_helpers
 from shop.models import Product
 from cart.cart import Cart
@@ -13,7 +13,7 @@ class CartTest(TestCase):
 
     def test_cart_url_resolves_to_cart_view(self):
         found = resolve('/cart/')
-        self.assertEqual(found.func, cart_view)
+        self.assertEqual(found.func, cart_checkout)
 
     def test_cart_view_resolves_to_cart_template(self):
         response = self.client.get('/cart/')
