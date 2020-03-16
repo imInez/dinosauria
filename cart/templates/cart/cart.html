@@ -33,8 +33,18 @@ Your shopping cart
             <td><p class="product-id">{{ item.quantity }}</p></td>
             <td><p class="product-price">{{ item.total_price }} ({{ item.price }}/item)</p></td>
             <td>
-                <form action="{% url 'cart:cart_remove' product.id %}" method="POST">
+                <form action="{% url 'cart:cart_add' product.id %}" method="POST" class="d-inline">
                     {{ form.as_p }}
+                    {% csrf_token %}
+                    <input  name="quantity" value=1 class="d-none"/>
+                    <input type="submit" value="+" class="add-to-cart-btn">
+                </form>
+                <form action="{% url 'cart:cart_remove' product.id %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="single" value=True />
+                    <button type="submit">-</button>
+                </form>
+                <form action="{% url 'cart:cart_remove' product.id %}" method="POST">
                     {% csrf_token %}
                     <button type = 'submit'>remove</button>
                 </form>

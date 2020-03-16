@@ -48,6 +48,7 @@ class Cart(object):
                     self.remove(product, subtract=False)
                 else:
                     self.cart[product_id]['quantity'] -= 1
+                    self.save()
 
     def count_products(self):
         return len(self.cart)
