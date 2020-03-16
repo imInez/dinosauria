@@ -18,14 +18,6 @@ def cart_add(request, product_id):
     return redirect('cart:cart_checkout')
 
 
-# def cart_remove(request, product_id):
-#     cart = Cart(request)
-#     product = get_object_or_404(Product, id=product_id)
-#     cart.remove(product)
-#     return redirect('cart:cart_checkout')
-
-
-
 def add(request, product_id, form):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
