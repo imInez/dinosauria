@@ -5,11 +5,7 @@ from helpers import tests_helpers
 from shop.models import Product
 from cart.cart import Cart
 from django.test import Client
-
 class CartTest(TestCase):
-
-    factory = Client()
-    # cart = Cart(factory)
 
     def test_cart_url_resolves_to_cart_view(self):
         found = resolve('/cart/')

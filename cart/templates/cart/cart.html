@@ -12,7 +12,7 @@ Your shopping cart
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col">Product</th>
             <th scope="col">Quantity</th>
@@ -31,18 +31,18 @@ Your shopping cart
             </a></td>
             <td><p class="product-name">{{ product.name }}</p></td>
             <td><p class="product-id">{{ item.quantity }}</p></td>
-            <td><p class="product-price">{{ item.total_price }} ({{ item.price }}/item)</p></td>
+            <td><p class="product-total-price">{{ item.total_price }}<br><small class="product-item-price">({{ item.price }}/item)</small></p></td>
             <td>
                 <form action="{% url 'cart:cart_add' product.id %}" method="POST" class="d-inline">
                     {{ form.as_p }}
                     {% csrf_token %}
                     <input  name="quantity" value=1 class="d-none"/>
-                    <input type="submit" value="+" class="add-to-cart-btn">
+                    <input type="submit" value="+" class="product-plus">
                 </form>
                 <form action="{% url 'cart:cart_remove' product.id %}" method="POST" class="d-inline">
                     {% csrf_token %}
                     <input type="hidden" name="single" value=True />
-                    <button type="submit">-</button>
+                    <button type="submit" class="product-minus">-</button>
                 </form>
                 <form action="{% url 'cart:cart_remove' product.id %}" method="POST">
                     {% csrf_token %}
@@ -53,7 +53,9 @@ Your shopping cart
         </tr>
         {% endwith %}
         {% endfor %}
-
+        <tr><td></td><td></td><td></td><td></td><td></td>
+            <td id="total-cart">Total: {{ cart.get_total_price }}</td>
+        </tr>
         </tbody>
     </table>
 

@@ -13,6 +13,5 @@ def products(request):
 def product_details(request, id, slug):
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
     cart_form = CartAddProductForm()
-    print("VALID: ", cart_form.is_valid())
     return render(request, 'shop/product/product-details.html', {'product': product, 'cart_form': cart_form })
 
