@@ -31,7 +31,7 @@ Your shopping cart
             </a></td>
             <td><p class="product-name">{{ product.name }}</p></td>
             <td><p class="product-id">{{ item.quantity }}</p></td>
-            <td><p class="product-total-price">{{ item.total_price }}<br><small class="product-item-price">({{ item.price }}/item)</small></p></td>
+            <td><span class="product-total-price">{{ item.total_price }}</span> <small class="product-item-price">({{ item.price }}/item)</small></p></td>
             <td>
                 <form action="{% url 'cart:cart_add' product.id %}" method="POST" class="d-inline">
                     {{ form.as_p }}

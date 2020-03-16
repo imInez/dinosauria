@@ -7,8 +7,8 @@ Your shopping cart
 
 {% block content %}
 
-<div class="container text-center my-5">
-    <h3><img src="{% static 'img/dino_smol_why.jpg' %}" class="w10"> Your cart is empty  </h3>
+<div class="container text-center my-5" id="empty-cart">
+    <h3><img src="{% static 'img/dino_smol_why.jpg' %}" class="w10">Your cart is empty</h3>
     <p>
         <a href="{% url 'shop:products' %}" class="button light">Go checkout our dinosaurs!</a>
     </p>
