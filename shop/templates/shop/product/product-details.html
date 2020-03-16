@@ -17,7 +17,7 @@ Dinosauria store - Products
             <form action="{% url 'cart:cart_add' product.id %}" method="post">
                 {{ cart_form }}
                 {% csrf_token %}
-                <input type="submit" value="Add to cart">
+                <input type="submit" value="Add to cart" class="add-to-cart-btn">
             </form>
 
 

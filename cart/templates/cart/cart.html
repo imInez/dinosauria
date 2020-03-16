@@ -8,7 +8,7 @@ Your shopping cart
 {% block content %}
 
 <div class="container">
-<h1>Your shopping cart:  </h1>
+<h3>Your cart: {{ cart.count_items }}</h3>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -29,11 +29,11 @@ Your shopping cart
             <td><a href="{{ product.get_absolute_url }}">
                 <img class="w-10em" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
             </a></td>
-            <td>{{ product.name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.total_price }} ({{ item.price }})</td>
+            <td><p class="product-name">{{ product.name }}</p></td>
+            <td><p class="product-id">{{ item.quantity }}</p></td>
+            <td><p class="product-price">{{ item.total_price }} ({{ item.price }}/item)</p></td>
             <td>
-                <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+                <form action="{% url 'cart:cart_remove' product.id %}" method="POST">
                     {{ form.as_p }}
                     {% csrf_token %}
                     <button type = 'submit'>remove</button>

@@ -3,9 +3,12 @@ from django.conf import settings
 from shop.models import Product
 import time
 class Cart(object):
-    def __init__(self, request):
+    def __init__(self, request, session=None):
         """Initialize the cart"""
-        self.session = request.session
+        if request:
+            self.session = request.session
+        if session:
+            self.session = session
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             # create an empty cart and save it in session
@@ -33,11 +36,24 @@ class Cart(object):
         if p_id in self.cart:
             self.cart[p_id]['quantity'] -= 1
 
-    def remove(self, product):
+    def remove(self, product, subtract=False):
         product_id = str(product.id)
-        if product_id in self.cart:
-            del self.cart[product_id]
-            self.save()
+        if subtract is False:
+            if product_id in self.cart:
+                del self.cart[product_id]
+                self.save()
+        else:
+            if product_id in self.cart:
+                if self.cart[product_id]['quantity'] == 1:
+                    self.remove(product, subtract=False)
+                else:
+                    self.cart[product_id]['quantity'] -= 1
+
+    def count_products(self):
+        return len(self.cart)
+
+    def count_items(self):
+        return sum([item['quantity'] for item in self.cart.values()])
 
     def save(self):
         self.session.modified = True

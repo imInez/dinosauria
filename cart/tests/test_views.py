@@ -26,19 +26,12 @@ class CartTest(TestCase):
         self.assertEqual(len(cart), len(products))
 
     def test_cart_contains_all_added_products(self):
-        cart = Cart(self.client)
+        session = self.client.session
+        cart = Cart(request=None, session=session)
+        session.save()
         products = tests_helpers.create_test_items()
-        tests_helpers.create_test_items()
-        tests_helpers.add_items_to_cart(cart, products)
-
-        self.assertEqual(len(cart), 6)
-
-
-        response = self.client.get('/cart/')
-
-        self.assertContains(response, 'Test Dino 1')
-        self.assertContains(response, 'Test Dino 2')
-        self.assertContains(response, 'Test Dino 3')
+        tests_helpers.add_items_to_cart(cart=cart, products=products)
+        self.assertIn(1, session['cart'].keys())
 
     # def test_can_choose_order_method(self):
     #     tests_helpers.create_test_items()
