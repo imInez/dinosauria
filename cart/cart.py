@@ -20,11 +20,7 @@ class Cart(object):
         p_id = str(product.id)
         if p_id not in self.cart:
             self.cart[p_id] = {'quantity': 0}
-        if quantity_update:
-            self.cart[p_id]['quantity'] = quantity
-            # self.cart[p_id]['price'] = product.price
-        else:
-            self.cart[p_id]['quantity'] += quantity
+        self.cart[p_id]['quantity'] += quantity
         self.save()
 
     def add_product(self, product):

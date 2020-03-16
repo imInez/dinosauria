@@ -25,7 +25,9 @@ def add(request, product_id, form):
     product = get_object_or_404(Product, id=product_id)
     if form.is_valid():
         cd = form.cleaned_data
-        cart.add(product=product, quantity=cd['quantity'], quantity_update=cd['update'])
+        cart.add(product=product, quantity=cd['quantity']
+                 # , quantity_update=cd['update']
+                 )
 
 
 @require_POST
