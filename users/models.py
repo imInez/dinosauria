@@ -11,4 +11,6 @@ class Profile(models.Model):
     city = models.CharField(max_length=50, blank=True)
     zipcode = models.CharField(max_length=10, blank=True)
 
+    def __str__(self):
+        return self.user.email
 

@@ -34,4 +34,4 @@ def register(request):
             return redirect(nxt)
     else:
         form = UserRegisterForm()
-    return render(request, 'users/registration.html', {'form': form})
+    return render(request, 'users/auth/registration.html', {'form': form})
