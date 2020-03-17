@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'shop/base.html' %}
+{% load crispy_forms_tags %}
 
-</body>
-</html>
+{% block title %}
+Register - Dinosauria store
+{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <h2> {% if user.name %} hey, {{ user.name }}! {% else %} hey! {% endif %}</h2>
+    <h4>Your profile</h4>
+    <p> address</p>
+    <h4>Your orders</h4>
+    <h4>Recommended for you</h4>
+</div>
+{% endblock content %}
