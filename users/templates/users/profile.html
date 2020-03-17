@@ -2,14 +2,14 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-Register - Dinosauria store
+Profile - Dinosauria store
 {% endblock title %}
 
 {% block content %}
 
 <div class="container">
-    <h2> {% if user.name %} hey, {{ user.name }}! {% else %} hey! {% endif %}</h2>
-    <h4>Your profile</h4>
+    <h2> {% if user.first_name %} hey, {{ user.first_name }}! {% else %} hey! {% endif %}</h2>
+    <h4>Your profile: {{ user_profile.name }} {{ user_profile.surname }}</h4>
     <p> address</p>
     <h4>Your orders</h4>
     <h4>Recommended for you</h4>
