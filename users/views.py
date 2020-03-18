@@ -50,7 +50,7 @@ def profile(request):
 
 def add_address(request):
     form = AddressForm()
-    if not has_address(request, request.user.id):
+    if not request.user.id or not has_address(request, request.user.id):
         return form
     else:
         address_fields = has_address(request, request.user.id)
