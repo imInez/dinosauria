@@ -24,9 +24,9 @@
       <li class="px-3"><a href="{% url 'users:profile' %}">{% if user.first_name %} {{ user.first_name }} {% else %} profile {% endif %}</a></li>
       <li class="px-3"><a href="{% url 'users:logout' %}">logout</a></li>
       {% else %}
-      <li class="px-3"><a href="{% url 'users:register' %}?next={{request.path}}">register</a></li>
-      /
-      <li class="px-3">{% if request.path == '/users/logout' %} <a href="{% url 'users:login' %}?next='/'">login</a>
+      <li class="px-3">{% if request.path == '/users/logout/' or request.path == '/users/login/' %}<a href="{% url 'users:register' %}?next=/">register</a>
+        {% else %} <a href="{% url 'users:register' %}?next={{request.path}}">register</a> {% endif %}</li>
+      <li class="px-3">{% if request.path == '/users/logout/' %} <a href="{% url 'users:login' %}?next=/">login</a>
       {% else %} <a href="{% url 'users:login' %}?next={{request.path}}">login</a>{% endif %} </li>
       {% endif %}
       <li class="px-3"><a href="{% url 'cart:cart_checkout' %}">cart</a></li>
