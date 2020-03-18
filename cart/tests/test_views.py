@@ -30,21 +30,25 @@ class CartTest(TestCase):
         self.assertIn(1, session['cart'].keys())
 
     # def test_can_choose_order_method(self):
-    #     tests_helpers.create_test_items()
-    #     tests_helpers.add_items_to_cart()
+    #     session = self.client.session
+    #     cart = Cart(request=None, session=session)
+    #     cart.save()
+    #     products =  tests_helpers.create_test_items()
+    #     tests_helpers.add_items_to_cart(cart, products)
     #     response = tests_helpers.go_to_cart()
     #
     #     self.assertContains(response, 'Order as a guest')
     #     self.assertContains(response, 'Register or login')
     #
-    # def test_if_logged_can_order(self):
+    # def test_can_order_if_logged_with_address(self):
     #     tests_helpers.create_test_user()
     #     tests_helpers.login_user()
-    #     tests_helpers.create_test_items()
-    #     tests_helpers.add_items_to_cart()
+    #     products = tests_helpers.create_test_items()
+    #     cart = Cart()
+    #     tests_helpers.add_items_to_cart(cart, products)
     #     response = tests_helpers.go_to_cart()
     #
     #     self.assertContains(response, 'Buy')
     #
-    # def test_request_address_if_missing(self):
+    # def test_asks_address_if_missing(self):
     #     pass

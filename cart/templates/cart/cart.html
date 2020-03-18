@@ -62,5 +62,17 @@ Your shopping cart
     <p class="text-right">
         <a href="{% url 'shop:products' %}" class="button light">Continue shopping</a>
     </p>
+    {% if user.is_authenticated %}
+        {% if user.has_address is True %}
+            ORDER
+        {% else %}
+            Shipment
+    <form action="#" method="post">
+        {{ address_form.as_p }}
+        {% csrf_token %}
+        <button type="Submit">Update address</button>
+    </form>
+        {% endif %}
+    {% endif %}
 </div>
 {% endblock %}
