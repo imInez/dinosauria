@@ -1,5 +1,6 @@
 {% extends "shop/base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}
 Your shopping cart
@@ -7,7 +8,7 @@ Your shopping cart
 
 {% block content %}
 
-<div class="container">
+<div class="container pb-5">
     <h3>Your cart: {{ cart.count_items }}</h3>
     <table class="table table-hover">
         <thead>
@@ -33,16 +34,16 @@ Your shopping cart
             <td><p class="product-id">{{ item.quantity }}</p></td>
             <td><span class="product-total-price">{{ item.total_price }}</span> <small class="product-item-price">({{ item.price }}/item)</small></p></td>
             <td>
-                <form action="{% url 'cart:cart_add' product.id %}" method="POST" class="d-inline">
-                    {{ form.as_p }}
-                    {% csrf_token %}
-                    <input  name="quantity" value=1 class="d-none"/>
-                    <input type="submit" value="+" class="product-plus">
-                </form>
+
                 <form action="{% url 'cart:cart_remove' product.id %}" method="POST" class="d-inline">
                     {% csrf_token %}
                     <input type="hidden" name="single" value=True />
                     <button type="submit" class="product-minus">-</button>
+                </form>
+                <form action="{% url 'cart:cart_add' product.id %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <input  name="quantity" value=1 class="d-none"/>
+                    <input type="submit" value="+" class="product-plus">
                 </form>
                 <form action="{% url 'cart:cart_remove' product.id %}" method="POST">
                     {% csrf_token %}
@@ -63,22 +64,62 @@ Your shopping cart
         <a href="{% url 'shop:products' %}" class="button light">Continue shopping</a>
     </p>
     {% if user.is_authenticated %}
-    Shipment
+    <h3>Shipment</h3>
+    <hr>
     <form action="#" method="post">
-        {{ address_form.as_p }}
+        {{ address_form|crispy }}
         {% csrf_token %}
         <button type="Submit">Update address</button>
     </form>
     {% else %}
-    <form action="#" method="post">
-        {{ profile_form.as_p }}
-        {{ address_form.as_p }}
-        {% csrf_token %}
-        <button type="Submit">Update address</button>
-    </form>
+    <div id="order-methods" class="my-5">
+        <h3 class="text-center">
+            <a class="btn" data-toggle="collapse" href="#loginform" role="button" aria-expanded="false" aria-controls="loginform">
+                <h3> <u>login</u></h3>
+            </a>
+            or
+            <button class="btn" type="button" data-toggle="collapse" href="#guestform" aria-expanded="false" aria-controls="guestform">
+                <h3><u>order as a guest</u></h3>
+            </button>
+        </h3>
+        <div class="collapse" id="loginform">
+            <div class="card card-body w-50 ml-0 mr-auto">
+
+
+                <form class="form" role="form" method="POST" action="{% url 'users:login' %}" accept-charset="UTF-8">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <p>Email*</p>
+                        <input type='text' class="form-control" id="id_username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <p>Password*</p>
+                        <input type="password" class="form-control" id="id_password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="next" value="{{ request.path }}"/>
+                        <button type="submit" >login</button>
+                    </div>
+                    <span class="mt-3"><p>Don't have an account yet? <a href="{% url 'users:register' %}?next=/">Register here!</a></p></span>
+                </form>
+            </div>
+
+        </div>
+        <div class="collapse" id="guestform">
+            <div class="card card-body w-50 mr-0 ml-auto">
+                <form action="#" method="post">
+                    {{ profile_form|crispy }}
+                    {{ address_form|crispy }}
+                    {% csrf_token %}
+                    <button type="Submit">Update address</button>
+                </form>
+            </div>
+        </div>
+    </div>
     {% endif %}
+
     {% if can_order %}
-    ORDER
+    <span class="float-right">ORDER</span>
     {% endif %}
 </div>
 {% endblock %}

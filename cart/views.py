@@ -10,11 +10,11 @@ from users.models import Profile, ShipmentAddress
 
 
 
+
 def validate_guest(request):
     guest_profile = get_guest_profile(request.session.get('guest_profile_email'))
-    if guest_profile.email and guest_profile.phone and request.session.get('guest_address'):
+    if guest_profile and all([guest_profile.email, guest_profile.phone, request.session.get('guest_address')]):
         return True
-    print(guest_profile.email, guest_profile.phone, request.session.get('guest-address'))
     return False
 
 
@@ -72,9 +72,10 @@ def cart_checkout(request):
             address_form = add_address(request)
             profile_form = ProfileForm()
     can_order = check_can_order(request)
+
     return render(request, 'cart/cart.html',
                   {'cart': cart, 'address_form': address_form, 'profile_form': profile_form,
-                   'can_order': can_order
+                   'can_order': can_order,
                    })
 
 
