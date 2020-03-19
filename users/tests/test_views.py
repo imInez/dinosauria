@@ -16,7 +16,7 @@ class RegistrationTest(TestCase):
 
     def test_register_view_uses_register_template(self):
         response = self.client.get('/users/register/')
-        self.assertTemplateUsed(response, 'users/registration.html')
+        self.assertTemplateUsed(response, 'users/auth/registration.html')
 
     def test_register_view_POST_request_creates_user(self):
         form = UserRegisterForm(data={'email': 'testing@random.com',
@@ -51,4 +51,4 @@ class LoginTest(TestCase):
 
     def test_login_view_uses_login_template(self):
         response = self.client.get('/users/login/')
-        self.assertTemplateUsed(response, 'users/login.html')
+        self.assertTemplateUsed(response, 'users/auth/login.html')
