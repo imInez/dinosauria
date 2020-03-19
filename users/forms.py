@@ -25,3 +25,8 @@ class AddressForm(forms.Form):
     building_flat = forms.CharField(max_length=10, required=False)
     city = forms.CharField(max_length=50, required=False)
     zipcode = forms.CharField(max_length=10, required=False)
+
+
+class ProfileForm(forms.Form):
+    email = forms.EmailField()
+    phone = forms.CharField(max_length=12)

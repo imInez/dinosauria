@@ -2,21 +2,35 @@ from django.shortcuts import render, redirect
 from users.forms import UserRegisterForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import views as auth_views
-from .models import Profile
+from .models import Profile, ShipmentAddress
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import AddressForm
+from .forms import AddressForm, ProfileForm
+
 
 def create_user_profile(user_id, cd):
     profile = Profile()
     profile.user_id = user_id
-    profile.name = cd.get('name')
-    profile.surname = cd.get('surname')
-    profile.street = cd.get('street')
-    profile.building_flat = cd.get('building_flat')
-    profile.city = cd.get('city')
-    profile.zipcode = cd.get('zipcode')
+    profile.email = cd.get('email')
+    profile.phone = cd.get('phone')
     profile.save()
+    create_user_address(profile, cd)
+
+
+def create_user_address(profile, cd):
+    if any(cd):
+        address = ShipmentAddress()
+        address.profile = profile
+        address.name = cd.get('name')
+        address.surname = cd.get('surname')
+        address.street = cd.get('street')
+        address.building_flat = cd.get('building_flat')
+        address.city = cd.get('city')
+        address.zipcode = cd.get('zipcode')
+        address.save()
+        profile_ = Profile.objects.filter(user=profile.user).first()
+        profile_.address = address
+        profile_.save()
 
 
 def register(request):
@@ -30,6 +44,7 @@ def register(request):
             usr.first_name = cd.get('name')
             usr.last_name = cd.get('surname')
             usr.save()
+
             create_user_profile(usr.id, cd)
             auth_views.auth_login(request, usr)
             return redirect(nxt)
@@ -48,23 +63,38 @@ def profile(request):
         return render(request, 'users/login.html')
 
 
+def get_guest_profile(email):
+    profile = Profile.objects.filter(email=email).first()
+    return profile
+
+def add_guest_profile(profile_email):
+    profile = Profile.objects.filter(email=profile_email).first()
+    form = ProfileForm()
+    if profile:
+        form.fields['email'].initial = profile.email
+        form.fields['phone'].initial = profile.phone
+    return form
+
 def add_address(request):
     form = AddressForm()
-    if not request.user.id or not has_address(request, request.user.id):
-        return form
+    if request.user.is_authenticated:
+        address_fields = has_address(request)
+    elif request.session.get('guest_address'):
+        address_fields = request.session.get('guest_address')
     else:
-        address_fields = has_address(request, request.user.id)
-        for key, value in address_fields.items():
-            form.fields[key].initial = value
+        return form
+    for key, value in address_fields.items():
+        form.fields[key].initial = value
     return form
 
 
-def has_address(request, user_id):
-    user_profile = Profile.objects.filter(user_id=user_id).first()
-    address_fields = {'name': user_profile.name, 'surname': user_profile.surname, 'street': user_profile.street,
-                      'building_flat': user_profile.building_flat, 'city': user_profile.city,
-                      'zipcode': user_profile.zipcode}
-    if all(address_fields) or any(address_fields):
+def has_address(request):
+    user_profile = Profile.objects.filter(user_id=request.user.id).first()
+    user_address = ShipmentAddress.objects.filter(profile=user_profile).first()
+    address_fields = {'name': user_address.name, 'surname': user_address.surname, 'street': user_address.street,
+                      'building_flat': user_address.building_flat, 'city': user_address.city,
+                      'zipcode': user_address.zipcode}
+    if any(address_fields.values()):
         return address_fields
     else:
         return False

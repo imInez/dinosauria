@@ -8,7 +8,7 @@ Your shopping cart
 {% block content %}
 
 <div class="container">
-<h3>Your cart: {{ cart.count_items }}</h3>
+    <h3>Your cart: {{ cart.count_items }}</h3>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -23,7 +23,7 @@ Your shopping cart
         <tbody>
 
         {% for item in cart %}
-            {% with product=item.product %}
+        {% with product=item.product %}
         <tr>
             <th scope="row">{{ forloop.counter }}</th>
             <td><a href="{{ product.get_absolute_url }}">
@@ -63,16 +63,22 @@ Your shopping cart
         <a href="{% url 'shop:products' %}" class="button light">Continue shopping</a>
     </p>
     {% if user.is_authenticated %}
-        {% if user.has_address is True %}
-            ORDER
-        {% else %}
-            Shipment
+    Shipment
     <form action="#" method="post">
         {{ address_form.as_p }}
         {% csrf_token %}
         <button type="Submit">Update address</button>
     </form>
-        {% endif %}
+    {% else %}
+    <form action="#" method="post">
+        {{ profile_form.as_p }}
+        {{ address_form.as_p }}
+        {% csrf_token %}
+        <button type="Submit">Update address</button>
+    </form>
+    {% endif %}
+    {% if can_order %}
+    ORDER
     {% endif %}
 </div>
 {% endblock %}
