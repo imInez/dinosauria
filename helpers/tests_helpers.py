@@ -38,6 +38,43 @@ def create_test_user(user_model, create_one=True):
 
     return user_model.objects.all()
 
+def create_user_ft(ft):
+    # They click on register link in navbar
+    register_link = ft.browser.find_element_by_link_text('register').get_attribute('href')
+    ft.browser.get(register_link)
+
+    # They provide necessary data
+    email_input = ft.browser.find_element_by_name('email')
+    email_input.send_keys('testing@random.com')
+    email_input.send_keys(Keys.ENTER)
+
+    pass1_input = ft.browser.find_element_by_name('password1')
+    pass1_input.send_keys('testingPassword101')
+    pass1_input.send_keys(Keys.ENTER)
+
+    pass2_input = ft.browser.find_element_by_name('password2')
+    pass2_input.send_keys('testingPassword101')
+    pass2_input.send_keys(Keys.ENTER)
+
+
+def fill_in_registration_form_ft(ft):
+    # They click on register link in navbar
+    register_link = ft.browser.find_element_by_link_text('register').get_attribute('href')
+    ft.browser.get(register_link)
+
+    # They provide necessary data
+    email_input = ft.browser.find_element_by_name('email')
+    email_input.send_keys('testing@random.com')
+    email_input.send_keys(Keys.ENTER)
+
+    pass1_input = ft.browser.find_element_by_name('password1')
+    pass1_input.send_keys('testingPassword101')
+    pass1_input.send_keys(Keys.ENTER)
+
+    pass2_input = ft.browser.find_element_by_name('password2')
+    pass2_input.send_keys('testingPassword101')
+
+
 
 def login_user(user, client):
     usr = create_test_user(User).first()

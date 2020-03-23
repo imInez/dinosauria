@@ -1,9 +1,6 @@
 from .base import FunctionalTest
 from shop.models import Product
 from helpers import tests_helpers
-from selenium.webdriver.common.keys import Keys
-from django.contrib.auth import get_user_model
-import time
 
 
 class HomePageFlow(FunctionalTest):

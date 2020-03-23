@@ -45,63 +45,23 @@ class RegistrationTest(FunctionalTest):
         products_link = self.live_server_url + '/products/'
         self.browser.get(products_link)
 
-        #They click on register link in navbar
-        register_link = self.browser.find_element_by_link_text('register').get_attribute('href')
-        self.browser.get(register_link)
+        # They go to register and create their account
+        tests_helpers.create_user_ft(self)
 
-        # They provide necessary data
-        email_input = self.browser.find_element_by_name('email')
-        email_input.send_keys('testing@random.com')
-        email_input.send_keys(Keys.ENTER)
-
-        pass1_input = self.browser.find_element_by_name('password1')
-        pass1_input.send_keys('testingPassword101')
-        pass1_input.send_keys(Keys.ENTER)
-
-        pass2_input = self.browser.find_element_by_name('password2')
-        pass2_input.send_keys('testingPassword101')
-        pass2_input.send_keys(Keys.ENTER)
-
-        # They click on register button
-        register_btn = self.browser.find_element_by_id('register-btn')
-        self.assertEqual(register_btn.text, 'Register')
-        register_btn.click()
-
-        # They are now logged in and redirected to where they came from
-        self.assertEqual(self.browser.current_url, products_link)
+        # They're back on products page
+        self.wait_for(lambda: self.assertEqual(self.browser.current_url, products_link))
 
 
     def test_registration_stay_logged_in(self):
         # User wants to register to Dinosauria and dont want to have to log in after hat
-        self.browser.get(self.live_server_url+'/users/register/')
+        self.browser.get(self.live_server_url)
         register_link = self.browser.find_element_by_link_text('register').get_attribute('href')
         self.browser.get(register_link)
 
-        # They provide necessary data
-        email_input = self.browser.find_element_by_name('email')
-        email_input.send_keys('testing@random.com')
-        email_input.send_keys(Keys.ENTER)
-
-        pass1_input = self.browser.find_element_by_name('password1')
-        pass1_input.send_keys('testingPassword101')
-        pass1_input.send_keys(Keys.ENTER)
-
-        pass2_input = self.browser.find_element_by_name('password2')
-        pass2_input.send_keys('testingPassword101')
-        pass2_input.send_keys(Keys.ENTER)
-
-        # They click on register button
-        register_btn = self.browser.find_element_by_id('register-btn')
-        self.assertEqual(register_btn.text, 'Register')
-        register_btn.click()
+        tests_helpers.create_user_ft(self)
 
         # They are now logged in
-        try:
-            self.browser.find_element_by_link_text('register')
-        except NoSuchElementException:
-            pass
-        else:
-            self.fail('register found, user not logged in')
+        self.wait_for(lambda: self.browser.find_element_by_link_text('profile'))
 
 class LoginTest(FunctionalTest):
 

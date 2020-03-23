@@ -1,11 +1,8 @@
 from selenium import webdriver
-import unittest
-import time
 from selenium.common.exceptions import WebDriverException
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import os
 import time
-from shop.models import Product
 from django.contrib.auth import settings
 from importlib import import_module
 
