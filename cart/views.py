@@ -4,27 +4,29 @@ from .cart import Cart
 from .forms import CartAddProductForm
 from shop.models import Product
 from django.views.decorators.http import require_POST
-from users.views import add_address, has_address, get_guest_profile, add_guest_profile
+from users.views import add_address, has_address, get_profile, add_profile
 from users.forms import AddressForm, ProfileForm
 from users.models import Profile, ShipmentAddress
 
 
-
-
-def validate_guest(request):
-    guest_profile = get_guest_profile(request.session.get('guest_profile_email'))
-    if guest_profile and all([guest_profile.email, guest_profile.phone, request.session.get('guest_address')]):
+def validate(request, auth):
+    if auth:
+        profile = get_profile(request.user.email)
+        address_values = has_address(request).values() if has_address(request) else []
+    else:
+        profile = get_profile(request.session.get('guest_profile_email'))
+        address_values = request.session.get('guest_address')
+    if profile and all([profile.email, profile.phone, all(address_values)]):
         return True
     return False
 
 
 def check_can_order(request):
     if request.user.is_authenticated:
-        if all(has_address(request).values()):
-            return True
-    elif validate_guest(request):
-        return True
-    return False
+        enable = validate(request, True)
+    else:
+        enable = validate(request, False)
+    return enable
 
 
 def cart_checkout(request):
@@ -38,11 +40,12 @@ def cart_checkout(request):
             # get existing or create guest profile
             if profile_form.is_valid() and address_form.is_valid():
                 cd = profile_form.cleaned_data
-                if get_guest_profile(cd.get('email')):
-                    guest_profile = get_guest_profile(cd.get('email'))
+                if get_profile(cd.get('email')):
+                    guest_profile = get_profile(cd.get('email'))
                 else:
                     guest_profile = Profile()
                     guest_profile.email = cd.get('email')
+                if not guest_profile.phone:
                     guest_profile.phone = cd.get('phone')
                     guest_profile.save()
                 user_address = ShipmentAddress(profile=guest_profile)
@@ -55,14 +58,20 @@ def cart_checkout(request):
                 request.session['guest_profile_email'] = guest_profile.email
             return redirect('cart:cart_checkout')
         else:
-            profile_form = add_guest_profile(request.session.get('guest_profile_email', None))
+            profile_form = add_profile(request)
             address_form = add_address(request)
     else:
         address_form = AddressForm(request.POST)
+        profile_form = ProfileForm(request.POST)
         user_profile = Profile.objects.filter(user_id=request.user.id).first()
         user_address = ShipmentAddress.objects.filter(profile=user_profile).first()
         if request.method == 'POST':
-            if address_form.is_valid():
+            if profile_form.is_valid() and address_form.is_valid():
+                cd = profile_form.cleaned_data
+                profile = get_profile(request.user.email)
+                profile.email = cd.get('email')
+                profile.phone = cd.get('phone')
+                profile.save()
                 cd = address_form.cleaned_data
                 for key, value in cd.items():
                     user_address.__setattr__(key, value)
@@ -70,9 +79,8 @@ def cart_checkout(request):
             return redirect('cart:cart_checkout')
         else:
             address_form = add_address(request)
-            profile_form = ProfileForm()
+            profile_form = add_profile(request)
     can_order = check_can_order(request)
-
     return render(request, 'cart/cart.html',
                   {'cart': cart, 'address_form': address_form, 'profile_form': profile_form,
                    'can_order': can_order,

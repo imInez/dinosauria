@@ -9,16 +9,22 @@ Profile - Dinosauria store
 
 <div class="container">
     <h2> {% if user.first_name %} hey, {{ user.first_name }}! {% else %} hey! {% endif %}</h2>
-    <h4>Your profile: {{ user_profile.name }} {{ user_profile.surname }}</h4>
-    <p> address</p>
-    {{ user_profile.name }} <br>
-    {{ user_profile.surname }}<br>
-    {{ user_profile.street }}<br>
-    {{ user_profile.building_flat }}<br>
-    {{ user_profile.city }}<br>
-    {{ user_profile.zipcode }}<br>
-
-    <h4>Your orders</h4>
-    <h4>Recommended for you</h4>
+    <div id="user-settings">
+        <h4>Your profile: {{ user_profile.email }} {{ user_profile.phone }} user data {{ user.is_authenticated }}
+        {{ user.email }} </h4>
+    </div>
+    <div id="user-addresses">
+        <p> address</p>
+        {{ user_profile.name }} <br>
+        {{ user_profile.surname }}<br>
+        {{ user_profile.street }}<br>
+        {{ user_profile.building_flat }}<br>
+        {{ user_profile.city }}<br>
+        {{ user_profile.zipcode }}<br>
+    </div>
+    <div id="user-orders">
+        <h4>Your orders</h4>
+        <h4>Recommended for you</h4>
+    </div>
 </div>
 {% endblock content %}

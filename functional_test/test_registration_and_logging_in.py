@@ -1,4 +1,4 @@
-from base import FunctionalTest
+from .base import FunctionalTest
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from django.contrib.auth import get_user_model

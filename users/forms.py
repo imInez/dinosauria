@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    phone = forms.CharField(required=False, max_length=20)
     name = forms.CharField(max_length=20, required=False)
     surname = forms.CharField(max_length=40, required=False)
     street = forms.CharField(max_length=50, required=False)
@@ -15,7 +16,7 @@ class UserRegisterForm(UserCreationForm):
         model = User
         widgets = {'username': forms.HiddenInput()}
         fields = ['email', 'password1', 'password2',
-                  'name', 'surname', 'street', 'building_flat', 'city', 'zipcode']
+                  'phone', 'name', 'surname', 'street', 'building_flat', 'city', 'zipcode']
 
 
 class AddressForm(forms.Form):

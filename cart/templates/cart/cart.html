@@ -9,7 +9,7 @@ Your shopping cart
 {% block content %}
 
 <div class="container pb-5">
-    <h3>Your cart: {{ cart.count_items }}</h3>
+    <h3>Your cart: <span id="cart-items">{{ cart.count_items }}</span></h3>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -66,11 +66,14 @@ Your shopping cart
     {% if user.is_authenticated %}
     <h3>Shipment</h3>
     <hr>
-    <form action="#" method="post">
-        {{ address_form|crispy }}
-        {% csrf_token %}
-        <button type="Submit">Update address</button>
-    </form>
+    <div id="userform">
+        <form action="#" method="post">
+            {{ profile_form|crispy }}
+            {{ address_form|crispy }}
+            {% csrf_token %}
+            <button type="Submit">Update address</button>
+        </form>
+    </div>
     {% else %}
     <div id="order-methods" class="my-5">
         <h3 class="text-center">
@@ -78,13 +81,13 @@ Your shopping cart
                 <h3> <u>login</u></h3>
             </a>
             or
-            <button class="btn" type="button" data-toggle="collapse" href="#guestform" aria-expanded="false" aria-controls="guestform">
+            <a class="btn" data-toggle="collapse" href="#guestform" aria-expanded="false" aria-controls="guestform">
                 <h3><u>order as a guest</u></h3>
-            </button>
+            </a>
         </h3>
+
         <div class="collapse" id="loginform">
             <div class="card card-body w-50 ml-0 mr-auto">
-
 
                 <form class="form" role="form" method="POST" action="{% url 'users:login' %}" accept-charset="UTF-8">
                     {% csrf_token %}
@@ -111,7 +114,7 @@ Your shopping cart
                     {{ profile_form|crispy }}
                     {{ address_form|crispy }}
                     {% csrf_token %}
-                    <button type="Submit">Update address</button>
+                    <button type="Submit" id="update">Update address</button>
                 </form>
             </div>
         </div>
@@ -119,7 +122,7 @@ Your shopping cart
     {% endif %}
 
     {% if can_order %}
-    <span class="float-right">ORDER</span>
+    <span class="float-right" id="order-btn">ORDER</span>
     {% endif %}
 </div>
 {% endblock %}

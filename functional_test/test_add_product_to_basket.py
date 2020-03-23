@@ -1,4 +1,4 @@
-from base import FunctionalTest
+from .base import FunctionalTest
 from helpers import tests_helpers
 import time
 from cart.cart import Cart
@@ -38,10 +38,7 @@ class AddProductToBasketTest(FunctionalTest):
 
     def test_can_update_product_quantity_in_basket(self):
         # User is in a basket and wants to buy more than one piece of product
-        tests_helpers.create_test_items()
-        self.browser.get(self.live_server_url + '/products/')
-        self.browser.find_element_by_class_name('add-to-cart-btn').click()
-        self.assertEqual(self.browser.find_element_by_tag_name('h3').text, 'Your cart: 1')
+        tests_helpers.add_items_to_cart_ft(self)
 
         # they click on plus button and 1 is added to this product quantity
         self.browser.find_element_by_class_name('product-plus').click()
@@ -54,10 +51,7 @@ class AddProductToBasketTest(FunctionalTest):
 
     def test_price_changes_on_quantity_update(self):
         # User is in a basket and wants to buy more than one piece of product
-        tests_helpers.create_test_items()
-        self.browser.get(self.live_server_url + '/products/')
-        self.browser.find_element_by_class_name('add-to-cart-btn').click()
-        self.assertEqual(self.browser.find_element_by_tag_name('h3').text, 'Your cart: 1')
+        tests_helpers.add_items_to_cart_ft(self)
 
         # they click on plus button and 1 is added to this product quantity
         price_before = self.browser.find_element_by_class_name('product-total-price').text
@@ -77,10 +71,8 @@ class AddProductToBasketTest(FunctionalTest):
 
     def test_total_price_is_udpated(self):
         # User adds a product to basket
-        tests_helpers.create_test_items()
-        self.browser.get(self.live_server_url + '/products/')
-        self.browser.find_elements_by_class_name('add-to-cart-btn')[0].click()
-        # They can see they have one item in cart and total price of the cart
+        tests_helpers.add_items_to_cart_ft(self)
+        # They can see the total price of the cart equals price of added item
         self.assertEqual(self.browser.find_element_by_tag_name('h3').text, 'Your cart: 1')
         total_cart_before = self.browser.find_element_by_id('total-cart')
         # They decide to add another product to cart

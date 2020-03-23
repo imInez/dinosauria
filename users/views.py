@@ -44,7 +44,6 @@ def register(request):
             usr.first_name = cd.get('name')
             usr.last_name = cd.get('surname')
             usr.save()
-
             create_user_profile(usr.id, cd)
             auth_views.auth_login(request, usr)
             return redirect(nxt)
@@ -63,12 +62,15 @@ def profile(request):
         return render(request, 'users/login.html')
 
 
-def get_guest_profile(email):
+def get_profile(email):
     profile = Profile.objects.filter(email=email).first()
     return profile
 
-def add_guest_profile(profile_email):
-    profile = Profile.objects.filter(email=profile_email).first()
+def add_profile(request):
+    if request.user.is_authenticated:
+        profile = Profile.objects.filter(email=request.user.email).first()
+    else:
+        profile = Profile.objects.filter(email=request.session.get('guest_profile_email', None)).first()
     form = ProfileForm()
     if profile:
         form.fields['email'].initial = profile.email
@@ -83,8 +85,9 @@ def add_address(request):
         address_fields = request.session.get('guest_address')
     else:
         return form
-    for key, value in address_fields.items():
-        form.fields[key].initial = value
+    if address_fields:
+        for key, value in address_fields.items():
+            form.fields[key].initial = value
     return form
 
 
