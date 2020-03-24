@@ -10,7 +10,7 @@ def create_order(request):
     cart = Cart(request)
     if request.method == 'POST':
         profile = get_profile(request.user.email) if request.user.is_authenticated \
-            else get_profile(request.session.get('guest_user_email'))
+            else get_profile(request.session.get('guest_profile_email'))
         new_order = Order()
         new_order.author = profile
         new_order.address = ShipmentAddress.objects.filter(id=request.session.get('address')).first()
