@@ -8,7 +8,6 @@ ORDER_STATUSES = [('NEW', 'NEW'), ('PAYONG', 'ONGOING PAYMENT'), ('PAYPRO', 'PAY
 PAYMENT_STATUSES = [('O', 'ONGOING'), ('S', 'SUCCESSFUL'), ('F', 'FAILED')]
 
 class OrderProduct(models.Model):
-    # order = models.ForeignKey(Order, on_delete=models.DO_NOTHING)
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
     price = models.DecimalField(decimal_places=2, max_digits=5)
     quantity = models.IntegerField()

@@ -28,7 +28,7 @@ def create_order(request):
     cart.clear()
     del request.session['guest_profile_email']
     del request.session['address']
-    del request.session['address']
+    
 
 
     return render(request, 'orders/success.html')
