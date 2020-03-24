@@ -122,7 +122,10 @@ Your shopping cart
     {% endif %}
 
     {% if can_order %}
-    <span class="float-right" id="order-btn">ORDER</span>
+    <form action="{% url 'orders:order' %}" method="post">
+            {% csrf_token %}
+        <button type="submit" class="float-right" id="order-btn">ORDER</button>
+    </form>
     {% endif %}
 </div>
 {% endblock %}

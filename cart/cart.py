@@ -23,9 +23,9 @@ class Cart(object):
         self.cart[p_id]['quantity'] += quantity
         self.save()
 
-    def add_product(self, product):
-        self.cart[product.id] = {'product': product, 'price': product.price,
-                                 'quantity': 1, 'total_price': product.price}
+    # def add_product(self, product):
+    #     self.cart[product.id] = {'product': product, 'price': product.price,
+    #                              'quantity': 1, 'total_price': product.price}
 
     def subtract(self, product):
         p_id = str(product.id)
@@ -56,17 +56,24 @@ class Cart(object):
         self.session.modified = True
 
     def get_total_price(self):
-        return sum(Decimal(item['quantity']) * item['price'] for item in self.cart.values())
+        return sum(Decimal(item['quantity'] * Product.objects.filter(id=key).first().price) for key, item in self.cart.items())
 
     def get_all_items(self):
         return self.cart.keys()
+
+    def get_products(self):
+        return iter(self)
+
+    def clear(self):
+        del self.session[settings.CART_SESSION_ID]
+        self.save()
 
     def __len__(self):
         """Count all items"""
         return sum([item['quantity'] for item in self.cart.values()])
 
     def __iter__(self):
-        """Iterate over cart products and get them form database"""
+        """Iterate over cart products and get them from database"""
         products_ids = self.cart.keys()
         products = Product.objects.filter(id__in=products_ids)
 

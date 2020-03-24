@@ -74,6 +74,7 @@ def add_profile(request):
     form = ProfileForm()
     if profile:
         form.fields['email'].initial = profile.email
+        form.fields['email'].readonly = True
         form.fields['phone'].initial = profile.phone
     return form
 
@@ -94,10 +95,11 @@ def add_address(request):
 def has_address(request):
     user_profile = Profile.objects.filter(user_id=request.user.id).first()
     user_address = ShipmentAddress.objects.filter(profile=user_profile).first()
-    address_fields = {'name': user_address.name, 'surname': user_address.surname, 'street': user_address.street,
-                      'building_flat': user_address.building_flat, 'city': user_address.city,
-                      'zipcode': user_address.zipcode}
-    if any(address_fields.values()):
-        return address_fields
+    if user_address:
+        address_fields = {'name': user_address.name, 'surname': user_address.surname, 'street': user_address.street,
+                          'building_flat': user_address.building_flat, 'city': user_address.city,
+                          'zipcode': user_address.zipcode}
+        if any(address_fields.values()):
+            return address_fields
     else:
         return False
