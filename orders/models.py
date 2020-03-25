@@ -22,6 +22,9 @@ class Order(models.Model):
     payment_status = models.CharField(max_length=6, choices=PAYMENT_STATUSES, default='O')
     products = models.ManyToManyField(OrderProduct)
     total = models.DecimalField(max_digits=10, decimal_places=2)
+
+    payment_id = models.CharField(max_length=150, blank=True)
+
     def save(self, *args, **kwargs):
         """ On save, update timestamps """
         if not self.id:

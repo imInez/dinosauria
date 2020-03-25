@@ -1,0 +1,16 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+Your shopping cart
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center my-5" >
+    <h3>There was a problem with your payment.</h3>
+    <p>
+        <a href="{% url 'users:profile' %}" class="button light">Go to your orders</a>
+    </p>
+</div>
+{% endblock %}

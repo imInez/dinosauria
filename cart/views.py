@@ -1,10 +1,9 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from .cart import Cart
 from .forms import CartAddProductForm
 from shop.models import Product
 from django.views.decorators.http import require_POST
-from users.views import add_address, has_address, get_profile, add_profile
+from users.views import fill_address, has_address, get_address, get_profile, fill_profile
 from users.forms import AddressForm, ProfileForm
 from users.models import Profile, ShipmentAddress
 
@@ -50,7 +49,7 @@ def cart_checkout(request):
                 address.save()
             request.session['address'] = address.id
         else:
-            ## get existing or create guest profile
+            # get existing or create guest profile
             if profile_form.is_valid() and address_form.is_valid():
                 cd = profile_form.cleaned_data
                 if get_profile(cd.get('email')):
@@ -72,8 +71,9 @@ def cart_checkout(request):
                 request.session['address'] = address.id
         return redirect('cart:cart_checkout')
     else:
-        address_form = add_address(request)
-        profile_form = add_profile(request)
+        # request.session['address'] = get_address(request)
+        address_form = fill_address(request)
+        profile_form = fill_profile(request)
     can_order = check_can_order(request)
     return render(request, 'cart/cart.html',
                   {'cart': cart, 'address_form': address_form, 'profile_form': profile_form,

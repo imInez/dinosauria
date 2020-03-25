@@ -1,10 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from .models import Order, OrderProduct
 from cart.cart import Cart
 from users.models import ShipmentAddress
 from users.views import get_profile
 from django.views.decorators.http import require_POST
 
+
+def clear_session(request, var):
+    if request.session.get(var):
+        del request.session[var]
 
 @require_POST
 def create_order(request):
@@ -26,10 +31,10 @@ def create_order(request):
 
     new_order.save()
     cart.clear()
-    del request.session['guest_profile_email']
-    del request.session['address']
-    
+    clear_session(request, 'guest_profile_email')
+    clear_session(request, 'address')
+    request.session['order_id'] = new_order.id
 
+    return redirect(reverse('payments:in-progress'))
 
-    return render(request, 'orders/success.html')
 

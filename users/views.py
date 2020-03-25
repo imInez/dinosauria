@@ -53,6 +53,7 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'users/auth/registration.html', {'form': form})
 
+
 @login_required
 def profile(request):
     if request.user.is_authenticated:
@@ -66,19 +67,27 @@ def get_profile(email):
     profile = Profile.objects.filter(email=email).first()
     return profile
 
-def add_profile(request):
+
+def get_address(request):
+    # email = get_profile(request.user.email)
+    # print('PROFILE: ', email)
+    return ShipmentAddress.objects.filter(profile=Profile.objects.filter(email=request.user.email).first().id)
+
+
+def fill_profile(request):
     if request.user.is_authenticated:
-        profile = Profile.objects.filter(email=request.user.email).first()
+        profile_ = Profile.objects.filter(email=request.user.email).first()
     else:
-        profile = Profile.objects.filter(email=request.session.get('guest_profile_email', None)).first()
+        profile_ = Profile.objects.filter(email=request.session.get('guest_profile_email', None)).first()
     form = ProfileForm()
-    if profile:
-        form.fields['email'].initial = profile.email
+    if profile_:
+        form.fields['email'].initial = profile_.email
         form.fields['email'].readonly = True
-        form.fields['phone'].initial = profile.phone
+        form.fields['phone'].initial = profile_.phone
     return form
 
-def add_address(request):
+
+def fill_address(request):
     form = AddressForm()
     if request.user.is_authenticated:
         address_fields = has_address(request)
