@@ -3,29 +3,9 @@ from .cart import Cart
 from .forms import CartAddProductForm
 from shop.models import Product
 from django.views.decorators.http import require_POST
-from users.views import fill_address, has_address, get_address, get_profile, fill_profile
+from helpers.views_helpers import fill_address, has_address, get_profile, fill_profile, validate, check_can_order, add
 from users.forms import AddressForm, ProfileForm
 from users.models import Profile, ShipmentAddress
-
-
-def validate(request, auth):
-    if auth:
-        profile = get_profile(request.user.email)
-        address_values = has_address(request).values() if has_address(request) else []
-    else:
-        profile = get_profile(request.session.get('guest_profile_email'))
-        address_values = request.session.get('guest_address')
-    if profile and all([profile.email, profile.phone, all(address_values)]):
-        return True
-    return False
-
-
-def check_can_order(request):
-    if request.user.is_authenticated:
-        enable = validate(request, True)
-    else:
-        enable = validate(request, False)
-    return enable
 
 
 def cart_checkout(request):
@@ -86,15 +66,6 @@ def cart_add(request, product_id):
     form = CartAddProductForm(request.POST)
     add(request, product_id, form)
     return redirect('cart:cart_checkout')
-
-
-def add(request, product_id, form):
-    cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
-    if form.is_valid():
-        cd = form.cleaned_data
-        quantity = cd['quantity'] if cd['quantity'] else 1
-        cart.add(product=product, quantity=quantity)
 
 
 @require_POST

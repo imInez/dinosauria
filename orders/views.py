@@ -3,7 +3,7 @@ from django.urls import reverse
 from .models import Order, OrderProduct
 from cart.cart import Cart
 from users.models import ShipmentAddress
-from users.views import get_profile
+from helpers.views_helpers import get_profile
 from django.views.decorators.http import require_POST
 
 
