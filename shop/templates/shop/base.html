@@ -19,71 +19,72 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="nav navbar-nav ml-auto pr-1">
+    <span class="nav-logo text-center ">
+      <img src="{% static 'img/logo-img-light-green-smaller.png' %}"><h4 class="pretty-font mx-1 col-brown ">Dinosauria</h4></span>
+
+    <ul class="nav navbar-nav ml-auto pt-1 pretty-font font-medium ">
+      <li class="px-3"><a href="{% url 'shop:home' %}" >Home</a></li>
+      <li class="px-3"><a href="#">About us</a></li>
+      <li class="px-3"><a href="{% url 'shop:products' %}">Products</a></li>
+      <li class="px-3"><a href="#">Delivery</a></li>
+      <li class="px-3"><a href="#">Contact</a></li>
+    </ul>
+    <ul class="nav navbar-nav ml-auto pr-1 pt-1 sans-font font-bigger">
       {% if user.is_authenticated %}
-      <li class="px-3"><a href="{% url 'users:profile' %}">{% if user.first_name %} {{ user.first_name }} {% else %} profile {% endif %}</a></li>
-      <li class="px-3"><a href="{% url 'users:logout' %}">logout</a></li>
+      <li class="px-2"><a href="{% url 'users:profile' %}">{% if user.first_name %} {{ user.first_name }} {% else %} profile {% endif %}</a></li>
+      <li class="px-2"><a href="{% url 'users:logout' %}">logout</a></li>
       {% else %}
-      <li class="px-3">{% if request.path == '/users/logout/' or request.path == '/users/login/' %}<a href="{% url 'users:register' %}?next=/">register</a>
+      <li class="px-2">{% if request.path == '/users/logout/' or request.path == '/users/login/' %}<a href="{% url 'users:register' %}?next=/">register</a>
         {% else %} <a href="{% url 'users:register' %}?next={{request.path}}">register</a> {% endif %}</li>
-      <li class="px-3">{% if request.path == '/users/logout/' %} <a href="{% url 'users:login' %}?next=/">login</a>
-      {% else %} <a href="{% url 'users:login' %}?next={{request.path}}">login</a>{% endif %} </li>
+      <li class="px-2">{% if request.path == '/users/logout/' %} <a href="{% url 'users:login' %}?next=/">login</a>
+        {% else %} <a href="{% url 'users:login' %}?next={{request.path}}">login</a>{% endif %} </li>
       {% endif %}
-      <li class="px-3"><a href="{% url 'cart:cart_checkout' %}">cart</a></li>
+      <li class="px-2"><a href="{% url 'cart:cart_checkout' %}"><img src="{% static 'img/cart.png' %}"></a></li>
+<!--      <div>Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
     </ul>
   </div>
 </nav>
 
-<section class='logo mx-auto px-auto mt-5 text-center'>
-  <img id='logo-img' class="w-10" src="{% static 'img/logo-img.png' %}">
-  <h2 id='logo-text' class="pretty-font">Dinosauria</h2>
-</section>
-<section class="menu text-center mt-5">
-  <hr>
-  <span class="px-5"><a href="{% url 'shop:home' %}">Home</a></span>
-  <span class="px-5"><a href="#">About us</a></span>
-  <span class="px-5"><a href="{% url 'shop:products' %}">Products</a></span>
-  <span class="px-5"><a href="#">Delivery</a></span>
-  <span class="px-5"><a href="#">Contact</a></span>
-  <hr>
-</section>
+{% block hero %}
+{% endblock hero %}
+
 
 <section class="main-section">
-{% block content %}
-{% endblock content %}
+  {% block content %}
+  {% endblock content %}
 </section>
 
-  <footer class="footer mt-5 pt-3 bg-dinogreen">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <ul class="footer-lists pt-4">
-            <li> Dinosauria</li>
-            <li> Street 100</li>
-            <li> 10100 City, Country</li>
-            <li> 100100100 </li>
-            <li> dinosauria@store.com</li>
-          </ul>
-        </div>
-        <div class="col">
-          <ul class="footer-lists pt-4">
+<footer class="footer mt-5 pt-3 bg-col-brown col-white">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <ul class="footer-lists pt-4">
+          <li> Dinosauria</li>
+          <li> Street 100</li>
+          <li> 10100 City, Country</li>
+          <li> 100100100 </li>
+          <li> dinosauria@store.com</li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul class="footer-lists pt-4">
           <li>Our Products</li>
           <li>Our philosophy</li>
           <li>Privacy</li>
           <li>Delivery</li>
           <li>Returns</li>
           <li>Guarantee</li>
-          </ul>
-        </div>
-        <div class="col">
-        <ul class="footer-lists pt-4">
-        <li>Instagram</li>
-        <li>Facebook</li>
         </ul>
-        </div>
+      </div>
+      <div class="col">
+        <ul class="footer-lists pt-4">
+          <li>Instagram</li>
+          <li>Facebook</li>
+        </ul>
       </div>
     </div>
-  </footer>
+  </div>
+</footer>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

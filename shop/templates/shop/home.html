@@ -4,21 +4,65 @@
 {% block title %}
 Dinosauria store
 {% endblock title %}
+
+{% block hero %}
+{% include 'shop/hero.html' %}
+{% endblock hero %}
+
+
+
 {% block content %}
-<div class="row">
-    <div class="col m-auto mt-5 pt-5 text-center" id="intro-text">
-        <h3>Welcome to the Dinosauria store</h3>
-        <p> Here you can find the finest, most various types of dinosaurs that you'll love to cuddle.</p>
+<div class="row my-5">
+    <div class="col m-auto pt-5 text-right col-grey-green sans-font" id="intro-text">
+        <h3>RELEASE THE IMAGINATION</h3>
+        <hr>
+        <p>
+            It’s hard to avoid the onslaught of electronic toys.<br>
+            Walk down the toy aisles of most department stores, <br>
+            and you’re likely to find a lineup of playthings that sing,<br>
+            move, light up or synch with a tablet. <br>
+            There are teapots that sing, books with sound effects, remote control cars,<br>
+            toy phones and laptops, robots, motorized race-car tracks <br>
+            and electronic musical instruments.
+        </p>
+        <p>
+            The problem is, playing with electronic toys is more often a passive activity - <br>
+            the more the toy can do, the less the child can do<br>
+            With screens and electronics so present in kids’ lives,<br>
+        </p>
+        <p class="font-large" >it's time to bring back classic toys.</p>
+        <p>
+            Interacting with simple, classic toys can provide<br>
+            <u>infinite opportunities for learning and development</u>.<br>
+            Traditional toys tend to give the children immediate feedback, <br>
+            and they can adjust to that feedback.
+        </p>
+        <p>
+            With kids imaginations set free, they become sharks and turtles.<br>
+            They travel to Mexico and across Japan.<br>
+            Their stuffies  develop identities and have families of their own.<br>
+            They make forts under the table.<br>
+            They read.<br>
+            They play card games and strategy games.<br>
+            They explore and solve problems.<br>
+        </p>
+        <p>
+            Children are inherently capable if only they're encouraged to explore.<br>
+        </p>
+        <h3>Start with a simple dinosaur.</h3>
+
+
+        </p>
     </div>
-    <div class="col m-auto mt-5  text-center" >
-        <img id="intro-pic" src="{% static 'img/dino_kid1.jpg' %}">
+    <div class="col m-auto   text-center" >
+        <img id="intro-pic" class="float-left" src="{% static 'img/middle-cottonbro-from-Pexels.jpg' %}">
     </div>
 </div>
-<h4 class="text-center my-5"> our trending products </h4>
+<h4 class="text-center my-5 sans-font"> our trending products </h4>
 <section class="trending mx-5">
     <div class="card-group">
         <div class="card">
-            <img class="card-img-top p-5 w-75 text-center m-auto" id="dinosaur-img" src="{% static 'img/logo-img.png' %}" alt="">
+            <img class="card-img-top p-5 w-75 text-center m-auto" id="dinosaur-img" src="{% static 'img/logo-img-light-green.png' %}" alt="">
             <div class="card-body bg-light">
                 <h3 class="card-title text-center pretty-font" id="dinosaur-name">Dinosaur name</h3>
                 <p class="text-center" id="dinosaur-price">10.99</p>
@@ -32,7 +76,7 @@ Dinosauria store
 
         </div>
         <div class="card">
-            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img.png' %}" alt="">
+            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img-light-green.png' %}" alt="">
             <div class="card-body bg-light">
                 <h3 class="card-title text-center pretty-font">Dinosaur name</h3>
                 <p class="text-center">10.99</p>
@@ -46,7 +90,7 @@ Dinosauria store
 
         </div>
         <div class="card">
-            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img.png' %}" alt=""">
+            <img class="card-img-top p-5 w-75 text-center m-auto" src="{% static 'img/logo-img-light-green.png' %}" alt="">
             <div class="card-body bg-light">
                 <h3 class="card-title text-center pretty-font">Dinosaur name</h3>
                 <p class="text-center">10.99</p>

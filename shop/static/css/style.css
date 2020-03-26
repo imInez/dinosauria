@@ -1,27 +1,79 @@
-@import url(https://fonts.googleapis.com/css?family=Bad+Script|Indie+Flower);
+@import url(https://fonts.googleapis.com/css?family=Bad+Script|Indie+Flower|Montserrat);
 
+body {
+    padding-top: 5rem;
+}
 
+a {
+    color: rgb(92, 79, 70) !important;
+}
+
+/* text */
 .pretty-font {
-font-family: 'Bad Script';
+    font-family: 'Bad Script';
 }
 
-.bg-dinogreen {
-background-color: #00A79D;
+.sans-font {
+    font-family: 'Montserrat';
 }
+
+.font-bigger {
+    font-size: 1.1rem;
+}
+
+
+.font-medium {
+    font-size: 1.3rem;
+}
+
+.font-large {
+    font-size: 2rem;
+}
+/* colors */
+
+.bg-col-brown {
+    background-color: rgb(92, 79, 70);
+}
+
+.col-brown {
+    color: rgb(92, 79, 70);
+}
+
+.bg-col-light-green{
+    background-color: rgb(208, 235, 192);
+}
+
+.col-grey-green{
+    color: rgb(125, 118, 100)
+}
+.col-white {
+    color: white;
+}
+
+
+/* position */
 
 .home-img{
     max-height: 10%;
     width: auto;
 }
 
+.hero-text {
+    position: absolute;
+    bottom: 20%;
+    right: 7%;
+    font-size: 130px;
+    font-weight: 900;
+}
+
 .footer-lists{
-list-style-type: none;
-color: white;
+    list-style-type: none;
 }
 
 .product-img {
-    max-width:20%;
+    max-width:80%;
     height: auto;
+
 }
 
 
@@ -33,16 +85,21 @@ max-width: 10em;
 width: 10%;
 }
 
+
+/* custom */
+
+
+
 /* braintree hosted fields */
 form div.field {
-    font-size:13px;
+    border-bottom: 1px solid black;
     color:#666;
     width:300px;
-    height:22px;
+    height:40px;
     margin-bottom:10px;
-    padding:6px 12px;
-    border:0;
-    background:#efefef;
+
+
+
     color:#666;
-    border-radius:4px;
+
 }

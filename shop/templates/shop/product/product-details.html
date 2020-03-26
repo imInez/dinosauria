@@ -5,12 +5,17 @@
 Dinosauria store - Products
 {% endblock title %}
 
+{% block hero %}
+{% include 'shop/top.html' %}
+{% endblock hero %}
+
+
 {% block content %}
-<h3 class="text-center my-5">{{ product.name }}</h3>
+<h3 class="text-center my-5 pretty-font">{{ product.name }}</h3>
 <div class="container">
     <div class="row">
         <div class="col">
-            <img src="{{ product.image.url }}" class="w-50 product-img">
+            <img src="{{ product.image.url }}" class="w-100 product-img">
         </div>
         <div class="col">
 
@@ -20,11 +25,10 @@ Dinosauria store - Products
                 <input type="submit" value="Add to cart" class="add-to-cart-btn">
             </form>
 
-
             <h5>Product name: {{ product.name }}</h5>
             <p>Product ID: <span name="product-id">{{ product.id }}</span></p>
             <h5>Product price: <span name="product-price">{{ product.price }}</span></h5>
-            <p name="product-desc">{{ product.description }}</p>
+            <p name="product-desc">{% if product.description  %} {{ product.description }} {% endif %}</p>
         </div>
     </div>
 </div>

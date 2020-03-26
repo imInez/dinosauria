@@ -15,7 +15,7 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self, product, quantity=1, quantity_update=False):
+    def add(self, product, quantity=1):
         """Add chosen product to cart"""
         p_id = str(product.id)
         if p_id not in self.cart:

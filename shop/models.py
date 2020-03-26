@@ -6,7 +6,7 @@ class Product(models.Model):
     slug = models.SlugField(max_length=200, db_index=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.CharField(max_length=20, blank=True, null=True)
-    image = models.ImageField(upload_to=f'img/product', default='../static/img/logo-img.png')
+    image = models.ImageField(upload_to=f'img/product', default='../static/img/logo-img-light-green.png')
     available = models.BooleanField(default=True)
 
     class Meta:

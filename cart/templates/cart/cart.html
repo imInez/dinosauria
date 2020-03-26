@@ -6,9 +6,12 @@
 Your shopping cart
 {% endblock %}
 
+
+
+
 {% block content %}
 
-<div class="container pb-5">
+<div class="container pb-5 mt-5">
     <h3>Your cart: <span id="cart-items">{{ cart.count_items }}</span></h3>
     <table class="table table-hover">
         <thead>
@@ -30,24 +33,23 @@ Your shopping cart
             <td><a href="{{ product.get_absolute_url }}">
                 <img class="w-10em" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
             </a></td>
-            <td><p class="product-name">{{ product.name }}</p></td>
-            <td><p class="product-id">{{ item.quantity }}</p></td>
-            <td><span class="product-total-price">{{ item.total_price }}</span> <small class="product-item-price">({{ item.price }}/item)</small></p></td>
-            <td>
-
+            <td><p class="product-name pretty-font pt-3 font-medium">{{ product.name }}</p></td>
+            <td><p class="product-id pt-3">{{ item.quantity }}</p></td>
+            <td><p class="pt-3"><span class="product-total-price pt-3">{{ item.total_price }}</span> <small class="product-item-price " >({{ item.price }}/item)</small></p></td>
+            <td class="text-center float-left">
                 <form action="{% url 'cart:cart_remove' product.id %}" method="POST" class="d-inline">
                     {% csrf_token %}
                     <input type="hidden" name="single" value=True />
-                    <button type="submit" class="product-minus">-</button>
+                    <button type="submit" class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium">-</button>
                 </form>
                 <form action="{% url 'cart:cart_add' product.id %}" method="POST" class="d-inline">
                     {% csrf_token %}
                     <input  name="quantity" value=1 class="d-none"/>
-                    <input type="submit" value="+" class="product-plus">
+                    <input type="submit" value="+" class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium">
                 </form>
                 <form action="{% url 'cart:cart_remove' product.id %}" method="POST">
                     {% csrf_token %}
-                    <button type = 'submit'>remove</button>
+                    <button type = 'submit' class="bg-transparent border-0 col-brown sans-font small">remove</button>
                 </form>
             </td>
 
