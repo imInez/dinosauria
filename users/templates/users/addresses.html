@@ -1,0 +1,15 @@
+
+<h4> Your addresses </h4>
+
+{% for form in address_forms %}
+<div class="border border-secondary p-3">
+    <form action="." method="">
+        {{ form }}
+        {% csrf_token %}
+    </form>
+</div>
+{% endfor %}
+
+<div class="border border-secondary p-3">
+    Add new address
+</div>

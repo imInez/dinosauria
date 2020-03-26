@@ -49,6 +49,24 @@ def fill_profile(request):
     return form
 
 
+def fill_many_addresses(request):
+    forms = []
+    if request.user.is_authenticated:
+        addresses_fields = has_many_addresses(request)
+    elif request.session.get('guest_address'):
+        addresses_fields = request.session.get('guest_address')
+    # TODO check how this works
+    else:
+        return AddressForm()
+    if addresses_fields:
+        for address_fields in addresses_fields:
+            form = AddressForm()
+            for key, value in address_fields.items():
+                form.fields[key].initial = value
+            forms.append(form)
+        return forms
+
+
 def fill_address(request):
     form = AddressForm()
     if request.user.is_authenticated:
@@ -61,6 +79,22 @@ def fill_address(request):
         for key, value in address_fields.items():
             form.fields[key].initial = value
     return form
+
+
+def has_many_addresses(request):
+    user_profile = Profile.objects.filter(user_id=request.user.id).first()
+    user_addresses = ShipmentAddress.objects.filter(profile=user_profile)
+    if user_addresses:
+        addresses = []
+        for address in user_addresses:
+            address_fields = {'name': address.name, 'surname': address.surname, 'street': address.street,
+                              'building_flat': address.building_flat, 'city': address.city,
+                              'zipcode': address.zipcode}
+            if any(address_fields.values()):
+                addresses.append(address_fields)
+        return addresses
+    else:
+        return False
 
 
 def has_address(request):

@@ -33,7 +33,10 @@ def register(request):
 def profile(request):
     if request.user.is_authenticated:
         user_profile = Profile.objects.filter(user=request.user).first()
-        return render(request, 'users/profile.html', {'user_profile': user_profile})
+        address_forms = views_helpers.fill_many_addresses(request)
+        profile_form = views_helpers.fill_profile(request)
+        return render(request, 'users/profile.html', {'user_profile': user_profile, 'address_forms': address_forms,
+                                                      'profile_form': profile_form})
     else:
         return render(request, 'users/login.html')
 

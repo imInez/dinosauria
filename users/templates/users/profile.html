@@ -5,22 +5,25 @@
 Profile - Dinosauria store
 {% endblock title %}
 
+{% block hero %}
+{% include 'shop/top-onlydino.html' %}
+{% endblock hero %}
+
+
 {% block content %}
 
-<div class="container">
+<div class="container mt-5">
     <h2> {% if user.first_name %} hey, {{ user.first_name }}! {% else %} hey! {% endif %}</h2>
     <div id="user-settings">
-        <h4>Your profile: {{ user_profile.email }} {{ user_profile.phone }} user data {{ user.is_authenticated }}
-        {{ user.email }} </h4>
+        <h4>Your profile:</h4>
+            <form action="." method="">
+                {{ profile_form }}
+                {% csrf_token %}
+            </form>
+
     </div>
-    <div id="user-addresses">
-        <p> address</p>
-        {{ user_profile.name }} <br>
-        {{ user_profile.surname }}<br>
-        {{ user_profile.street }}<br>
-        {{ user_profile.building_flat }}<br>
-        {{ user_profile.city }}<br>
-        {{ user_profile.zipcode }}<br>
+    <div id="user-addresses" class="my-5">
+        {% include 'users/addresses.html' with address_forms=address_forms %}
     </div>
     <div id="user-orders">
         <h4>Your orders</h4>
