@@ -68,7 +68,7 @@ Your shopping cart
     <div id="userform">
         <form action="#" method="post">
             {{ profile_form|crispy }}
-            {{ address_form|crispy }}
+            {% include 'users/addresses.html' with address_forms=address_forms %}
             {% csrf_token %}
             <button type="Submit">Update address</button>
         </form>

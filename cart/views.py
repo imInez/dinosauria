@@ -3,7 +3,7 @@ from .cart import Cart
 from .forms import CartAddProductForm
 from shop.models import Product
 from django.views.decorators.http import require_POST
-from helpers.views_helpers import fill_address, has_address, get_profile, fill_profile, validate, check_can_order, add
+from helpers.views_helpers import fill_address, has_address, get_profile, fill_profile, validate, check_can_order, add, fill_many_addresses, has_many_addresses
 from users.forms import AddressForm, ProfileForm
 from users.models import Profile, ShipmentAddress
 
@@ -52,7 +52,7 @@ def cart_checkout(request):
         return redirect('cart:cart_checkout')
     else:
         # request.session['address'] = get_address(request)
-        address_form = fill_address(request)
+        address_form = fill_many_addresses(request)[0]
         profile_form = fill_profile(request)
     can_order = check_can_order(request)
     return render(request, 'cart/cart.html',

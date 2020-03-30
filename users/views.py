@@ -44,7 +44,7 @@ def profile(request):
                 user_profile.save()
             if address_form.is_valid():
                 cd = address_form.cleaned_data
-                # addreses update
+                # address update
                 if request.POST.get('address_id'):
                     edited_address = [ad for ad in addresses if ad.id == cd.get('address_id')][0]
                 else:
@@ -55,8 +55,13 @@ def profile(request):
                 if request.POST.get('remove'):
                     edited_address.clean()
                     edited_address.delete()
+                elif request.POST.get('set_main'):
+                    print('SET MAIN')
+                    edited_address.is_main = True
+                    edited_address.save()
                 else:
                     for key, value in cd.items():
+                        print('CD: ', cd)
                         edited_address.__setattr__(key, value)
                     edited_address.save()
             return redirect('users:profile')

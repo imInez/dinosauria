@@ -15,9 +15,9 @@ def create_user_address(profile, cd):
         address.city = cd.get('city')
         address.zipcode = cd.get('zipcode')
         address.save()
-        profile_ = Profile.objects.filter(user=profile.user).first()
-        profile_.address = address
-        profile_.save()
+        # profile_ = Profile.objects.filter(user=profile.user).first()
+        # profile_.address = address
+        # profile_.save()
 
 def create_user_profile(user_id, cd):
     profile = Profile()

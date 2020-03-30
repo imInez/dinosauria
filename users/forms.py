@@ -32,9 +32,13 @@ class AddressForm(forms.Form):
 class AddressModelForm(forms.ModelForm):
     address_id = forms.IntegerField(required=False, widget=forms.HiddenInput, label='')
 
+
+
     class Meta:
         model = ShipmentAddress
-        fields = ('name', 'surname', 'street', 'building_flat', 'city', 'zipcode', 'address_id')
+        fields = ('name', 'surname', 'street', 'building_flat', 'city', 'zipcode', 'is_main', 'address_id')
+        labels = {'is_main': 'My shipment address', 'address_id': ''}
+        # widgets = {'is_main': forms.HiddenInput}
 
 
 class ProfileForm(forms.Form):

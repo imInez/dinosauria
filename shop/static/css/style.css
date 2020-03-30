@@ -56,6 +56,10 @@ a {
     background-color: rgb(208, 235, 192);
 }
 
+.bg-cola-light-green {
+    background-color: rgba(208, 235, 192, 0.1);
+}
+
 .col-grey-green{
     color: rgb(125, 118, 100);
 }

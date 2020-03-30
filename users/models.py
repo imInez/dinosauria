@@ -12,13 +12,14 @@ class Profile(models.Model):
 
 
 class ShipmentAddress(models.Model):
-    profile = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL)
+    profile = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=20, blank=True)
     surname = models.CharField(max_length=40, blank=True)
     street = models.CharField(max_length=50, blank=True)
     building_flat = models.CharField(max_length=10, blank=True)
     city = models.CharField(max_length=50, blank=True)
     zipcode = models.CharField(max_length=10, blank=True)
+    is_main = models.BooleanField(null=True, blank=True, default=False)
 
     def __str__(self):
-        return self.profile.email
+        return str(self.pk)
