@@ -1,15 +1,59 @@
 
 <h4> Your addresses </h4>
 
+{% if address_forms %}
 {% for form in address_forms %}
-<div class="border border-secondary p-3">
-    <form action="." method="">
-        {{ form }}
-        {% csrf_token %}
-    </form>
+{% if  forloop.counter0|divisibleby:'3' %}
 </div>
+<div class="row">
+    <div class="col">
+        <div class="border border-secondary p-3">
+            address text here
+            <a class="btn" data-toggle="collapse" href="#address_form{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="address_form">
+                <h5> <u>edit the address</u></h5>
+            </a>
+            <div class="collapse" id="address_form{{forloop.counter}}"">
+            <form action="." method="POST">
+                    {% include 'shop/form_template.html' with form=form %}
+                    {% csrf_token %}
+                <input type="Submit" value="Update address">
+                <input type="Submit" name="remove" value="Remove this address" >
+            </form>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="col">
+    <div class="border border-secondary p-3">
+        address text here
+        <a class="btn" data-toggle="collapse" href="#address_form{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="address_form">
+            <h5> <u>edit the address</u></h5>
+        </a>
+        <div class="collapse" id="address_form{{forloop.counter}}">
+            <form action="." method="POST">
+                    {% include 'shop/form_template.html' with form=form %}
+                <input type="Submit" value="Update address">
+                <input type="Submit" name="remove" value="Remove this address" >
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endfor %}
+{% endif %}
 
-<div class="border border-secondary p-3">
-    Add new address
+</div>
+<div class="col">
+    <div class="border border-secondary p-3">
+
+        <a class="btn" data-toggle="collapse" href="#new_address" role="button" aria-expanded="false" aria-controls="new_address">
+            <h5> <u>Add new address</u></h5>
+        </a>
+        <div class="collapse" id="new_address">
+            <form action="." method="POST">
+                {% include 'shop/form_template.html' with form=new_address_form %}
+                <input type="Submit" value="Add new address">
+            </form>
+        </div>
+    </div>
 </div>

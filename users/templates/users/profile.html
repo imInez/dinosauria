@@ -16,17 +16,34 @@ Profile - Dinosauria store
     <h2> {% if user.first_name %} hey, {{ user.first_name }}! {% else %} hey! {% endif %}</h2>
     <div id="user-settings">
         <h4>Your profile:</h4>
-            <form action="." method="">
-                {{ profile_form }}
-                {% csrf_token %}
-            </form>
+        <form action="." method="POST">
+            {{ profile_form }}
+            {% csrf_token %}
+            <input type="submit" value="Update profile">
+        </form>
 
     </div>
     <div id="user-addresses" class="my-5">
-        {% include 'users/addresses.html' with address_forms=address_forms %}
+        {% include 'users/addresses.html' with address_forms=address_forms addresses=addresses %}
     </div>
+</div>
+<div class="container mt-5">
     <div id="user-orders">
         <h4>Your orders</h4>
+        {% for order in user.profile.order_set.all %}
+        <div class="my-3 py-3">
+            {{ forloop.counter }}
+            Order ID {{ order.id }}, date {{ order.created }}<br>
+            Status: {{ order.get_status_display }}
+            Payment status {{ order.get_payment_status_display }}<br>
+
+            <br><br>
+            {{ order.products.all }}
+            <br><br>
+
+            Total: {{ order.total }}
+        </div>
+        {% endfor %}
         <h4>Recommended for you</h4>
     </div>
 </div>

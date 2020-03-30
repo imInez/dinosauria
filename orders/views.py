@@ -22,14 +22,16 @@ def create_order(request):
     new_order.status = 'NEW'
     new_order.total = cart.get_total_price()
     new_order.save()
-
     for product in cart:
-        new_order_product = OrderProduct(order=new_order, product=product.get('product'),
+        new_order_product = new_order.products.create(order=new_order, product=product.get('product'),
                                          price=product.get('price'), quantity=product.get('quantity'))
-        new_order_product.save()
-        new_order.products.add(new_order_product)
-
     new_order.save()
+
+
+
+
+
+
     cart.clear()
     clear_session(request, 'guest_profile_email')
     clear_session(request, 'address')

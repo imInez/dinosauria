@@ -3,7 +3,7 @@ from users.forms import UserRegisterForm
 from django.contrib.auth import views as auth_views
 from .models import Profile, ShipmentAddress
 from django.contrib.auth.decorators import login_required
-from .forms import AddressForm, ProfileForm
+from .forms import AddressModelForm, ProfileForm
 from helpers import views_helpers
 
 
@@ -33,10 +33,41 @@ def register(request):
 def profile(request):
     if request.user.is_authenticated:
         user_profile = Profile.objects.filter(user=request.user).first()
-        address_forms = views_helpers.fill_many_addresses(request)
-        profile_form = views_helpers.fill_profile(request)
-        return render(request, 'users/profile.html', {'user_profile': user_profile, 'address_forms': address_forms,
-                                                      'profile_form': profile_form})
+        addresses = ShipmentAddress.objects.filter(profile=user_profile)
+        if request.method == 'POST':
+            address_form = AddressModelForm(request.POST)
+            profile_form = ProfileForm(request.POST)
+            # profile data update
+            if request.POST.get('email') and profile_form.is_valid():
+                cd = profile_form.cleaned_data
+                user_profile.phone = cd.get('phone')
+                user_profile.save()
+            if address_form.is_valid():
+                cd = address_form.cleaned_data
+                # addreses update
+                if request.POST.get('address_id'):
+                    edited_address = [ad for ad in addresses if ad.id == cd.get('address_id')][0]
+                else:
+                    # new address creation
+                    edited_address = ShipmentAddress()
+                    cd['profile_id'] = user_profile.id
+                # remove or update and save
+                if request.POST.get('remove'):
+                    edited_address.clean()
+                    edited_address.delete()
+                else:
+                    for key, value in cd.items():
+                        edited_address.__setattr__(key, value)
+                    edited_address.save()
+            return redirect('users:profile')
+        else:
+            address_forms = views_helpers.fill_many_addresses(request)
+            profile_form = views_helpers.fill_profile(request)
+            new_address_form = AddressModelForm()
+        return render(request, 'users/profile.html', {'user_profile': user_profile, 'profile_form': profile_form,
+                                                      'address_forms': address_forms,
+                                                      'new_address_form': new_address_form,
+                                                      'addresses': addresses})
     else:
         return render(request, 'users/login.html')
 

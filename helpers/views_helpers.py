@@ -1,5 +1,5 @@
 from users.models import Profile, ShipmentAddress
-from users.forms import ProfileForm, AddressForm
+from users.forms import ProfileForm, AddressModelForm
 from cart.cart import Cart
 from shop.models import Product
 from django.shortcuts import get_object_or_404
@@ -25,7 +25,8 @@ def create_user_profile(user_id, cd):
     profile.email = cd.get('email')
     profile.phone = cd.get('phone')
     profile.save()
-    create_user_address(profile, cd)
+    if any([cd.get('name'),cd.get('surname'), cd.get('street'), cd.get('city')]):
+        create_user_address(profile, cd)
 
 def get_profile(email):
     profile = Profile.objects.filter(email=email).first()
@@ -54,13 +55,12 @@ def fill_many_addresses(request):
     if request.user.is_authenticated:
         addresses_fields = has_many_addresses(request)
     elif request.session.get('guest_address'):
-        addresses_fields = request.session.get('guest_address')
-    # TODO check how this works
+        addresses_fields = [request.session.get('guest_address')]
     else:
-        return AddressForm()
+        return [AddressModelForm()]
     if addresses_fields:
         for address_fields in addresses_fields:
-            form = AddressForm()
+            form = AddressModelForm()
             for key, value in address_fields.items():
                 form.fields[key].initial = value
             forms.append(form)
@@ -68,11 +68,12 @@ def fill_many_addresses(request):
 
 
 def fill_address(request):
-    form = AddressForm()
+    form = AddressModelForm()
     if request.user.is_authenticated:
         address_fields = has_address(request)
     elif request.session.get('guest_address'):
         address_fields = request.session.get('guest_address')
+
     else:
         return form
     if address_fields:
@@ -89,7 +90,7 @@ def has_many_addresses(request):
         for address in user_addresses:
             address_fields = {'name': address.name, 'surname': address.surname, 'street': address.street,
                               'building_flat': address.building_flat, 'city': address.city,
-                              'zipcode': address.zipcode}
+                              'zipcode': address.zipcode, 'address_id': address.pk}
             if any(address_fields.values()):
                 addresses.append(address_fields)
         return addresses
@@ -136,4 +137,4 @@ def add(request, product_id, form):
     if form.is_valid():
         cd = form.cleaned_data
         quantity = cd['quantity'] if cd['quantity'] else 1
-        cart.add(product=product, quantity=quantity)
+        cart.add_product_to_cart(product=product, quantity=quantity)

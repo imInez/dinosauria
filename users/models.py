@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     phone = models.TextField(null=True, blank=True)
 
@@ -12,7 +12,7 @@ class Profile(models.Model):
 
 
 class ShipmentAddress(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=20, blank=True)
     surname = models.CharField(max_length=40, blank=True)
     street = models.CharField(max_length=50, blank=True)
