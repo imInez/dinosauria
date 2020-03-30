@@ -6,13 +6,10 @@
 Your shopping cart
 {% endblock %}
 
-
-
-
 {% block content %}
 
 <div class="container pb-5 mt-5">
-    <h3>Your cart: <span id="cart-items">{{ cart.count_items }}</span></h3>
+    <h3>You have <span id="cart-items">{{ cart.count_items }} item{{ cart.count_items|pluralize }} in your cart</span></h3>
     <table class="table table-hover">
         <thead>
         <tr>
