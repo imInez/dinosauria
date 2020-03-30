@@ -44,6 +44,10 @@ a {
     background-color: rgb(92, 79, 70);
 }
 
+.bg-cola-brown {
+    background-color: rgb(92, 79, 70, 0.1);
+}
+
 .col-brown {
     color: rgb(92, 79, 70);
 }
@@ -98,11 +102,9 @@ width: 10%;
     border: 0;
     border-bottom: 1px double rgb(125, 118, 100);
     font-family: 'Montserrat';
+    background-color: transparent;
 }
 
-.input-minimalistic  .label{
-text-transform: uppercase;
-}
 /* custom */
 
 
