@@ -17,6 +17,11 @@ a {
     color: rgb(92, 79, 70) !important;
 }
 
+
+.main-section{
+    margin-top:3%;
+    min-height:45rem;
+}
 /* text */
 .pretty-font {
     font-family: 'Bad Script';
