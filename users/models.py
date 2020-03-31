@@ -23,3 +23,8 @@ class ShipmentAddress(models.Model):
 
     def __str__(self):
         return str(self.pk)
+
+    def save(self, *args, **kwargs):
+        if len(self.profile.shipmentaddress_set.all()) == 0:
+            self.is_main = True
+        super(ShipmentAddress, self).save(*args, **kwargs)

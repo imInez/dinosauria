@@ -35,7 +35,6 @@ def profile(request):
         user_profile = Profile.objects.filter(user=request.user).first()
         addresses = ShipmentAddress.objects.filter(profile=user_profile)
         if request.method == 'POST':
-            print('POST: ', request.POST)
             address_form = AddressModelForm(request.POST)
             profile_form = ProfileForm(request.POST)
             # profile data update
@@ -47,7 +46,6 @@ def profile(request):
                 cd = address_form.cleaned_data
                 # address update
                 if request.POST.get('address_id'):
-                    print("GETTING EXISTING ADDRESS: ", request.POST.get('address_id'))
                     edited_address = [ad for ad in addresses if ad.id == cd.get('address_id')][0]
                 else:
                     # new address creation
@@ -59,16 +57,10 @@ def profile(request):
                     edited_address.delete()
                 elif request.POST.get('set_main'):
                     for address in addresses:
-                        if address.id != edited_address.id:
-                            if address.is_main == True:
-                                address.is_main = False
-                                address.save()
-                    print('BEFORE: ', edited_address.is_main)
+                        address.is_main = False
+                        address.save()
                     edited_address.is_main = True
                     edited_address.save()
-                    print('AFTER: ', edited_address.is_main)
-                    for ad in addresses:
-                        print(ad.is_main)
                 else:
                     for key, value in cd.items():
                         edited_address.__setattr__(key, value)
