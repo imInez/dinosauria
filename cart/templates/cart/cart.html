@@ -85,25 +85,24 @@ Your shopping cart
             </a>
         </h3>
 
-        <div class="collapse" id="loginform">
+        <div class="collapse" id="loginform" >
             <div class="card card-body w-50 ml-0 mr-auto">
-                {% include 'users/form_template.html' with form=login_form %}
-<!--                <form class="form" role="form" method="POST" action="{% url 'users:login' %}" accept-charset="UTF-8">-->
-<!--                    {% csrf_token %}-->
-<!--                    <div class="form-group">-->
-<!--                        <p>Email*</p>-->
-<!--                        <input type='text' class="form-control" id="id_username" name="username" required>-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <p>Password*</p>-->
-<!--                        <input type="password" class="form-control" id="id_password" name="password" required>-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <input type="hidden" name="next" value="{{ request.path }}"/>-->
-<!--                        <button type="submit" >login</button>-->
-<!--                    </div>-->
-<!--                    <span class="mt-3"><p>Don't have an account yet? <a href="{% url 'users:register' %}?next=/">Register here!</a></p></span>-->
-<!--                </form>-->
+                <form class="form input-minimalistic " role="form" method="POST" action="{% url 'users:login' %}" accept-charset="UTF-8">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <p class="text-uppercase col-grey-green pt-2 pb-1 mb-0 small">Email*</p>
+                        <input type='text' class="form-control" id="id_username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <p class="text-uppercase col-grey-green pt-2 pb-1 mb-0 small">Password*</p>
+                        <input type="password" class="form-control" id="id_password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="next" value="{{ request.path }}"/>
+                        <button type="submit" >login</button>
+                    </div>
+                    <span class="mt-3"><p>Don't have an account yet? <a href="{% url 'users:register' %}?next=/">Register here!</a></p></span>
+                </form>
             </div>
         </div>
         <div class="collapse" id="guestform">
@@ -112,7 +111,7 @@ Your shopping cart
                     {% include 'users/form_template.html' with form=profile_form  %}
                     {% include 'users/form_template.html' with form=address_forms.0 %}
                     {% csrf_token %}
-                    <input type="Submit" value="Ship here">
+                    <input type="Submit" value="Ship here" class="minimal-btn">
                 </form>
             </div>
         </div>
