@@ -1,5 +1,5 @@
 {% extends 'shop/base.html' %}
-{% load crispy_forms_tags %}
+
 
 {% block title %}
 Login - Dinosauria store
@@ -12,7 +12,7 @@ Login - Dinosauria store
     <div class="row">
         <form method="POST">
             {% csrf_token %}
-            {{ form|crispy }}
+            {% include 'users/form_template.html' with form=form %}
             <input type="hidden" name="next" value="{{ request.GET.next }}"/>
             <button type="submit" id="login-btn">Login</button>
         </form>

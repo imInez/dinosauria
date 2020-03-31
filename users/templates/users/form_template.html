@@ -1,4 +1,17 @@
 
+{% if flat %}
+
+<div class="input-minimalistic p-3 ">
+{% for field in form %}
+    <div class="fieldWrapper  d-inline-block ">
+        {{ field.errors }}
+        <p class="text-uppercase col-grey-green pt-2 pb-1 mb-0 ">
+            {{ field.label_tag }}  {{ field }}</p>
+    </div>
+{% endfor %}
+</div>
+
+{% else %}
 <div class="input-minimalistic px-3">
 {% for field in form %}
     <div class="fieldWrapper">
@@ -10,3 +23,5 @@
 {% endfor %}
 </div>
 {% csrf_token %}
+
+{% endif %}

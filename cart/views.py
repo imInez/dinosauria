@@ -4,7 +4,7 @@ from .forms import CartAddProductForm
 from shop.models import Product
 from django.views.decorators.http import require_POST
 from helpers import views_helpers
-from users.forms import AddressForm, ProfileForm, AddressModelForm
+from users.forms import ProfileForm, AddressModelForm
 from users.models import Profile, ShipmentAddress
 
 

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import ShipmentAddress
 
+
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
     phone = forms.CharField(required=False, max_length=20)
@@ -32,8 +33,6 @@ class AddressForm(forms.Form):
 class AddressModelForm(forms.ModelForm):
     address_id = forms.IntegerField(required=False, widget=forms.HiddenInput, label='')
 
-
-
     class Meta:
         model = ShipmentAddress
         fields = ('name', 'surname', 'street', 'building_flat', 'city', 'zipcode', 'is_main', 'address_id')
@@ -44,3 +43,4 @@ class AddressModelForm(forms.ModelForm):
 class ProfileForm(forms.Form):
     email = forms.EmailField()
     phone = forms.CharField(max_length=12)
+

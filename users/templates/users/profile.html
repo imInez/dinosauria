@@ -15,10 +15,9 @@ Profile - Dinosauria store
 <div class="container mt-5">
     <h2> {% if user.first_name %} hey, {{ user.first_name }}! {% else %} hey! {% endif %}</h2>
     <div id="user-settings mt-5">
-        <h4>Your profile:</h4>
         <hr>
         <form action="." method="POST" class="mt-3">
-            {{ profile_form }}
+            {% include 'users/form_template.html' with form=profile_form flat=True %}
             {% csrf_token %}
             <input type="submit" value="Update profile">
         </form>
