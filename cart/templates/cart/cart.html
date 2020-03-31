@@ -10,54 +10,7 @@ Your shopping cart
 
 <div class="container pb-5 mt-5">
     <h3>You have <span id="cart-items">{{ cart.count_items }} item{{ cart.count_items|pluralize }} in your cart</span></h3>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col">Product</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Price</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-
-        {% for item in cart %}
-        {% with product=item.product %}
-        <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td><a href="{{ product.get_absolute_url }}">
-                <img class="w-10em" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
-            </a></td>
-            <td><p class="product-name pretty-font pt-3 font-medium">{{ product.name }}</p></td>
-            <td><p class="product-id pt-3">{{ item.quantity }}</p></td>
-            <td><p class="pt-3"><span class="product-total-price pt-3">{{ item.total_price }}</span> <small class="product-item-price " >({{ item.price }}/item)</small></p></td>
-            <td class="text-center float-left">
-                <form action="{% url 'cart:cart_remove' product.id %}" method="POST" class="d-inline">
-                    {% csrf_token %}
-                    <input type="hidden" name="single" value=True />
-                    <button type="submit" class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium">-</button>
-                </form>
-                <form action="{% url 'cart:cart_add' product.id %}" method="POST" class="d-inline">
-                    {% csrf_token %}
-                    <input  name="quantity" value=1 class="d-none"/>
-                    <input type="submit" value="+" class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium">
-                </form>
-                <form action="{% url 'cart:cart_remove' product.id %}" method="POST">
-                    {% csrf_token %}
-                    <button type = 'submit' class="bg-transparent border-0 col-brown sans-font small">remove</button>
-                </form>
-            </td>
-
-        </tr>
-        {% endwith %}
-        {% endfor %}
-        <tr><td></td><td></td><td></td><td></td><td></td>
-            <td id="total-cart">Total: {{ cart.get_total_price }}</td>
-        </tr>
-        </tbody>
-    </table>
+        {% include 'orders/summary.html' with cart=cart is_cart=True %}
 
     <p class="text-right">
         <a href="{% url 'shop:products' %}" class="button light">Continue shopping</a>

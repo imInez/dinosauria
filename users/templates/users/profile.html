@@ -32,19 +32,17 @@ Profile - Dinosauria store
         <h4>Your orders</h4>
         {% for order in user.profile.order_set.all %}
         <div class="my-3 py-3">
-            {{ forloop.counter }}
-            Order ID {{ order.id }}, date {{ order.created }}<br>
+            <div class="sans-font">
+            Order {{ order.created }}<br>
             Status: {{ order.get_status_display }}
             Payment status {{ order.get_payment_status_display }}<br>
+            </div>
+            {% include 'orders/summary.html' with cart=order.products.all order=order %}
 
-            <br><br>
-            {{ order.products.all }}
-            <br><br>
 
-            Total: {{ order.total }}
         </div>
         {% endfor %}
-        <h4>Recommended for you</h4>
+
     </div>
 </div>
 {% endblock content %}
