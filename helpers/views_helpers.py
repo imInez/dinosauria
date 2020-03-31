@@ -140,7 +140,34 @@ def add(request, product_id, form):
         cart.add_product_to_cart(product=product, quantity=quantity)
 
 
-def update_profile(profile, profile_form):
-    cd = profile_form.cleaned_data
-    profile.phone = cd.get('phone')
-    profile.save()
+def update_profile(request, profile, profile_form):
+    if request.POST.get('email') and profile_form.is_valid():
+        cd = profile_form.cleaned_data
+        profile.phone = cd.get('phone')
+        profile.save()
+
+
+def update_address(request, address_form, addresses, profile):
+    if address_form.is_valid():
+        cd = address_form.cleaned_data
+        # address update
+        if request.POST.get('address_id'):
+            edited_address = [ad for ad in addresses if ad.id == cd.get('address_id')][0]
+        else:
+            # new address creation
+            edited_address = ShipmentAddress()
+            cd['profile_id'] = profile.id
+        # remove or update and save
+        if request.POST.get('remove'):
+            edited_address.clean()
+            edited_address.delete()
+        elif request.POST.get('set_main'):
+            for address in addresses:
+                address.is_main = False
+                address.save()
+            edited_address.is_main = True
+            edited_address.save()
+        else:
+            for key, value in cd.items():
+                edited_address.__setattr__(key, value)
+            edited_address.save()

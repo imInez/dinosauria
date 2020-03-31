@@ -7,7 +7,6 @@ from .forms import AddressModelForm, ProfileForm
 from helpers import views_helpers
 
 
-
 def register(request):
     if request.method == 'POST':
         nxt = request.POST.get('next')
@@ -37,31 +36,9 @@ def profile(request):
         address_form = AddressModelForm(request.POST)
         profile_form = ProfileForm(request.POST)
         # profile data update
-        if request.POST.get('email') and profile_form.is_valid():
-            views_helpers.update_profile(user_profile, profile_form)
-        if address_form.is_valid():
-            cd = address_form.cleaned_data
-            # address update
-            if request.POST.get('address_id'):
-                edited_address = [ad for ad in addresses if ad.id == cd.get('address_id')][0]
-            else:
-                # new address creation
-                edited_address = ShipmentAddress()
-                cd['profile_id'] = user_profile.id
-            # remove or update and save
-            if request.POST.get('remove'):
-                edited_address.clean()
-                edited_address.delete()
-            elif request.POST.get('set_main'):
-                for address in addresses:
-                    address.is_main = False
-                    address.save()
-                edited_address.is_main = True
-                edited_address.save()
-            else:
-                for key, value in cd.items():
-                    edited_address.__setattr__(key, value)
-                edited_address.save()
+        views_helpers.update_profile(request, user_profile, profile_form)
+        # address data update
+        views_helpers.update_address(request, address_form, addresses, user_profile)
         return redirect('users:profile')
     else:
         address_forms = views_helpers.fill_many_addresses(request)
