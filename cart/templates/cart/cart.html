@@ -74,7 +74,7 @@ Your shopping cart
         {% include 'users/addresses.html' with address_forms=address_forms %}
     </div>
     {% else %}
-    <div id="order-methods" class="my-5">
+    <div id="order-methods" class="mt-5 mb-2">
         <h3 class="text-center">
             <a class="btn" data-toggle="collapse" href="#loginform" role="button" aria-expanded="false" aria-controls="loginform">
                 <h3> <u>login</u></h3>
@@ -115,15 +115,14 @@ Your shopping cart
                 </form>
             </div>
         </div>
+        {% endif %}
+        <div class="container pb-3">
+            {% if can_order %}
+            <form action="{% url 'orders:order' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="float-right btn-minimal" id="order-btn" >ORDER</button>
+            </form>
+            {% endif %}
+        </div>
     </div>
-
-    {% endif %}
-
-    {% if can_order %}
-    <form action="{% url 'orders:order' %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="float-right" id="order-btn">ORDER</button>
-    </form>
-    {% endif %}
-</div>
-{% endblock %}
+    {% endblock %}

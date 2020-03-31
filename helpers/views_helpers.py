@@ -4,6 +4,8 @@ from cart.cart import Cart
 from shop.models import Product
 from django.shortcuts import get_object_or_404
 
+
+# users
 def create_user_address(profile, cd):
     if any(cd):
         address = ShipmentAddress()
@@ -15,9 +17,7 @@ def create_user_address(profile, cd):
         address.city = cd.get('city')
         address.zipcode = cd.get('zipcode')
         address.save()
-        # profile_ = Profile.objects.filter(user=profile.user).first()
-        # profile_.address = address
-        # profile_.save()
+
 
 def create_user_profile(user_id, cd):
     profile = Profile()
@@ -28,13 +28,10 @@ def create_user_profile(user_id, cd):
     if any([cd.get('name'),cd.get('surname'), cd.get('street'), cd.get('city')]):
         create_user_address(profile, cd)
 
+
 def get_profile(email):
     profile = Profile.objects.filter(email=email).first()
     return profile
-
-
-def get_address(request):
-    return ShipmentAddress.objects.filter(profile=Profile.objects.filter(email=request.user.email).first().id)
 
 
 def fill_profile(request):
@@ -48,6 +45,72 @@ def fill_profile(request):
         form.fields['email'].readonly = True
         form.fields['phone'].initial = profile_.phone
     return form
+
+
+def update_profile_data(profile, profile_form):
+    cd = profile_form.cleaned_data
+    profile.phone = cd.get('phone')
+    profile.save()
+
+
+def update_profile(request, profile, profile_form):
+    if request.POST.get('email') and profile_form.is_valid():
+        update_profile_data(profile, profile_form)
+
+
+def check_can_order(request):
+    if request.user.is_authenticated:
+        enable = validate(request, True)
+    else:
+        enable = validate(request, False)
+    return enable
+
+
+def validate(request, auth):
+    if auth:
+        profile = get_profile(request.user.email)
+        address_values = [profile.shipmentaddress_set.filter(is_main=True).first()]
+    else:
+        profile = get_profile(request.session.get('guest_profile_email'))
+        address_values = request.session.get('guest_address')
+    if profile and all([profile.email, profile.phone, all(address_values)]):
+        return True
+    return False
+
+
+# cart
+
+
+def add(request, product_id, form):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    if form.is_valid():
+        cd = form.cleaned_data
+        quantity = cd['quantity'] if cd['quantity'] else 1
+        cart.add_product_to_cart(product=product, quantity=quantity)
+
+
+# addresses
+
+
+def get_address(request):
+    return ShipmentAddress.objects.filter(profile=Profile.objects.filter(email=request.user.email).first().id)
+
+
+def has_many_addresses(request):
+    user_profile = Profile.objects.filter(user_id=request.user.id).first()
+    user_addresses = ShipmentAddress.objects.filter(profile=user_profile)
+    if user_addresses:
+        addresses = []
+        for address in user_addresses:
+            address_fields = {'name': address.name, 'surname': address.surname, 'street': address.street,
+                              'building_flat': address.building_flat, 'city': address.city,
+                              'zipcode': address.zipcode, 'is_main': address.is_main,  'address_id': address.pk}
+            if any(address_fields.values()):
+                addresses.append(address_fields)
+        return addresses
+    else:
+        return False
 
 
 def fill_many_addresses(request):
@@ -67,86 +130,17 @@ def fill_many_addresses(request):
         return forms
 
 
-# def fill_address(request):
-#     form = AddressModelForm()
-#     if request.user.is_authenticated:
-#         address_fields = has_address(request)
-#     elif request.session.get('guest_address'):
-#         address_fields = request.session.get('guest_address')
-#
+# def has_address(request):
+#     user_profile = Profile.objects.filter(user_id=request.user.id).first()
+#     user_address = ShipmentAddress.objects.filter(profile=user_profile).first()
+#     if user_address:
+#         address_fields = {'name': user_address.name, 'surname': user_address.surname, 'street': user_address.street,
+#                           'building_flat': user_address.building_flat, 'city': user_address.city,
+#                           'zipcode': user_address.zipcode, 'is_main': user_address.is_main, }
+#         if any(address_fields.values()):
+#             return address_fields
 #     else:
-#         return form
-#     if address_fields:
-#         for key, value in address_fields.items():
-#             form.fields[key].initial = value
-#     return form
-
-
-def has_many_addresses(request):
-    user_profile = Profile.objects.filter(user_id=request.user.id).first()
-    user_addresses = ShipmentAddress.objects.filter(profile=user_profile)
-    if user_addresses:
-        addresses = []
-        for address in user_addresses:
-            address_fields = {'name': address.name, 'surname': address.surname, 'street': address.street,
-                              'building_flat': address.building_flat, 'city': address.city,
-                              'zipcode': address.zipcode, 'is_main': address.is_main,  'address_id': address.pk}
-            if any(address_fields.values()):
-                addresses.append(address_fields)
-        return addresses
-    else:
-        return False
-
-
-def has_address(request):
-    user_profile = Profile.objects.filter(user_id=request.user.id).first()
-    user_address = ShipmentAddress.objects.filter(profile=user_profile).first()
-    if user_address:
-        address_fields = {'name': user_address.name, 'surname': user_address.surname, 'street': user_address.street,
-                          'building_flat': user_address.building_flat, 'city': user_address.city,
-                          'zipcode': user_address.zipcode, 'is_main': user_address.is_main, }
-        if any(address_fields.values()):
-            return address_fields
-    else:
-        return False
-
-
-def validate(request, auth):
-    if auth:
-        profile = get_profile(request.user.email)
-        address_values = has_address(request).values() if has_address(request) else []
-    else:
-        profile = get_profile(request.session.get('guest_profile_email'))
-        address_values = request.session.get('guest_address')
-    if profile and all([profile.email, profile.phone, all(address_values)]):
-        return True
-    return False
-
-
-def check_can_order(request):
-    if request.user.is_authenticated:
-        enable = validate(request, True)
-    else:
-        enable = validate(request, False)
-    return enable
-
-
-def add(request, product_id, form):
-    cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
-    if form.is_valid():
-        cd = form.cleaned_data
-        quantity = cd['quantity'] if cd['quantity'] else 1
-        cart.add_product_to_cart(product=product, quantity=quantity)
-
-def update_profile_data(profile, profile_form):
-    cd = profile_form.cleaned_data
-    profile.phone = cd.get('phone')
-    profile.save()
-
-def update_profile(request, profile, profile_form):
-    if request.POST.get('email') and profile_form.is_valid():
-        update_profile_data(profile, profile_form)
+#         return False
 
 
 def update_address(request, address_form, addresses, profile):
