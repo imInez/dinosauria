@@ -62,6 +62,7 @@ def fill_many_addresses(request):
         for address_fields in addresses_fields:
             form = AddressModelForm()
             for key, value in address_fields.items():
+                print('SETTING: ', key, ' TO: ', value)
                 form.fields[key].initial = value
             forms.append(form)
         return forms
@@ -88,9 +89,10 @@ def has_many_addresses(request):
     if user_addresses:
         addresses = []
         for address in user_addresses:
+            print('ADDRESS: ', address.id, address.is_main)
             address_fields = {'name': address.name, 'surname': address.surname, 'street': address.street,
                               'building_flat': address.building_flat, 'city': address.city,
-                              'zipcode': address.zipcode, 'address_id': address.pk}
+                              'zipcode': address.zipcode, 'is_main': address.is_main,  'address_id': address.pk}
             if any(address_fields.values()):
                 addresses.append(address_fields)
         return addresses
@@ -104,7 +106,7 @@ def has_address(request):
     if user_address:
         address_fields = {'name': user_address.name, 'surname': user_address.surname, 'street': user_address.street,
                           'building_flat': user_address.building_flat, 'city': user_address.city,
-                          'zipcode': user_address.zipcode}
+                          'zipcode': user_address.zipcode, 'is_main': user_address.is_main, }
         if any(address_fields.values()):
             return address_fields
     else:

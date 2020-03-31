@@ -13,7 +13,7 @@
             {% show_address form.address_id.value %}
             <form action="." method="POST">
                 {% csrf_token %}
-                <!--                <input type='hidden' name="is_main" value="True">-->
+                <input type="hidden" name="address_id" value="{{form.address_id.value}}">
                 <input type="submit" name="set_main" value="set as my shipment address">
             </form>
             <a class="btn" data-toggle="collapse" href="#address_form{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="address_form">
@@ -31,8 +31,13 @@
     </div>
     {% else %}
     <div class="col col-xl-4 col-lg-4 col-m-2, col-s-2 col-xs-2">
-        <div class="bg-cola-brown rounded p-3">
+                <div class="{% if form.is_main.value == True %} bg-cola-light-green {% else %} bg-cola-brown {% endif %} rounded p-3">
             {% show_address form.address_id.value %}
+            <form action="." method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="address_id" value="{{form.address_id.value}}">
+                <input type="submit" name="set_main" value="set as my shipment address">
+            </form>
             <a class="btn" data-toggle="collapse" href="#address_form{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="address_form">
                 <p>edit the address</p>
             </a>
