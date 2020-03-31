@@ -7,19 +7,25 @@ Your shopping cart
 {% endblock %}
 {% block content %}
 
-
-<h1>Pay by credit card</h1>
-<form action="." id="payment" method="post">
-    <label for="card-number">Card Number</label>
-    <div id="card-number" class="field"></div>
-    <label for="cvv">CVV</label>
-    <div id="cvv" class="field"></div>
-    <label for="expiration-date">Expiration Date</label>
-    <div id="expiration-date" class="field"></div>
-    <input type="hidden" id="token" name="payment_method_nonce" value=""> {% csrf_token %}
-    <input type="submit" value="Pay">
-</form>
-
+<div class="content">
+    <div class="row text-center m-auto">
+        <div class="col">
+            <h2>Pay by credit card</h2>
+            <div class="">
+                <form action="." id="payment" method="post">
+                    <p class="text-uppercase col-grey-green pt-2 pb-1 mb-0 small"><label for="card-number">Card Number</label></p>
+                    <div id="card-number" class="field mx-auto"></div>
+                    <p class="text-uppercase col-grey-green pt-2 pb-1 mb-0 small"><label for="cvv">CVV</label></p>
+                    <div id="cvv" class="field mx-auto"></div>
+                    <p class="text-uppercase col-grey-green pt-2 pb-1 mb-0 small"><label for="expiration-date">Expiration Date</label></p>
+                    <div id="expiration-date" class="field mx-auto"></div>
+                    <input type="hidden" id="token" name="payment_method_nonce" value=""> {% csrf_token %}
+                    <input type="submit" value="Pay" class="add-to-cart-btn bg-col-light-green p-4 border-0 col-brown sans-font font-weight-bold mt-2">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Load the required client component. -->
 <script src="https://js.braintreegateway.com/web/3.29.0/js/client.min.js">
 </script>
