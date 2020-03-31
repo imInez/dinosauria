@@ -62,7 +62,6 @@ def fill_many_addresses(request):
         for address_fields in addresses_fields:
             form = AddressModelForm()
             for key, value in address_fields.items():
-                print('SETTING: ', key, ' TO: ', value)
                 form.fields[key].initial = value
             forms.append(form)
         return forms
@@ -89,7 +88,6 @@ def has_many_addresses(request):
     if user_addresses:
         addresses = []
         for address in user_addresses:
-            print('ADDRESS: ', address.id, address.is_main)
             address_fields = {'name': address.name, 'surname': address.surname, 'street': address.street,
                               'building_flat': address.building_flat, 'city': address.city,
                               'zipcode': address.zipcode, 'is_main': address.is_main,  'address_id': address.pk}
@@ -140,3 +138,9 @@ def add(request, product_id, form):
         cd = form.cleaned_data
         quantity = cd['quantity'] if cd['quantity'] else 1
         cart.add_product_to_cart(product=product, quantity=quantity)
+
+
+def update_profile(profile, profile_form):
+    cd = profile_form.cleaned_data
+    profile.phone = cd.get('phone')
+    profile.save()
