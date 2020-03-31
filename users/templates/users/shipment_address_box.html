@@ -1,19 +1,26 @@
 {% load users_extras %}
 
-    <div class="col col-xl-4 col-lg-4 col-m-2, col-s-2 col-xs-2">
-        <div class="{% if form.is_main.value == True %} bg-cola-light-green {% else %} bg-cola-brown {% endif %} rounded p-3">
-            {% show_address form.address_id.value %}
-            {% include 'users/set_shipment_address.html' with form=form %}
-            <a class="btn" data-toggle="collapse" href="#address_form{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="address_form">
-                <p>edit the address</p>
-            </a>
-            <div class="collapse" id="address_form{{forloop.counter}}">
-                <form action="." method="POST">
-                    {% include 'users/form_template.html' with form=form %}
-                    {% csrf_token %}
-                    <input type="submit" value="Update address">
-                    <input type="submit" name="remove" value="Remove this address">
-                </form>
+<div class="col col-xl-4 col-lg-4 col-m-2, col-s-2 col-xs-2">
+    <div class="{% if form.is_main.value == True %} bg-cola-light-green {% else %} bg-cola-brown {% endif %} rounded p-3">
+        {% show_address form.address_id.value %}
+        <hr>
+        <div class="row mx-auto px-auto text-center">
+            <div class="col">
+                <a data-toggle="collapse" href="#address_form{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="address_form">
+                    <p>edit the address</p>
+                </a>
             </div>
+            <div class="col">{% include 'users/set_shipment_address.html' with form=form %}</div>
+
+        </div>
+
+        <div class="collapse" id="address_form{{forloop.counter}}">
+            <form action="." method="POST">
+                {% include 'users/form_template.html' with form=form %}
+                {% csrf_token %}
+                <input type="submit" value="Update address">
+                <input type="submit" name="remove" value="Remove this address">
+            </form>
         </div>
     </div>
+</div>
