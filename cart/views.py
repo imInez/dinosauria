@@ -24,40 +24,16 @@ def cart_checkout(request):
             profile = Profile.objects.filter(user=request.user).first()
             addresses = ShipmentAddress.objects.filter(profile=profile)
             # profile data update
-            if request.POST.get('email') and profile_form.is_valid():
-                views_helpers.update_profile(profile, profile_form)
-            if address_form.is_valid():
-                cd = address_form.cleaned_data
-                # address update
-                if request.POST.get('address_id'):
-                    print('ADDRES ID IN: ', request.POST.get('address_id'))
-                    print('CD: ', cd)
-                    edited_address = [ad for ad in addresses if ad.id == cd.get('address_id')][0]
-                else:
-                    # new address creation
-                    edited_address = ShipmentAddress()
-                    cd['profile_id'] = profile.id
-                # remove or update and save
-                if request.POST.get('remove'):
-                    edited_address.clean()
-                    edited_address.delete()
-                elif request.POST.get('set_main'):
-                    for address in addresses:
-                        address.is_main = False
-                        address.save()
-                    edited_address.is_main = True
-                    edited_address.save()
-                else:
-                    for key, value in cd.items():
-                        edited_address.__setattr__(key, value)
-                    edited_address.save()
+            views_helpers.update_profile(request, profile, profile_form)
+            # address data update
+            views_helpers.update_address(request, address_form, addresses, profile)
+
         else:
             # get existing or create guest profile
             if profile_form.is_valid() and address_form.is_valid():
                 # update or create profile
-                cd = profile_form.cleaned_data
-                profile, created = Profile.objects.get_or_create(email=cd.get('email'))
-                views_helpers.update_profile(profile, profile_form)
+                profile, created = Profile.objects.get_or_create(email=profile_form.cleaned_data.get('email'))
+                views_helpers.update_profile_data(profile, profile_form)
                 # create address
                 address = ShipmentAddress(profile=profile)
                 address.save()
@@ -69,15 +45,13 @@ def cart_checkout(request):
                 request.session['guest_profile_email'] = profile.email
                 request.session['address'] = address.id
         return redirect('cart:cart_checkout')
-
     else:
         address_forms = views_helpers.fill_many_addresses(request)
         profile_form = views_helpers.fill_profile(request)
-        new_address_form = AddressModelForm()
     can_order = views_helpers.check_can_order(request)
     return render(request, 'cart/cart.html',
                   {'cart': cart,
-                   'new_address_form': new_address_form, 'address_forms': address_forms, 'profile_form': profile_form,
+                   'address_forms': address_forms, 'profile_form': profile_form,
                    'can_order': can_order,
                    })
 

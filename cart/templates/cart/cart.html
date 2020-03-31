@@ -111,7 +111,7 @@ Your shopping cart
             <div class="card card-body w-50 mr-0 ml-auto">
                 <form action="." method="POST">
                     {{ profile_form|crispy }}
-                    {% include 'users/form_template.html' with form=new_address_form %}
+                    {% include 'users/form_template.html' with form=address_forms.0 %}
                     {% csrf_token %}
                     <input type="Submit" value="Ship here">
                 </form>

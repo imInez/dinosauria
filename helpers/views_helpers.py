@@ -67,19 +67,19 @@ def fill_many_addresses(request):
         return forms
 
 
-def fill_address(request):
-    form = AddressModelForm()
-    if request.user.is_authenticated:
-        address_fields = has_address(request)
-    elif request.session.get('guest_address'):
-        address_fields = request.session.get('guest_address')
-
-    else:
-        return form
-    if address_fields:
-        for key, value in address_fields.items():
-            form.fields[key].initial = value
-    return form
+# def fill_address(request):
+#     form = AddressModelForm()
+#     if request.user.is_authenticated:
+#         address_fields = has_address(request)
+#     elif request.session.get('guest_address'):
+#         address_fields = request.session.get('guest_address')
+#
+#     else:
+#         return form
+#     if address_fields:
+#         for key, value in address_fields.items():
+#             form.fields[key].initial = value
+#     return form
 
 
 def has_many_addresses(request):
@@ -139,12 +139,14 @@ def add(request, product_id, form):
         quantity = cd['quantity'] if cd['quantity'] else 1
         cart.add_product_to_cart(product=product, quantity=quantity)
 
+def update_profile_data(profile, profile_form):
+    cd = profile_form.cleaned_data
+    profile.phone = cd.get('phone')
+    profile.save()
 
 def update_profile(request, profile, profile_form):
     if request.POST.get('email') and profile_form.is_valid():
-        cd = profile_form.cleaned_data
-        profile.phone = cd.get('phone')
-        profile.save()
+        update_profile_data(profile, profile_form)
 
 
 def update_address(request, address_form, addresses, profile):
