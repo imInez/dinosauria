@@ -18,7 +18,7 @@ def create_order(request):
         else get_profile(request.session.get('guest_profile_email'))
     new_order = Order()
     new_order.author = profile
-    new_order.address = ShipmentAddress.objects.filter(id=request.session.get('address')).first()
+    new_order.address = profile.shipmentaddress_set.filter(profile=profile).filter(is_main=True).first()
     new_order.status = 'NEW'
     new_order.total = cart.get_total_price()
     new_order.save()
@@ -26,11 +26,6 @@ def create_order(request):
         new_order_product = new_order.products.create(order=new_order, product=product.get('product'),
                                          price=product.get('price'), quantity=product.get('quantity'))
     new_order.save()
-
-
-
-
-
 
     cart.clear()
     clear_session(request, 'guest_profile_email')
