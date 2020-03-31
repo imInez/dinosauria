@@ -66,12 +66,12 @@ Your shopping cart
     <h3>Shipment</h3>
     <hr>
     <div id="userform">
-        <form action="#" method="post">
+        <form action="#" method="post" class="pb-5">
             {{ profile_form|crispy }}
-            {% include 'users/addresses.html' with address_forms=address_forms %}
             {% csrf_token %}
-            <button type="Submit">Update address</button>
+            <button type="Submit">Update profile</button>
         </form>
+        {% include 'users/addresses.html' with address_forms=address_forms %}
     </div>
     {% else %}
     <div id="order-methods" class="my-5">
@@ -109,11 +109,11 @@ Your shopping cart
         </div>
         <div class="collapse" id="guestform">
             <div class="card card-body w-50 mr-0 ml-auto">
-                <form action="#" method="post">
+                <form action="." method="POST">
                     {{ profile_form|crispy }}
-                    {{ address_form|crispy }}
+                    {% include 'users/form_template.html' with form=new_address_form %}
                     {% csrf_token %}
-                    <button type="Submit" id="update">Update address</button>
+                    <input type="Submit" value="Ship here">
                 </form>
             </div>
         </div>
@@ -122,7 +122,7 @@ Your shopping cart
 
     {% if can_order %}
     <form action="{% url 'orders:order' %}" method="post">
-            {% csrf_token %}
+        {% csrf_token %}
         <button type="submit" class="float-right" id="order-btn">ORDER</button>
     </form>
     {% endif %}
