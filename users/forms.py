@@ -37,8 +37,8 @@ class AddressModelForm(forms.ModelForm):
     class Meta:
         model = ShipmentAddress
         fields = ('name', 'surname', 'street', 'building_flat', 'city', 'zipcode', 'is_main', 'address_id')
-        labels = {'is_main': 'My shipment address', 'address_id': ''}
-        # widgets = {'is_main': forms.HiddenInput}
+        labels = {'is_main': '', 'address_id': ''}
+        widgets = {'is_main': forms.HiddenInput}
 
 
 class ProfileForm(forms.Form):

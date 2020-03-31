@@ -1,0 +1,9 @@
+<form action="." method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="address_id" value="{{form.address_id.value}}">
+    {% if form.is_main.value == True %}
+    <p>This is your shipment address</p>
+    {% else %}
+    <input class='btn' type="submit" name="set_main" value="set as my shipment address">
+    {% endif %}
+</form>
