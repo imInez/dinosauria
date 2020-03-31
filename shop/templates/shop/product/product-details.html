@@ -19,15 +19,16 @@ Dinosauria store - Products
         </div>
         <div class="col">
 
-            <form action="{% url 'cart:cart_add' product.id %}" method="post">
+            <form action="{% url 'cart:cart_add' product.id %}" method="post" class="my-3">
+                <input type="submit" value="Add to cart" class="add-to-cart-btn bg-col-light-green p-4 border-0 col-brown sans-font font-weight-bold">
+                <br>
                 {{ cart_form }}
                 {% csrf_token %}
-                <input type="submit" value="Add to cart" class="add-to-cart-btn">
             </form>
 
             <h5>Product name: {{ product.name }}</h5>
-            <p>Product ID: <span name="product-id">{{ product.id }}</span></p>
             <h5>Product price: <span name="product-price">{{ product.price }}</span></h5>
+            <p>Product ID: <span name="product-id">{{ product.id }}</span></p>
             <p name="product-desc">{% if product.description  %} {{ product.description }} {% endif %}</p>
         </div>
     </div>

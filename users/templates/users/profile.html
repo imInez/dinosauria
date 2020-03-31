@@ -19,7 +19,7 @@ Profile - Dinosauria store
         <form action="." method="POST" class="mt-3">
             {% include 'users/form_template.html' with form=profile_form flat=True %}
             {% csrf_token %}
-            <input type="submit" value="Update profile">
+            <input type="submit" value="Update profile" class="btn btn-minimal">
         </form>
 
     </div>

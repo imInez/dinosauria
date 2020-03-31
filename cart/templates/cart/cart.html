@@ -69,7 +69,7 @@ Your shopping cart
         <form action="#" method="post" class="pb-5">
             {% include 'users/form_template.html' with form=profile_form flat=True %}
             {% csrf_token %}
-            <button type="Submit">Update profile</button>
+            <button type="Submit" class="btn btn-minimal">Update profile</button>
         </form>
         {% include 'users/addresses.html' with address_forms=address_forms %}
     </div>

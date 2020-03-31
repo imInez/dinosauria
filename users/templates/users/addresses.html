@@ -26,7 +26,7 @@
                 <form action="." method="POST">
                     {% include 'users/form_template.html' with form=new_address_form %}
                     {% csrf_token %}
-                    <input type="Submit" value="Add new address">
+                    <input type="Submit" value="Add address" class="btn btn-minimal">
                 </form>
             </div>
         </div>

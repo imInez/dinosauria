@@ -102,11 +102,21 @@ width: 10%;
 }
 
 /* inputs */
-.input-minimalistic input{
+.input-minimalistic input {
     border: 0;
     border-bottom: 1px double rgb(125, 118, 100);
     font-family: 'Montserrat';
     background-color: transparent;
+}
+
+.btn-minimal {
+    font-family: 'Montserrat' !important;
+    color: rgb(92, 79, 70) !important;
+    border: 0.5px solid black;
+    background-color: transparent;
+    border-radius: .25rem;
+    padding-top: .25rem !important;
+    padding-bottom: .25rem !important;
 }
 
 /* custom */
