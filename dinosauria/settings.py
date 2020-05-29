@@ -29,10 +29,10 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 # ALLOWED_HOSTS = ['*']
-if 'DJANGO_DEBUG_FALSE' in os.getenv:
+if 'DJANGO_DEBUG_FALSE' in os.environ:
     DEBUG = False
-    SECRET_KEY = os.getenv['DJANGO_SECRET_KEY']
-    ALLOWED_HOSTS = [os.getenv['SITENAME'], 'dinosauria.herokuapp.com']
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+    ALLOWED_HOSTS = [os.environ['SITENAME'], 'dinosauria.herokuapp.com']
 else:
     DEBUG = True
     SECRET_KEY = 'insecure-key-for-dev'
@@ -153,8 +153,8 @@ CART_SESSION_ID = 'cart'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Braintree settings
-BRAINTREE_MERCHANT_ID = os.getenv('BRAINTREE_MERCHANT_ID')
-BRAINTREE_PUBLIC_KEY = os.getenv('BRAINTREE_PUBLIC_KEY')
-BRAINTREE_PRIVATE_KEY = os.getenv('BRAINTREE_PRIVATE_KEY')
+BRAINTREE_MERCHANT_ID = os.environ('BRAINTREE_MERCHANT_ID')
+BRAINTREE_PUBLIC_KEY = os.environ('BRAINTREE_PUBLIC_KEY')
+BRAINTREE_PRIVATE_KEY = os.environ('BRAINTREE_PRIVATE_KEY')
 
 Configuration.configure(Environment.Sandbox, BRAINTREE_MERCHANT_ID, BRAINTREE_PUBLIC_KEY, BRAINTREE_PRIVATE_KEY)
