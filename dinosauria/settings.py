@@ -24,15 +24,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+#SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 # ALLOWED_HOSTS = ['*']
-if 'DJANGO_DEBUG_FALSE' in os.environ:
-    DEBUG = False
-    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-    ALLOWED_HOSTS = [os.environ['SITENAME']]
+#if 'DJANGO_DEBUG_FALSE' in os.environ:
+if os.getenv('DJANGO_SECRET_KEY'):
+    DEBUG = True
+#    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+#    ALLOWED_HOSTS = [os.environ['SITENAME']]
+    SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+    ALLOWED_HOSTS = [os.getenv('SITENAME')]
 else:
     DEBUG = True
     SECRET_KEY = 'insecure-key-for-dev'
@@ -93,12 +96,33 @@ WSGI_APPLICATION = 'dinosauria.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+use_postgres=True
+#if use_postgres:
+if os.getenv('RDS_HOSTNAME'):
+    DATABASES = {
+        'default': {
+           # 'ENGINE': 'django.db.backends.postgresql',
+           # 'NAME': os.environ['RDS_DB_NAME'],
+           # 'USER': os.environ['RDS_USERNAME'],
+           # 'PASSWORD': os.environ['RDS_PASSWORD'],
+           # 'HOST': os.environ['RDS_HOSTNAME'],
+           # 'PORT': os.environ['RDS_PORT'],
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('RDS_DB_NAME'),
+            'USER': os.getenv('RDS_USERNAME'),
+            'PASSWORD': os.getenv('RDS_PASSWORD'),
+            'HOST': os.getenv('RDS_HOSTNAME'),
+            'PORT': os.getenv('RDS_PORT'),
+
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
