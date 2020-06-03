@@ -29,10 +29,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 # ALLOWED_HOSTS = ['*']
+<<<<<<< HEAD
 if 'DJANGO_DEBUG_FALSE' in os.environ:
     DEBUG = True
     SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
     ALLOWED_HOSTS = [os.environ['SITENAME'], 'dinosauria.herokuapp.com']
+=======
+#if 'DJANGO_DEBUG_FALSE' in os.environ:
+if os.getenv('DJANGO_SECRET_KEY'):
+    DEBUG = True
+#    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+#    ALLOWED_HOSTS = [os.environ['SITENAME']]
+    SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+    ALLOWED_HOSTS = [os.getenv('SITENAME')]
+>>>>>>> 4c3ea5b598b52302a882fb5f65e4f0656d25416a
 else:
     DEBUG = True
     SECRET_KEY = 'insecure-key-for-dev'
@@ -93,12 +103,33 @@ WSGI_APPLICATION = 'dinosauria.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+use_postgres=True
+#if use_postgres:
+if os.getenv('RDS_HOSTNAME'):
+    DATABASES = {
+        'default': {
+           # 'ENGINE': 'django.db.backends.postgresql',
+           # 'NAME': os.environ['RDS_DB_NAME'],
+           # 'USER': os.environ['RDS_USERNAME'],
+           # 'PASSWORD': os.environ['RDS_PASSWORD'],
+           # 'HOST': os.environ['RDS_HOSTNAME'],
+           # 'PORT': os.environ['RDS_PORT'],
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('RDS_DB_NAME'),
+            'USER': os.getenv('RDS_USERNAME'),
+            'PASSWORD': os.getenv('RDS_PASSWORD'),
+            'HOST': os.getenv('RDS_HOSTNAME'),
+            'PORT': os.getenv('RDS_PORT'),
+
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation

@@ -13,3 +13,5 @@ geckodriver.log
 .env
 other/
 Dinosauria_aws_kp.pem
+media/
+
