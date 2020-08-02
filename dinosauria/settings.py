@@ -38,14 +38,12 @@ if 'DJANGO_DEBUG_FALSE' in os.environ:
 
 if os.getenv('DJANGO_SECRET_KEY'):
     DEBUG = True
-#    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-#    ALLOWED_HOSTS = [os.environ['SITENAME']]
     SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
     ALLOWED_HOSTS = [os.getenv('SITENAME'), 'localhost', 'dinosauria.herokuapp.com']
 else:
     DEBUG = True
     SECRET_KEY = 'insecure-key-for-dev'
-    ALLOWED_HOSTS = ['localhost', 'dinosauria.herokuapp.com']
+    ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -107,12 +105,6 @@ use_postgres=True
 if os.getenv('RDS_HOSTNAME'):
     DATABASES = {
         'default': {
-           # 'ENGINE': 'django.db.backends.postgresql',
-           # 'NAME': os.environ['RDS_DB_NAME'],
-           # 'USER': os.environ['RDS_USERNAME'],
-           # 'PASSWORD': os.environ['RDS_PASSWORD'],
-           # 'HOST': os.environ['RDS_HOSTNAME'],
-           # 'PORT': os.environ['RDS_PORT'],
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.getenv('RDS_DB_NAME'),
             'USER': os.getenv('RDS_USERNAME'),
@@ -168,10 +160,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-#STATICFILES_DIRS = (
-#    os.path.join(BASE_DIR, 'static'),
-#)
+# static settings for heroku
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
