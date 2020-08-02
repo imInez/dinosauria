@@ -22,7 +22,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 #SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
@@ -31,19 +30,24 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # ALLOWED_HOSTS = ['*']
 
 if 'DJANGO_DEBUG_FALSE' in os.environ:
-    DEBUG = True
+    DEBUG = False
     SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-    ALLOWED_HOSTS = [os.environ['SITENAME'], 'dinosauria.herokuapp.com', 'localhost']
-
-
-if os.getenv('DJANGO_SECRET_KEY'):
-    DEBUG = True
-    SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-    ALLOWED_HOSTS = [os.getenv('SITENAME'), 'localhost', 'dinosauria.herokuapp.com']
+    ALLOWED_HOSTS = [os.environ['SITENAME']]
 else:
     DEBUG = True
     SECRET_KEY = 'insecure-key-for-dev'
     ALLOWED_HOSTS = ['localhost']
+
+
+if os.getenv('local'):
+    if os.getenv('DJANGO_SECRET_KEY'):
+        DEBUG = True
+        SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+        ALLOWED_HOSTS = [os.getenv('SITENAME')]
+    else:
+        DEBUG = True
+        SECRET_KEY = 'insecure-key-for-dev'
+        ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -103,9 +107,9 @@ WSGI_APPLICATION = 'dinosauria.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 use_postgres=True
-#if use_postgres:
-if os.getenv('RDS_HOSTNAME'):
-    DATABASES = {
+
+if os.getenv('local'):
+	DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.getenv('RDS_DB_NAME'),
@@ -116,6 +120,19 @@ if os.getenv('RDS_HOSTNAME'):
 
         }
     }
+
+elif os.environ['RDS_HOSTNAME']:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+
+            }
+        }
 else:
     DATABASES = {
         'default': {
