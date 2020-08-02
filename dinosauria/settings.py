@@ -33,7 +33,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if 'DJANGO_DEBUG_FALSE' in os.environ:
     DEBUG = True
     SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-    ALLOWED_HOSTS = [os.environ['SITENAME'], 'dinosauria.herokuapp.com']
+    ALLOWED_HOSTS = [os.environ['SITENAME'], 'dinosauria.herokuapp.com', 'localhost']
 
 
 if os.getenv('DJANGO_SECRET_KEY'):
@@ -41,11 +41,11 @@ if os.getenv('DJANGO_SECRET_KEY'):
 #    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 #    ALLOWED_HOSTS = [os.environ['SITENAME']]
     SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-    ALLOWED_HOSTS = [os.getenv('SITENAME')]
+    ALLOWED_HOSTS = [os.getenv('SITENAME'), 'localhost', 'dinosauria.herokuapp.com']
 else:
     DEBUG = True
     SECRET_KEY = 'insecure-key-for-dev'
-    ALLOWED_HOSTS = ['dinosauria.herokuapp.com']
+    ALLOWED_HOSTS = ['localhost', 'dinosauria.herokuapp.com']
 
 
 # Application definition
@@ -169,9 +169,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+#STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, 'static'),
+#)
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
