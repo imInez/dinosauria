@@ -35,7 +35,7 @@ if 'DJANGO_DEBUG_FALSE' in os.environ:
     SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
     ALLOWED_HOSTS = [os.environ['SITENAME'], 'dinosauria.herokuapp.com']
 
-#if 'DJANGO_DEBUG_FALSE' in os.environ:
+
 if os.getenv('DJANGO_SECRET_KEY'):
     DEBUG = True
 #    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
@@ -45,7 +45,7 @@ if os.getenv('DJANGO_SECRET_KEY'):
 else:
     DEBUG = True
     SECRET_KEY = 'insecure-key-for-dev'
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['dinosauria.herokuapp.com']
 
 
 # Application definition
