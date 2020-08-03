@@ -29,25 +29,27 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # DEBUG = True
 # ALLOWED_HOSTS = ['*']
 
-if 'DJANGO_DEBUG_FALSE' in os.environ:
-    DEBUG = False
-    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-    ALLOWED_HOSTS = [os.environ['SITENAME']]
-else:
-    DEBUG = True
-    SECRET_KEY = 'insecure-key-for-dev'
-    ALLOWED_HOSTS = ['localhost', os.environ['SITENAME']]
-
-
 if os.getenv('local'):
     if os.getenv('DJANGO_SECRET_KEY'):
         DEBUG = True
         SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-        ALLOWED_HOSTS = [os.getenv('SITENAME')]
+        ALLOWED_HOSTS = ['localhost', os.getenv('SITENAME')]
     else:
         DEBUG = True
         SECRET_KEY = 'insecure-key-for-dev'
         ALLOWED_HOSTS = ['localhost']
+
+# if 'DJANGO_DEBUG_FALSE' in os.environ:
+#     DEBUG = False
+#     SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+#     ALLOWED_HOSTS = [os.environ['SITENAME']]
+# else:
+#     DEBUG = True
+#     SECRET_KEY = 'insecure-key-for-dev'
+#     ALLOWED_HOSTS = ['localhost', os.environ['SITENAME']]
+
+
+
 
 
 # Application definition
@@ -67,6 +69,7 @@ INSTALLED_APPS = [
     'payments.apps.PaymentsConfig',
 
     'crispy_forms',
+    'storages',
 
 ]
 
@@ -133,13 +136,13 @@ elif os.environ['RDS_HOSTNAME']:
 
             }
         }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+#     }
 
 
 # Password validation
@@ -202,5 +205,14 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 BRAINTREE_MERCHANT_ID = os.environ['BRAINTREE_MERCHANT_ID']
 BRAINTREE_PUBLIC_KEY = os.environ['BRAINTREE_PUBLIC_KEY']
 BRAINTREE_PRIVATE_KEY = os.environ['BRAINTREE_PRIVATE_KEY']
+
+AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID_FODMAP')
+AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY_FODMAP')
+AWS_STORAGE_BUCKET_NAME=os.environ.get('AWS_STORAGE_BUCKET_NAME_FODMAP')
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'dinosauria.storage_backends.MediaStorage'
+
 
 Configuration.configure(Environment.Sandbox, BRAINTREE_MERCHANT_ID, BRAINTREE_PUBLIC_KEY, BRAINTREE_PRIVATE_KEY)

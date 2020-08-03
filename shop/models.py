@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+import psycopg2
+
 
 class Product(models.Model):
     name = models.CharField(max_length=100, db_index=True)
@@ -18,6 +20,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
 
 
 
