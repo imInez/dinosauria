@@ -31,22 +31,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 if os.getenv('local'):
     if os.getenv('DJANGO_SECRET_KEY'):
-        DEBUG = True
+        DEBUG = False
         SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
         ALLOWED_HOSTS = ['localhost', os.getenv('SITENAME')]
     else:
         DEBUG = True
         SECRET_KEY = 'insecure-key-for-dev'
         ALLOWED_HOSTS = ['localhost']
-
-# if 'DJANGO_DEBUG_FALSE' in os.environ:
-#     DEBUG = False
-#     SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-#     ALLOWED_HOSTS = [os.environ['SITENAME']]
-# else:
-#     DEBUG = True
-#     SECRET_KEY = 'insecure-key-for-dev'
-#     ALLOWED_HOSTS = ['localhost', os.environ['SITENAME']]
+elif 'DJANGO_DEBUG_FALSE' in os.environ:
+    DEBUG = False
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+    ALLOWED_HOSTS = [os.environ['SITENAME']]
+else:
+    DEBUG = True
+    SECRET_KEY = 'insecure-key-for-dev'
+    ALLOWED_HOSTS = ['localhost', os.environ['SITENAME']]
 
 
 
@@ -112,7 +111,7 @@ WSGI_APPLICATION = 'dinosauria.wsgi.application'
 use_postgres=True
 
 if os.getenv('local'):
-	DATABASES = {
+    DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.getenv('RDS_DB_NAME'),
@@ -136,13 +135,13 @@ elif os.environ['RDS_HOSTNAME']:
 
             }
         }
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#         }
-#     }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
@@ -206,6 +205,7 @@ BRAINTREE_MERCHANT_ID = os.environ['BRAINTREE_MERCHANT_ID']
 BRAINTREE_PUBLIC_KEY = os.environ['BRAINTREE_PUBLIC_KEY']
 BRAINTREE_PRIVATE_KEY = os.environ['BRAINTREE_PRIVATE_KEY']
 
+# AWS S3 settings
 AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID_FODMAP')
 AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY_FODMAP')
 AWS_STORAGE_BUCKET_NAME=os.environ.get('AWS_STORAGE_BUCKET_NAME_FODMAP')
