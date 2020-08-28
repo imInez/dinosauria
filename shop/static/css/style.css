@@ -2,6 +2,7 @@
 
 body {
     padding-top: 5rem;
+    width: 100%;
 }
 
 h1,
@@ -106,6 +107,10 @@ max-width: 10em;
 width: 10%;
 }
 
+.ml-30pr {
+    margin-left: 30%;
+}
+
 /* inputs */
 .input-minimalistic input {
     border: 0;
@@ -128,7 +133,6 @@ width: 10%;
 /* custom */
 
 
-
 /* braintree hosted fields */
 form div.field {
     border-bottom: 1px solid black;
@@ -138,3 +142,21 @@ form div.field {
     margin-bottom:10px;
     color:#666;
 }
+
+
+
+/* Visibility Helpers */
+
+@media only screen and (min-width:800px) {
+    .visible-mobile {
+    display:none !important;
+    }
+}
+
+@media only screen and (max-width:799px) {
+    .visible-desktop {
+     display:none !important;
+      }
+}
+
+

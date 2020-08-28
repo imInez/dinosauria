@@ -15,13 +15,19 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-light ">
+  <a href="{% url 'shop:home' %}" class="navbar-brand visible-mobile ">
+    <img src="{% static 'img/logo-img-light-green-smaller.png' %}"></span>
+  </a>
+  <a href="{% url 'cart:cart_checkout' %}" class="visible-mobile"><img src="{% static 'img/cart.png' %}"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="bg-col-light-green rounded p-1 pb-2">
+    <span class="navbar-toggler-icon bg-col-light-green"></span>
+  </span>
   </button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
-    <span class="nav-logo text-center ">
+    <span class="nav-logo text-center visible-desktop"><a href="{% url 'shop:home' %}" class="text-decoration-none">
       <img src="{% static 'img/logo-img-light-green-smaller.png' %}"><h4 class="pretty-font mx-1 col-brown ">Dinosauria</h4></span>
-
+    </a>
     <ul class="nav navbar-nav ml-auto pt-1 pretty-font font-medium ">
       <li class="px-3"><a href="{% url 'shop:home' %}" >Home</a></li>
       <li class="px-3"><a href="#">About us</a></li>
@@ -39,7 +45,7 @@
       <li class="px-2">{% if request.path == '/users/logout/' %} <a href="{% url 'users:login' %}?next=/">login</a>
         {% else %} <a href="{% url 'users:login' %}?next={{request.path}}">login</a>{% endif %} </li>
       {% endif %}
-      <li class="px-2"><a href="{% url 'cart:cart_checkout' %}"><img src="{% static 'img/cart.png' %}"></a></li>
+      <li class="px-2 visible-desktop"><a href="{% url 'cart:cart_checkout' %}"><img src="{% static 'img/cart.png' %}"></a></li>
 <!--      <div>Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
     </ul>
   </div>
