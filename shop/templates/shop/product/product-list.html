@@ -17,7 +17,7 @@ Dinosauria store - Products
     {% if not forloop.counter|divisibleby:2  %}
     </div>
     <div class="row mx-5 text-center">
-        <div class="col product my-3">
+        <div class="col col-md-12 col-lg-6 product my-3">
             <a href="{{ product.get_absolute_url }}" class="product-link"><img src="{{ product.image.url }}" class="product-img" alt="{{ product.name }}">
                 <h2 class="product-name pretty-font pt-3 pb-2">{{ product.name }}, {{ product.price }} </h2></a>
             <form action="{% url 'cart:cart_add' product.id %}" method="POST">
@@ -26,7 +26,7 @@ Dinosauria store - Products
             </form>
         </div>
         {% else %}
-        <div class="col product my-1">
+        <div class="col col-md-12 col-lg-6 product my-1">
             <a href="{{ product.get_absolute_url }}" class="product-link"><img src="{{ product.image.url }}" class="product-img">
                 <h2 class="product-name pretty-font pt-3 pb-2">{{ product.name }}, {{ product.price }} </h2></a>
             <form action="{% url 'cart:cart_add' product.id %}" method="POST">

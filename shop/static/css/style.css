@@ -151,12 +151,20 @@ form div.field {
     .visible-mobile {
     display:none !important;
     }
+
+    #intro-text{
+        text-align: right;
+    }
 }
 
 @media only screen and (max-width:799px) {
     .visible-desktop {
      display:none !important;
       }
+
+      #intro-text{
+        text-align: left;
+    }
 }
 
 
