@@ -151,12 +151,40 @@ form div.field {
     .visible-mobile {
     display:none !important;
     }
+
+    #intro-text{
+        text-align: right;
+    }
+
+    .trending{
+        margin-left: 3rem;
+        margin-right: 3rem;
+    }
+    
+    #dinosaur-img{
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
 }
 
 @media only screen and (max-width:799px) {
     .visible-desktop {
      display:none !important;
       }
+
+      #intro-text{
+        text-align: left;
+    }
+
+    .trending{
+        margin-left: .5rem;
+        margin-right: .5rem;
+    }
+
+    #dinosaur-img{
+        padding-left: .5rem;
+        padding-right: .5rem;
+    }
 }
 
 
