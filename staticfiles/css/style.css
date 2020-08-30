@@ -165,6 +165,10 @@ form div.field {
         padding-left: 3rem;
         padding-right: 3rem;
     }
+
+    .summary-table-mobile{
+        display: none;
+    }
 }
 
 @media only screen and (max-width:799px) {
@@ -185,6 +189,11 @@ form div.field {
         padding-left: .5rem;
         padding-right: .5rem;
     }
+
+    .summary-table-desktop{
+        display: none;
+    }
+
 }
 
 
