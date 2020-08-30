@@ -166,7 +166,7 @@ form div.field {
         padding-right: 3rem;
     }
 
-    .summary-table-mobile{
+    #summary-table-mobile{
         display: none;
     }
 }
@@ -190,7 +190,7 @@ form div.field {
         padding-right: .5rem;
     }
 
-    .summary-table-desktop{
+    #summary-table-desktop{
         display: none;
     }
 
