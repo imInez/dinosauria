@@ -3,16 +3,16 @@
 <hr>
 
 {% if address_forms %}
-{% for form in address_forms %}
-{% if  forloop.counter0|divisibleby:'3' %}
-</div>
-<div class="row mt-2">
-    {% include 'users/shipment_address_box.html' with form=form %}
-    {% else %}
-    {% include 'users/shipment_address_box.html' with form=form %}
-    {% endif %}
+    {% for form in address_forms %}
+        {% if  forloop.counter0|divisibleby:'3' %}
+            </div>
+            <div class="row mt-2">
+                {% include 'users/shipment_address_box.html' with form=form %}
+        {% else %}
+            {% include 'users/shipment_address_box.html' with form=form %}
+        {% endif %}
     {% endfor %}
-    {% endif %}
+{% endif %}
 
 </div>
 <div class="row mt-2 text-center">
