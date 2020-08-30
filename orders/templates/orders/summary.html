@@ -89,7 +89,7 @@
     </tr>
     {% endwith %}
     {% endfor %}
-    <tr><td></td><td></td><td></td><td></td><td></td>
+    <tr><td></td>
         <td id="total-cart">Total: {% if is_cart %}{{ cart.get_total_price }}{% else %} {{ order.total }} {% endif %}</td>
     </tr>
     </tbody>
