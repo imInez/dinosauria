@@ -1,7 +1,7 @@
 {% load users_extras %}
 
 <!-- <div class="col-md-12 col-lg-6 col-xl-4"> -->
-<div class="col-4">
+<div class="col-sm-12 col-4">
     <div class="{% if form.is_main.value == True %} bg-cola-light-green {% else %} bg-cola-brown {% endif %} rounded p-3">
         {% show_address form.address_id.value %}
         <hr>
