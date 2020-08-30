@@ -65,7 +65,7 @@
         <td><a href="{{ product.get_absolute_url }}">
             <img class="w-10em" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
         {% if is_cart %}
-        <div class="text-center">
+        <div class="text-center float-left">
             <form action="{% url 'cart:cart_remove' product.id %}" method="POST" class="d-inline">
                 {% csrf_token %}
                 <input type="hidden" name="single" value=True />
