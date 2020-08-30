@@ -28,14 +28,16 @@
     <span class="nav-logo text-center visible-desktop"><a href="{% url 'shop:home' %}" class="text-decoration-none">
       <img src="{% static 'img/logo-img-light-green-smaller.png' %}"><h4 class="pretty-font mx-1 col-brown ">Dinosauria</h4></span>
     </a>
-    <ul class="nav navbar-nav ml-auto pt-1 pretty-font font-medium ">
+    <ul class="nav navbar-nav ml-auto pt-1 pretty-font font-medium nav-items">
+      <hr>
       <li class="px-3"><a href="{% url 'shop:home' %}" >Home</a></li>
       <li class="px-3"><a href="#">About us</a></li>
       <li class="px-3"><a href="{% url 'shop:products' %}">Products</a></li>
       <li class="px-3"><a href="#">Delivery</a></li>
       <li class="px-3"><a href="#">Contact</a></li>
     </ul>
-    <ul class="nav navbar-nav ml-auto pr-1 pt-1 sans-font font-bigger">
+    <ul class="nav navbar-nav ml-auto pr-1 pt-3 sans-font font-bigger nav-items" >
+      <hr>
       {% if user.is_authenticated %}
       <li class="px-2"><a href="{% url 'users:profile' %}">{% if user.first_name %} {{ user.first_name }} {% else %} profile {% endif %}</a></li>
       <li class="px-2"><a href="{% url 'users:logout' %}">logout</a></li>

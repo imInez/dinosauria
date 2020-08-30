@@ -194,6 +194,10 @@ form div.field {
         display: none;
     }
 
+    .nav-items{
+        text-align: right;
+    }
+
 }
 
 
