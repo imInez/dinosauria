@@ -2,6 +2,8 @@ from .models import Product
 from django.shortcuts import render, get_object_or_404
 from cart.forms import CartAddProductForm
 from django import forms
+from cart.cart import Cart
+
 
 def home(request):
     return render(request, 'shop/home.html')

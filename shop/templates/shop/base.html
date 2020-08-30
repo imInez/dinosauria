@@ -18,7 +18,7 @@
   <a href="{% url 'shop:home' %}" class="navbar-brand visible-mobile ">
     <img src="{% static 'img/logo-img-light-green-smaller.png' %}"></span>
   </a>
-  <a href="{% url 'cart:cart_checkout' %}" class="visible-mobile"><img src="{% static 'img/cart.png' %}"></a>
+  <a href="{% url 'cart:cart_checkout' %}" class="visible-mobile">Items: {{ cart.count_items }} <img src="{% static 'img/cart.png' %}"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="bg-col-light-green rounded p-1 pb-2">
     <span class="navbar-toggler-icon bg-col-light-green"></span>
@@ -31,10 +31,10 @@
     <ul class="nav navbar-nav ml-auto pt-1 pretty-font font-medium nav-items">
       <hr>
       <li class="px-3"><a href="{% url 'shop:home' %}" >Home</a></li>
-      <li class="px-3"><a href="#">About us</a></li>
+      <li class="px-3"><p>About us</p></li>
       <li class="px-3"><a href="{% url 'shop:products' %}">Products</a></li>
-      <li class="px-3"><a href="#">Delivery</a></li>
-      <li class="px-3"><a href="#">Contact</a></li>
+      <li class="px-3"><p>Delivery</p></li>
+      <li class="px-3"><p>Contact</p></li>
     </ul>
     <ul class="nav navbar-nav ml-auto pr-1 pt-3 sans-font font-bigger nav-items" >
       <hr>
@@ -47,7 +47,7 @@
       <li class="px-2">{% if request.path == '/users/logout/' %} <a href="{% url 'users:login' %}?next=/">login</a>
         {% else %} <a href="{% url 'users:login' %}?next={{request.path}}">login</a>{% endif %} </li>
       {% endif %}
-      <li class="px-2 visible-desktop"><a href="{% url 'cart:cart_checkout' %}"><img src="{% static 'img/cart.png' %}"></a></li>
+      <li class="px-2 visible-desktop"><a href="{% url 'cart:cart_checkout' %}">Items: {{ cart.count_items }}<img src="{% static 'img/cart.png' %}"></a></li>
 <!--      <div>Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
     </ul>
   </div>
