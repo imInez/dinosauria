@@ -64,13 +64,8 @@
     <tr>
         <td><a href="{{ product.get_absolute_url }}">
             <img class="w-10em" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
-        </a></td>
-        <td><p class="product-name pretty-font pt-3 font-medium">Product: {{ product.name }}</p>
-        <p class="product-id pt-3">Quantity: {{ item.quantity }}</p>
-        <p class="pt-3"><span class="product-total-price pt-3">Price: {{ item.total_price }}</span> <small class="product-item-price " >({{ item.price }}/item)</small></p></td>
-
         {% if is_cart %}
-        <td class="text-center float-left">
+        <div class="text-center float-left">
             <form action="{% url 'cart:cart_remove' product.id %}" method="POST" class="d-inline">
                 {% csrf_token %}
                 <input type="hidden" name="single" value=True />
@@ -85,8 +80,12 @@
                 {% csrf_token %}
                 <button type = 'submit' class="bg-transparent border-0 col-brown sans-font small">remove</button>
             </form>
-        </td>
+        </div>
         {% endif %}
+        </a></td>
+        <td><p class="product-name pretty-font pt-3 font-medium">Product: {{ product.name }}</p>
+        <p class="product-id pt-3">Quantity: {{ item.quantity }}</p>
+        <p class="pt-3"><span class="product-total-price pt-3">Price: {{ item.total_price }}</span> <small class="product-item-price " >({{ item.price }}/item)</small></p></td>
     </tr>
     {% endwith %}
     {% endfor %}
