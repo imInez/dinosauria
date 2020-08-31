@@ -47,7 +47,7 @@
       <li class="px-2">{% if request.path == '/users/logout/' %} <a href="{% url 'users:login' %}?next=/">login</a>
         {% else %} <a href="{% url 'users:login' %}?next={{request.path}}">login</a>{% endif %} </li>
       {% endif %}
-      <li class="px-2 visible-desktop"><a href="{% url 'cart:cart_checkout' %}">Items: {{ cart.count_items }}<img src="{% static 'img/cart.png' %}"></a></li>
+      <li class="px-2 visible-desktop"><a href="{% url 'cart:cart_checkout' %}"><b>{{ cart.count_items }}</b><img src="{% static 'img/cart.png' %}"></a></li>
 <!--      <div>Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
     </ul>
   </div>
