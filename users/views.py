@@ -5,7 +5,9 @@ from .models import Profile, ShipmentAddress
 from django.contrib.auth.decorators import login_required
 from .forms import AddressModelForm, ProfileForm
 from helpers import views_helpers
+from cart.cart import Cart
 
+cart = Cart(request)
 
 def register(request):
     if request.method == 'POST':
@@ -25,7 +27,7 @@ def register(request):
         if request.user.is_authenticated:
             return profile(request)
         form = UserRegisterForm()
-    return render(request, 'users/auth/registration.html', {'form': form})
+    return render(request, 'users/auth/registration.html', {'form': form, 'cart': cart})
 
 
 @login_required(login_url='users:login')
@@ -47,6 +49,7 @@ def profile(request):
     return render(request, 'users/profile.html', {'user_profile': user_profile, 'profile_form': profile_form,
                                                   'address_forms': address_forms,
                                                   'new_address_form': new_address_form,
+                                                  'cart': cart
                                                   })
 
 
