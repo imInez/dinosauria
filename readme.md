@@ -1,7 +1,7 @@
 
 # Dinosauria
 
-See it live: http://ec2-18-216-51-165.us-east-2.compute.amazonaws.com
+See it live: www.dinosauria.herokuapp.com
 
 ![dinosauria](dino.png)
 
@@ -12,9 +12,10 @@ See it live: http://ec2-18-216-51-165.us-east-2.compute.amazonaws.com
 
 
 ## General info
-THis proejct is still in progress, there many things to try here.
-I am making this project to grasp some more knowledge and practide in django, and how onlineshops could be built.<br>
-I have it on Amazon EC2, as long as I have some free tier to use for it.<br>
+* Dinosauria is an online shop with gorgeous, high-quality dinosaurs.
+* Users may order products with or without registration, Braintree sandbox is used to process payments.
+* Media files are stored in AWS RDS.
+
 
 ## Technologies
 * Python
