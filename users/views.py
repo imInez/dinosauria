@@ -7,9 +7,9 @@ from .forms import AddressModelForm, ProfileForm
 from helpers import views_helpers
 from cart.cart import Cart
 
-cart = Cart(request)
 
 def register(request):
+    cart = Cart(request)
     if request.method == 'POST':
         nxt = request.POST.get('next')
         form = UserRegisterForm(request.POST)
@@ -32,6 +32,7 @@ def register(request):
 
 @login_required(login_url='users:login')
 def profile(request):
+    cart = Cart(request)
     user_profile = Profile.objects.filter(user=request.user).first()
     addresses = ShipmentAddress.objects.filter(profile=user_profile)
     if request.method == 'POST':

@@ -4,18 +4,20 @@ from cart.forms import CartAddProductForm
 from django import forms
 from cart.cart import Cart
 
-cart = Cart(request)
 
 def home(request):
+    cart = Cart(request)
     return render(request, 'shop/home.html', {'cart': cart})
 
 def products(request):
     all_products = Product.objects.filter(available=True)
     cart_form = CartAddProductForm()
+    cart = Cart(request)
     return render(request, 'shop/product/product-list.html', {'products': all_products, 'cart_form': cart_form, 'cart': cart})
 
 def product_details(request, id, slug):
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
     cart_form = CartAddProductForm()
+    cart = Cart(request)
     return render(request, 'shop/product/product-details.html', {'product': product, 'cart_form': cart_form, 'cart': cart})
 
