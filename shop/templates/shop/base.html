@@ -18,7 +18,7 @@
   <a href="{% url 'shop:home' %}" class="navbar-brand visible-mobile ">
     <img src="{% static 'img/logo-img-light-green-smaller.png' %}"></span>
   </a>
-  <a href="{% url 'cart:cart_checkout' %}" class="visible-mobile">Items: {{ cart.count_items }} <img src="{% static 'img/cart.png' %}"></a>
+  <a href="{% url 'cart:cart_checkout' %}" class="visible-mobile"><b>{{ cart.count_items }}</b> <img src="{% static 'img/cart.png' %}"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="bg-col-light-green rounded p-1 pb-2">
     <span class="navbar-toggler-icon bg-col-light-green"></span>

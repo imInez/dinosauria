@@ -6,7 +6,8 @@ from cart.cart import Cart
 
 
 def home(request):
-    return render(request, 'shop/home.html')
+    cart = Cart(request)
+    return render(request, 'shop/home.html', {'cart': cart})
 
 def products(request):
     all_products = Product.objects.filter(available=True)
