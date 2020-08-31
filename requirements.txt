@@ -10,6 +10,7 @@ chardet==3.0.4
 dj-database-url==0.5.0
 Django==3.0.4
 django-crispy-forms==1.9.0
+django-extensions==3.0.5
 django-heroku==0.3.1
 django-storages==1.9.1
 docutils==0.15.2
@@ -20,6 +21,8 @@ jmespath==0.10.0
 kombu==4.6.8
 Pillow==7.0.0
 psycopg2==2.8.5
+pydot==1.4.1
+pyparsing==2.4.7
 python-dateutil==2.8.1
 python-dotenv==0.12.0
 pytz==2019.3
