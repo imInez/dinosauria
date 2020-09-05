@@ -9,7 +9,7 @@ Your shopping cart
 {% block content %}
 
 <div class="container pb-5 mt-5">
-    <h3>You have <span id="cart-items">{{ cart.count_items }} item{{ cart.count_items|pluralize }} in your cart</span></h3>
+    <h3>You have <span id="cart-items">{{ cart.count_items }}</span> item{{ cart.count_items|pluralize }} in your cart</h3>
         {% include 'orders/summary.html' with cart=cart is_cart=True %}
 
     <p class="text-right">

@@ -26,8 +26,9 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <span class="nav-logo text-center visible-desktop"><a href="{% url 'shop:home' %}" class="text-decoration-none">
-      <img src="{% static 'img/logo-img-light-green-smaller.png' %}"><h4 class="pretty-font mx-1 col-brown ">Dinosauria</h4></span>
+      <img src="{% static 'img/logo-img-light-green-smaller.png' %}" id="logo-img"><h4 class="pretty-font mx-1 col-brown" id="logo-text">Dinosauria</h4>
     </a>
+      </span>
     <ul class="nav navbar-nav ml-auto pt-1 pretty-font font-medium nav-items">
       <hr>
       <li class="px-3"><a href="{% url 'shop:home' %}" >Home</a></li>
@@ -39,7 +40,7 @@
     <ul class="nav navbar-nav ml-auto pr-1 pt-3 sans-font font-bigger nav-items" >
       <hr>
       {% if user.is_authenticated %}
-      <li class="px-2"><a href="{% url 'users:profile' %}">{% if user.first_name %} {{ user.first_name }} {% else %} profile {% endif %}</a></li>
+      <li class="px-2"><a href="{% url 'users:profile' %}" id="profile-link">{% if user.first_name %} {{ user.first_name }} {% else %} profile {% endif %}</a></li>
       <li class="px-2"><a href="{% url 'users:logout' %}">logout</a></li>
       {% else %}
       <li class="px-2">{% if request.path == '/users/logout/' or request.path == '/users/login/' %}<a href="{% url 'users:register' %}?next=/">register</a>
@@ -47,7 +48,7 @@
       <li class="px-2">{% if request.path == '/users/logout/' %} <a href="{% url 'users:login' %}?next=/">login</a>
         {% else %} <a href="{% url 'users:login' %}?next={{request.path}}">login</a>{% endif %} </li>
       {% endif %}
-      <li class="px-2 visible-desktop"><a href="{% url 'cart:cart_checkout' %}"><b>{{ cart.count_items }}</b><img src="{% static 'img/cart.png' %}"></a></li>
+      <li class="px-2 visible-desktop"><a href="{% url 'cart:cart_checkout' %}" id="cart"><b>{{ cart.count_items }}</b><img src="{% static 'img/cart.png' %}"></a></li>
 <!--      <div>Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
     </ul>
   </div>

@@ -18,20 +18,27 @@ Dinosauria store - Products
     </div>
     <div class="row mx-5 text-center">
         <div class="col-lg-12 col-xl-6 product my-3">
-            <a href="{{ product.get_absolute_url }}" class="product-link"><img src="{{ product.image.url }}" class="product-img" alt="{{ product.name }}">
+            <a href="{{ product.get_absolute_url }}" class="product-link">
+                <img src="{{ product.image.url }}" class="product-img" alt="{{ product.name }}">
                 <h2 class="product-name pretty-font pt-3 pb-2">{{ product.name }}, {{ product.price }} </h2></a>
             <form action="{% url 'cart:cart_add' product.id %}" method="POST">
                 {% csrf_token %}
-                <input class="bg-col-light-green p-4 border-0 col-brown sans-font font-weight-bold" type="submit" value="Add to cart">
+<!--                <input class="bg-col-light-green p-4 border-0 col-brown sans-font font-weight-bold add-to-cart-btn"-->
+<!--                       type="submit" value="Add to cart">-->
+                <button class="bg-col-light-green p-4 border-0 col-brown sans-font font-weight-bold add-to-cart-btn"
+                        type="submit">Add to cart</button>
+
             </form>
         </div>
         {% else %}
         <div class="col-lg-12 col-xl-6 product my-1">
-            <a href="{{ product.get_absolute_url }}" class="product-link"><img src="{{ product.image.url }}" class="product-img">
+            <a href="{{ product.get_absolute_url }}" class="product-link">
+                <img src="{{ product.image.url }}" class="product-img">
                 <h2 class="product-name pretty-font pt-3 pb-2">{{ product.name }}, {{ product.price }} </h2></a>
             <form action="{% url 'cart:cart_add' product.id %}" method="POST">
                 {% csrf_token %}
-                <button class="bg-col-light-green p-4 border-0 col-brown sans-font font-weight-bold" type="submit">Add to cart</button>
+                <button class="bg-col-light-green p-4 border-0 col-brown sans-font font-weight-bold add-to-cart-btn"
+                        type="submit">Add to cart</button>
             </form>
 
         </div>

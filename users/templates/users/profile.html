@@ -14,7 +14,7 @@ Profile - Dinosauria store
 
 <div class="container mt-5">
     <h2> {% if user.first_name %} hey, {{ user.first_name }}! {% else %} hey! {% endif %}</h2>
-    <div id="user-settings mt-5">
+    <div id="user-settings">
         <hr>
         <form action="." method="POST" class="mt-3">
             {% include 'users/form_template.html' with form=profile_form flat=True %}
@@ -33,9 +33,9 @@ Profile - Dinosauria store
         {% for order in user.profile.order_set.all %}
         <div class="my-3 py-3">
             <div class="sans-font">
-            Ordered {{ order.created }}<br>
-            Status: {{ order.get_status_display }}
-            Payment status {{ order.get_payment_status_display }}<br>
+                ID <span id="order-id" class="pr-1">{{ order.id }}</span> Ordered {{ order.created }}<br>
+                Status: {{ order.get_status_display }}
+                Payment status {{ order.get_payment_status_display }}<br>
             </div>
             {% include 'orders/summary.html' with cart=order.products.all order=order %}
 

@@ -1,42 +1,67 @@
 from shop.models import Product
+from orders.models import Order, OrderProduct
 from django.contrib.auth import get_user_model
 from users.models import Profile, ShipmentAddress
 from django.contrib.auth import authenticate
 import os, time
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+from django.utils import timezone
 
 User = get_user_model()
 TEST_USER_PASSWORD = 'testingPassword010'
 STAGING_SERVER = 'http://' + 'localhost:8000'
 
 
-def create_test_user(user_model, create_one=True):
-    user_model.objects.all().delete()
-    new_user1 = user_model.objects.create_user(username='testing1@random.com', email='testing1@random.com',
-                                               password=TEST_USER_PASSWORD)
+def create_test_user(fill_address=False, create_one=True):
+    User.objects.all().delete()
+    new_user1 = User.objects.create_user(username='testing1@random.com', email='testing1@random.com')
+    new_user1.set_password(TEST_USER_PASSWORD)
+    new_user1.save()
     new_user1_profile = Profile()
     new_user1_profile.user = new_user1
     new_user1_profile.email = 'testing1@random.com'
+    new_user1_profile.phone = '100100100'
     new_user1_profile.save()
-    address = ShipmentAddress()
-    address.profile = new_user1_profile
-    address.save()
+    if fill_address:
+        create_address(new_user1)
 
     if not create_one:
-        new_user2 = user_model.objects.create_user(username='testing2@random.com',email='testing@2random.com',
-                                                   password=TEST_USER_PASSWORD)
+        new_user2 = User.objects.create_user(username='testing2@random.com',email='testing@2random.com')
+        new_user2.set_password(TEST_USER_PASSWORD)
+        new_user2.save()
         new_user2_profile = Profile()
         new_user2_profile.email = 'testing2@random.com'
+        new_user1_profile.phone = '200200200'
         new_user2_profile.save()
+        if fill_address:
+            create_address(new_user2)
 
-        new_user3 = user_model.objects.create_user(username='testing3@random.com', email='testing@3random.com',
-                                                   password=TEST_USER_PASSWORD)
+        new_user3 = User.objects.create_user(username='testing3@random.com', email='testing@3random.com')
+        new_user3.set_password(TEST_USER_PASSWORD)
+        new_user3.save()
         new_user3_profile = Profile()
         new_user3_profile.email = 'testing3@random.com'
+        new_user1_profile.phone = '300300300'
         new_user3_profile.save()
+        if fill_address:
+            create_address(new_user2)
 
-    return user_model.objects.all()
+    return User.objects.all()
+
+def create_address(user):
+    address = ShipmentAddress()
+    address.profile = user.profile
+
+    address.name = f'TestName {user.username}'
+    address.surname = 'TestSurname'
+    address.street = 'TestStreet'
+    address.building_flat = '10'
+    address.city = 'Test City'
+    address.zipcode = '100100'
+    address.is_main = True
+    address.save()
+    return address
 
 def create_user_ft(ft):
     # They click on register link in navbar
@@ -76,13 +101,15 @@ def fill_in_registration_form_ft(ft):
 
 
 
-def login_user(user, client):
-    usr = create_test_user(User).first()
-    client.login(username=usr.email, password=usr.password)
+def login_user(client, user=None, fill_address=False):
+    if not user:
+        user = create_test_user(fill_address=fill_address).first()
+    client.login(username=user.email, password=TEST_USER_PASSWORD)
 
 
-def login_user_ft(ft):
-    usr = create_test_user(User).first()
+def login_user_ft(ft, usr=None, fill_address=False):
+    if not usr:
+        usr = create_test_user(fill_address=fill_address).first()
     ft.browser.get(ft.live_server_url)
 
     login = ft.browser.find_element_by_link_text('login').get_attribute('href')
@@ -100,11 +127,11 @@ def login_user_ft(ft):
     ft.wait_for(lambda: ft.browser.find_element_by_id('login-btn').click())
 
 
-def fill_shipment_form(ft, is_user):
+def update_user_data_ft(ft, is_user, update_phone=False, update_email=False, update_address=False):
     if is_user:
         email = ''
     else:
-        email = 'tets@email.com'
+        email = 'test@email.com'
 
     try:
         fields = {
@@ -134,20 +161,22 @@ def fill_shipment_form(ft, is_user):
     except NoSuchElementException:
         pass
 
+def update_user_data(email=False, phone=False):
+    pass
 
 def _slugify(name):
     return(name.replace(' ', '-'))
 
 
 def create_test_items(create_one=False):
-    new_prod1 = Product(name='Test Dino 1', price=100)
+    new_prod1 = Product(name='Test Dino 1', price=100, available=True)
     new_prod1.save()
 
     if not create_one:
-        new_prod2 = Product(name='Test Dino 2', price=200)
+        new_prod2 = Product(name='Test Dino 2', price=200, available=True)
         new_prod2.save()
 
-        new_prod3 = Product(name='Test Dino 3', price=300)
+        new_prod3 = Product(name='Test Dino 3', price=300, available=True)
         new_prod3.save()
 
     for prod in Product.objects.all():
@@ -169,11 +198,18 @@ def add_items_to_cart_ft(ft):
     products = create_test_items()
     ft.browser.get(ft.live_server_url + '/products/')
     ft.browser.find_elements_by_class_name('add-to-cart-btn')[0].click()
-    ft.assertEqual(ft.browser.find_element_by_tag_name('h3').text, 'Your cart: 1')
+    ft.assertEqual(ft.browser.find_element_by_tag_name('h3').text, 'You have 1 item in your cart')
 
 
-def make_a_successful_order(self):
-    pass
+def make_a_successful_order(user, product):
+    new_order_product = OrderProduct(product=product, price=product.price, quantity=1)
+    new_order_product.save()
+    new_order = Order(author=user.profile, address=ShipmentAddress.objects.get(profile=user.profile),
+                      created=timezone.now(), last_update=timezone.now(), total=product.price)
+    new_order.save()
+    new_order.products.add(new_order_product)
+
+    return new_order
 
 
 def make_a_failure_order(self):

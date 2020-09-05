@@ -1,6 +1,10 @@
 from .base import FunctionalTest
 from shop.models import Product
 from helpers import tests_helpers
+from users.models import User
+import time
+from django.contrib import auth
+from cart.cart import Cart
 
 
 class HomePageFlow(FunctionalTest):
@@ -17,7 +21,7 @@ class HomePageFlow(FunctionalTest):
         logo_text = self.browser.find_element_by_id('logo-text')
         self.assertEqual('Dinosauria', logo_text.text)
         logo_img = self.browser.find_element_by_id('logo-img')
-        self.assertIn('logo-img.png', logo_img.get_attribute('src'))
+        self.assertIn('logo-img-light-green-smaller.png', logo_img.get_attribute('src'))
 
         # User can see trending products listed in the home page as image, name and price
         trending_img = self.browser.find_element_by_id('dinosaur-img')
@@ -37,21 +41,22 @@ class ProductListFlow(FunctionalTest):
         self.browser.get(products_link)
         # products_link.click()
         self.wait_for(lambda:
-                      self.assertIn(self.browser.find_element_by_tag_name('h3').text, 'All products'))
+                      self.assertIn(self.browser.find_element_by_tag_name('h3').text, 'all products'))
 
         # User can see all products as pictures in rows
         all_products = self.browser.find_elements_by_class_name('product-link')
-        self.assertEqual(len(Product.objects.all()), len(all_products))
+        # self.assertEqual(len(Product.objects.all()), len(all_products))
 
         tests_helpers.create_test_items()
         self.browser.get(products_link)
         all_products = self.browser.find_elements_by_class_name('product-link')
         self.assertEqual(len(Product.objects.all()), len(all_products))
 
-        # TODO this will work with js, for now make mvc
-        # User clicks on a picture to see available actions - add to basket or see details
+        self.assertEqual(len(Product.objects.all()), len(all_products))
+
         self.assertTrue(self.browser.find_element_by_class_name('add-to-cart-btn'))
-        self.assertTrue(self.browser.find_element_by_class_name('product-img'))
+        self.assertTrue(self.browser.find_element_by_class_name('product-link'))
+
 
 class ProductDetailFlow(FunctionalTest):
 
@@ -59,15 +64,11 @@ class ProductDetailFlow(FunctionalTest):
         product = tests_helpers.create_test_items(create_one=True).first()
         self.browser.get(f'{self.live_server_url}/products/')
 
-        # User clicks on product image to see aviailable action and clicks  on See details button
+        # User clicks on product image to see product details
         details_link = self.browser.find_element_by_class_name('product-link').get_attribute('href')
         self.browser.get(details_link)
 
-        # product_element.click()
-        # details_link = self.browser.find_element_by_link_text('See details').get_attribute('src')
-
         # User is taken to product detail page
-        self.browser.get(details_link)
         product_id = self.browser.find_element_by_name('product-id').text
 
         self.assertEqual(product_id, str(product.id))
@@ -85,30 +86,33 @@ class ProductDetailFlow(FunctionalTest):
         self.assertTrue(self.browser.find_element_by_class_name('add-to-cart-btn'))
 
 
-
 class UserAccountFlow(FunctionalTest):
     """ Users app FTs """
 
-# def test_can_see_orders_table_in_account(self):
-#     # User logs in
-#     usr = self._create_test_user()
-#     self._login_user()
-#
-#     self._make_an_order()
-#     # They go to their account page and see a list of their orders
-#     self.browser.find_element_by_name('profile').click()
-#
-#     self.assertIn('Your orders', self.browser.find_element_by_tag_name('h1').text)
+    def test_can_see_orders_table_in_account(self):
+        # add product
+        product = tests_helpers.create_test_items(True).first()
 
-        # TODO check if order data is here
+        self.browser.get(self.live_server_url)
+        # User logs in
+        usr = tests_helpers.create_test_user(fill_address=True, create_one=True).first()
+        tests_helpers.login_user_ft(self, usr)
+        order = tests_helpers.make_a_successful_order(usr, product)
+
+        # They go to their account page and see a list of their orders
+        self.browser.find_element_by_id('profile-link').click()
+        headers = self.browser.find_elements_by_tag_name('h4')
+        self.assertTrue([header for header in headers if header.text =='Your orders'])
+        self.assertEqual(int(self.browser.find_element_by_id('order-id').text), order.id)
 
     def test_can_see_address_and_account_settings(self):
         # User who already has an account wants to login
-        tests_helpers.login_user_ft(self)
+        user = tests_helpers.create_test_user(True, True).first()
+        tests_helpers.login_user_ft(self, user)
 
         # They go to their account page and see their address
         self.browser.get(self.live_server_url + '/users/profile/')
-        self.assertTrue(self.browser.find_element_by_id('user-addresses'))
+        self.assertTrue(self.browser.find_element_by_id('user-address'))
 
         # and account settings - email and password change button
         self.assertTrue(self.browser.find_element_by_id('user-settings'))
@@ -124,20 +128,20 @@ class CartFlow(FunctionalTest):
         self.browser.get(self.live_server_url + '/products/')
 
         # User wants to check the items they have in cart, they click on cart in navbar and are taken to cart page
-        cart_link = self.browser.find_element_by_link_text('cart')
+        cart_link = self.browser.find_element_by_id('cart')
         cart_link.click()
         # time.sleep(2)
         self.browser.get(self.live_server_url + '/cart/')
         self.wait_for(lambda:
-                      self.assertIn('Your cart', self.browser.find_element_by_tag_name('h3').text))
+                      self.assertIn('You have 1 item in your cart', self.browser.find_element_by_tag_name('h3').text))
 
         # User sees the items they added to cart - small picture, name, price and quantity
-        cart_products = self.browser.find_elements_by_class_name('product-name')
+        cart_products = self.browser.find_elements_by_id('product-row')
         self.assertEqual(len(cart_products), 1)
 
         # User sees + and - sign to change quantity of products
-        self.assertTrue(self.browser.find_element_by_class_name('product-plus'))
-        self.assertTrue(self.browser.find_element_by_class_name('product-minus'))
+        self.assertTrue(self.browser.find_element_by_id("plus-one"))
+        self.assertTrue(self.browser.find_element_by_id("minus-one"))
 
     def test_cart_empty_when_no_items_added(self):
         # User goes to cart page but didn't add any products to the cart
@@ -168,15 +172,26 @@ class CartFlow(FunctionalTest):
         self.browser.get(self.live_server_url + '/products/')
         self.browser.find_element_by_class_name('add-to-cart-btn').click()
 
-        self.wait_for(lambda: self.assertIn('Your cart', self.browser.find_element_by_tag_name('h3').text))
+        self.wait_for(lambda: self.assertIn('You have 1 item in your cart',
+                                            self.browser.find_element_by_tag_name('h3').text))
         self.assertTrue(int(self.browser.find_element_by_id('cart-items').text) > 0)
 
-        # it's their first order and they didn't provide shipment info while registering
-        # now they need to add the info in cart
-        # They see address form where they need to provide their shipment data
+        # # it's their first order and they didn't provide shipment info while registering
+        # # now they need to add the info in cart
+        # # They see address form where they need to provide their shipment data
         self.wait_for(lambda: self.assertTrue(self.browser.find_element_by_id('userform')))
 
-        tests_helpers.fill_shipment_form(self, is_user=True)
+
+        links = self.browser.find_elements_by_tag_name('a')
+        link = [link for link in links if link.get_attribute('aria-controls') == 'new_address'][0]
+        self.assertTrue(link)
+        link.click()
+        tests_helpers.update_user_data_ft(self, is_user=True)
+        time.sleep(10)
+
+        self.assertTrue(self.browser.find_element_by_id('user-address'))
+
+        self.browser.get(self.live_server_url + '/cart/')
         self.wait_for(lambda: self.browser.find_element_by_id('order-btn'))
 
     def test_address_form_shows_up_when_order_as_guest_option_was_chosen(self):
@@ -185,7 +200,7 @@ class CartFlow(FunctionalTest):
         self.browser.get(self.live_server_url + '/products/')
         self.browser.find_element_by_class_name('add-to-cart-btn').click()
 
-        self.wait_for(lambda: self.assertIn('Your cart', self.browser.find_element_by_tag_name('h3').text))
+        self.wait_for(lambda: self.assertIn('You have 1 item in your cart', self.browser.find_element_by_tag_name('h3').text))
         self.assertTrue(int(self.browser.find_element_by_id('cart-items').text) > 0)
 
         # They want to order as a guest, without registration, and click on Order as a guest button
@@ -197,17 +212,15 @@ class CartFlow(FunctionalTest):
         self.wait_for(lambda:self.assertTrue(self.browser.find_element_by_id('guestform')))
 
         # When shipment address form is correct, the Make order button shows up
-        tests_helpers.fill_shipment_form(self, is_user=False)
-        self.wait_for(lambda: self.browser.find_element_by_id('update').click())
-
-        self.browser.find_element_by_id('order-btn')
+        tests_helpers.update_user_data_ft(self, is_user=False)
+        self.wait_for(lambda: self.browser.find_element_by_id('order-btn'))
 
     def test_user_can_make_an_order_immediately_when_logged_in_with_address(self):
         # User registers and fills in shipment data
         self.browser.get(self.live_server_url+'/users/register/')
         register_link = self.browser.find_element_by_link_text('register').get_attribute('href')
         self.browser.get(register_link)
-        tests_helpers.fill_shipment_form(self, True)
+        tests_helpers.update_user_data_ft(self, True)
         email_input = self.browser.find_element_by_name('email')
         email_input.send_keys('testing99@random.com')
         pass1_input = self.browser.find_element_by_name('password1')

@@ -29,25 +29,32 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # DEBUG = True
 # ALLOWED_HOSTS = ['*']
 
-if os.getenv('local'):
-    if os.getenv('DJANGO_SECRET_KEY'):
-        DEBUG = False
-        SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-        ALLOWED_HOSTS = ['localhost', os.getenv('SITENAME')]
-    else:
-        DEBUG = True
-        SECRET_KEY = 'insecure-key-for-dev'
-        ALLOWED_HOSTS = ['localhost']
-elif 'DJANGO_DEBUG_FALSE' in os.environ:
-    DEBUG = False
-    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-    ALLOWED_HOSTS = [os.environ['SITENAME']]
-else:
+# if os.environ.get('local'):
+#     if os.environ.get('DJANGO_SECRET_KEY'):
+#         DEBUG = False
+#         SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+#         ALLOWED_HOSTS = ['localhost', os.environ.get('SITENAME')]
+#     else:
+#         DEBUG = True
+#         SECRET_KEY = 'insecure-key-for-dev'
+#         ALLOWED_HOSTS = ['localhost']
+# elif 'DJANGO_DEBUG_FALSE' in os.environ:
+#     DEBUG = False
+#     SECRET_KEY = os.environ.get['DJANGO_SECRET_KEY']
+#     ALLOWED_HOSTS = [os.environ.get['SITENAME']]
+# else:
+#     DEBUG = True
+#     SECRET_KEY = 'insecure-key-for-dev'
+#     ALLOWED_HOSTS = ['localhost', os.environ.get['SITENAME']]
+
+if os.environ.get('LOCAL'):
     DEBUG = True
     SECRET_KEY = 'insecure-key-for-dev'
-    ALLOWED_HOSTS = ['localhost', os.environ['SITENAME']]
-
-
+    ALLOWED_HOSTS = ['localhost']
+else:
+    DEBUG = False
+    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+    ALLOWED_HOSTS = [os.environ.get('SITENAME')]
 
 
 
@@ -112,38 +119,49 @@ WSGI_APPLICATION = 'dinosauria.wsgi.application'
 
 use_postgres=True
 
-if os.getenv('local'):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('RDS_DB_NAME'),
-            'USER': os.getenv('RDS_USERNAME'),
-            'PASSWORD': os.getenv('RDS_PASSWORD'),
-            'HOST': os.getenv('RDS_HOSTNAME'),
-            'PORT': os.getenv('RDS_PORT'),
-
-        }
-    }
-
-elif os.environ['RDS_HOSTNAME']:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
-
-            }
-        }
-else:
+if os.environ.get('LOCAL'):
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.postgresql',
+    #         'NAME': os.getenv('RDS_DB_NAME'),
+    #         'USER': os.getenv('RDS_USERNAME'),
+    #         'PASSWORD': os.getenv('RDS_PASSWORD'),
+    #         'HOST': os.getenv('RDS_HOSTNAME'),
+    #         'PORT': os.getenv('RDS_PORT'),
+    #
+    #     }
+    # }
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'TEST': {
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+                # use --keepdb for tests
+            },
         }
     }
+
+
+elif os.environ.get('RDS_HOSTNAME'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('RDS_DB_NAME'),
+            'USER': os.environ.get('RDS_USERNAME'),
+            'PASSWORD': os.environ.get('RDS_PASSWORD'),
+            'HOST': os.environ.get('RDS_HOSTNAME'),
+            'PORT': os.environ.get('RDS_PORT'),
+
+            }
+        }
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+#     }
 
 
 # Password validation
@@ -184,10 +202,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # static settings for heroku
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -203,9 +221,9 @@ CART_SESSION_ID = 'cart'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Braintree settings
-BRAINTREE_MERCHANT_ID = os.environ['BRAINTREE_MERCHANT_ID']
-BRAINTREE_PUBLIC_KEY = os.environ['BRAINTREE_PUBLIC_KEY']
-BRAINTREE_PRIVATE_KEY = os.environ['BRAINTREE_PRIVATE_KEY']
+BRAINTREE_MERCHANT_ID = os.environ.get('BRAINTREE_MERCHANT_ID')
+BRAINTREE_PUBLIC_KEY = os.environ.get('BRAINTREE_PUBLIC_KEY')
+BRAINTREE_PRIVATE_KEY = os.environ.get('BRAINTREE_PRIVATE_KEY')
 
 # AWS S3 settings
 AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')

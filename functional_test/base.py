@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase, LiveServerTestCase
 import os
 import time
 from django.contrib.auth import settings
@@ -8,10 +8,11 @@ from importlib import import_module
 
 MAX_WAIT = 10
 
-class FunctionalTest(StaticLiveServerTestCase):
+class FunctionalTest(LiveServerTestCase):
     def setUp(self) -> None:
         self.browser = webdriver.Firefox()
-        staging_server = os.environ.get('STAGING SERVER')
+        staging_server = os.environ.get('STAGING_SERVER')
+        # staging_server = 'localhost:8000'
         if staging_server:
             self.live_server_url = 'http://' + staging_server
 
@@ -55,7 +56,7 @@ class SessionTestCase(FunctionalTest):
         session_cookie = session.SESSION_COOKIE_NAME
         self.client.cookies[session_cookie] = session.session_key
         cookie_data = {
-            'max-age': None,
+            'max-ax': None,
             'path': '/',
             'domain': settings.SESSION_COOKIE_DOMAIN,
             'secure': settings.SESSION_COOKIE_SECURE or None,
