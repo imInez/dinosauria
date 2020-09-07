@@ -28,14 +28,16 @@
                 <form action="{% url 'cart:cart_remove' product.id %}" method="POST" class="d-inline">
                     {% csrf_token %}
                     <input type="hidden" name="single" value=True />
-                    <button type="submit" id="minus-one"
-                            class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium">-</button>
+                    <button type="submit"
+                            class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium minus-one">
+                            -</button>
                 </form>
                 <form action="{% url 'cart:cart_add' product.id %}" method="POST" class="d-inline">
                     {% csrf_token %}
                     <input  name="quantity" value=1 class="d-none"/>
-                    <button type="submit" id="plus-one"
-                            class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium">+</button>
+                    <button type="submit"
+                            class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium plus-one">
+                        +</button>
                 </form>
                 <form action="{% url 'cart:cart_remove' product.id %}" method="POST">
                     {% csrf_token %}
@@ -71,14 +73,16 @@
             <form action="{% url 'cart:cart_remove' product.id %}" method="POST" class="d-inline">
                 {% csrf_token %}
                 <input type="hidden" name="single" value=True />
-                <button type="submit" id="minus-one"
-                        class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium">-</button>
+                <button type="submit"
+                        class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium minus-one">
+                    -</button>
             </form>
             <form action="{% url 'cart:cart_add' product.id %}" method="POST" class="d-inline">
                 {% csrf_token %}
                 <input  name="quantity" value=1 class="d-none"/>
-                <button type="submit" id="plus-one"
-                        class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium">+</button>
+                <button type="submit" id=""
+                        class="bg-transparent border-0 col-brown sans-font font-weight-bold font-medium plus-one">
+                        +</button>
             </form>
             <form action="{% url 'cart:cart_remove' product.id %}" method="POST">
                 {% csrf_token %}
