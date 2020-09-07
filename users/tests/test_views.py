@@ -3,10 +3,10 @@ from users.forms import UserRegisterForm
 from django.contrib.auth import get_user_model
 from users import views
 from django.urls import resolve
-from django.contrib.auth import authenticate, get_user
-from helpers import tests_helpers
+from django.contrib.auth import get_user
 from users.urls import login_view
 User = get_user_model()
+
 
 class RegistrationTest(TestCase):
 
@@ -33,7 +33,6 @@ class RegistrationTest(TestCase):
         self.assertTrue(get_user(self.client).is_authenticated)
         self.assertEqual(get_user(self.client).username, 'testing@random.com')
         self.assertEqual(get_user(self.client).email, 'testing@random.com')
-
 
     def test_register_POST_redirects_back(self):
         response = self.client.post('/users/register/', data={'email': 'testing@random.com',

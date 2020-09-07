@@ -7,6 +7,7 @@ ORDER_STATUSES = [('NEW', 'NEW'), ('PAYONG', 'ONGOING PAYMENT'), ('PAYPRO', 'PAY
                   ('INPROG', 'IN PROGRESS'), ('SENT', 'SENT'), ('DELIV', 'DELIVERED')]
 PAYMENT_STATUSES = [('O', 'ONGOING'), ('S', 'SUCCESSFUL'), ('F', 'FAILED')]
 
+
 class OrderProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
     price = models.DecimalField(decimal_places=2, max_digits=5)
@@ -24,7 +25,6 @@ class Order(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2)
 
     payment_id = models.CharField(max_length=150, blank=True)
-
 
     def save(self, *args, **kwargs):
         """ On save, update timestamps """

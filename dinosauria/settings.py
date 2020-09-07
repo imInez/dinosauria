@@ -23,29 +23,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-# ALLOWED_HOSTS = ['*']
-
-# if os.environ.get('local'):
-#     if os.environ.get('DJANGO_SECRET_KEY'):
-#         DEBUG = False
-#         SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-#         ALLOWED_HOSTS = ['localhost', os.environ.get('SITENAME')]
-#     else:
-#         DEBUG = True
-#         SECRET_KEY = 'insecure-key-for-dev'
-#         ALLOWED_HOSTS = ['localhost']
-# elif 'DJANGO_DEBUG_FALSE' in os.environ:
-#     DEBUG = False
-#     SECRET_KEY = os.environ.get['DJANGO_SECRET_KEY']
-#     ALLOWED_HOSTS = [os.environ.get['SITENAME']]
-# else:
-#     DEBUG = True
-#     SECRET_KEY = 'insecure-key-for-dev'
-#     ALLOWED_HOSTS = ['localhost', os.environ.get['SITENAME']]
 
 if os.environ.get('LOCAL'):
     DEBUG = True
@@ -120,17 +97,6 @@ WSGI_APPLICATION = 'dinosauria.wsgi.application'
 use_postgres=True
 
 if os.environ.get('LOCAL'):
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.postgresql',
-    #         'NAME': os.getenv('RDS_DB_NAME'),
-    #         'USER': os.getenv('RDS_USERNAME'),
-    #         'PASSWORD': os.getenv('RDS_PASSWORD'),
-    #         'HOST': os.getenv('RDS_HOSTNAME'),
-    #         'PORT': os.getenv('RDS_PORT'),
-    #
-    #     }
-    # }
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -155,14 +121,6 @@ elif os.environ.get('RDS_HOSTNAME'):
 
             }
         }
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#         }
-#     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -201,11 +159,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-# static settings for heroku
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

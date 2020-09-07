@@ -2,10 +2,7 @@ from django.test import TestCase
 from django.urls import resolve
 from cart.views import cart_checkout
 from helpers import tests_helpers
-from shop.models import Product
 from cart.cart import Cart
-from django.test import Client
-import time
 
 
 class CartTest(TestCase):

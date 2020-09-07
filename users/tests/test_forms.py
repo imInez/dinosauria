@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class UserRegisterFormTest(TestCase):
 
     def test_register_form_renders_fields(self):

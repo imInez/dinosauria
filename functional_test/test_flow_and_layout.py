@@ -1,16 +1,13 @@
 from .base import FunctionalTest
 from shop.models import Product
 from helpers import tests_helpers
-from users.models import User
 import time
-from django.contrib import auth
-from cart.cart import Cart
 
 
 class HomePageFlow(FunctionalTest):
     """ Shop app FTs """
-    def test_can_see_homepage_structure(self):
 
+    def test_can_see_homepage_structure(self):
         # User wants to buy georgeous dinosaur, they go to dinosauria online store
         self.browser.get(self.live_server_url)
 
@@ -45,8 +42,6 @@ class ProductListFlow(FunctionalTest):
 
         # User can see all products as pictures in rows
         all_products = self.browser.find_elements_by_class_name('product-link')
-        # self.assertEqual(len(Product.objects.all()), len(all_products))
-
         tests_helpers.create_test_items()
         self.browser.get(products_link)
         all_products = self.browser.find_elements_by_class_name('product-link')

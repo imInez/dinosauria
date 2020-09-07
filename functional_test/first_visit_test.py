@@ -68,10 +68,6 @@ class FirstVisitTest(unittest.TestCase):
         buttons = product.find_elements_by_tag_name('input')
         add_button = self.browser.find_element_by_id('add-to-cart')
         add_button.click()
-        #
-        # # user is notified that product has been added to the basket
-        # notification = self.browser.find_element_by_id('added-to-cart-notification')
-        # self.assertTrue(notification)
 
         # cart items value gets updated
         cart_link = self.browser.find_element_by_id('cart')

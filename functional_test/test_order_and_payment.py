@@ -1,6 +1,5 @@
 from .base import FunctionalTest
 from helpers import tests_helpers
-import time
 
 class NewOrderTest(FunctionalTest):
 
@@ -20,7 +19,6 @@ class NewOrderTest(FunctionalTest):
     #     # User provides card details and clicks Pay
     #     print(self.browser.page_source)
     #     tests_helpers.fill_in_card_details(self, success=True)
-    #     time.sleep(5)
     #     # the payment was successful and they are forwarded to confirmation page
     #     self.assertEqual(self.browser.find_element_by_tag_name('h3').text, 'Your payment was successful!')
     #
@@ -39,12 +37,3 @@ class NewOrderTest(FunctionalTest):
     #     for row in orders.find_elements_by_class_name('my-3 py-3'):
     #         for details in row.find_elements_by_class_name('sans-font'):
     #             self.assertContains(details, 'Payment status SUCCESSFUL')
-    #
-    #
-    # def test_new_order_email_sent(self):
-    #     # User makes an order, pays and is forwarded to order confirmation page
-    #     # the order confirmation mail is sent to user email address
-    #     pass
-    #
-    # def test_email_sent_on_order_status_change(self):
-    #     pass

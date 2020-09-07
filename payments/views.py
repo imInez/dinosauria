@@ -24,17 +24,6 @@ def payment(request):
 
             return redirect('payments:success')
         else:
-            for error in result.errors.errors:
-                print('ERROR: ', error)
-                print(error.attribute)
-                print(error.code)
-                print(error.message)
-            for error in result.errors.deep_errors:
-                print('DEEP ERROR: ', error)
-                print(error.attribute)
-                print(error.code)
-                print(error.message)
-
             return redirect('payments:failure')
     else:
         client_token = braintree.ClientToken.generate()

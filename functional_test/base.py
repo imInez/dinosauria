@@ -8,6 +8,7 @@ from importlib import import_module
 
 MAX_WAIT = 10
 
+
 class FunctionalTest(LiveServerTestCase):
     def setUp(self) -> None:
         self.browser = webdriver.Firefox()
@@ -41,6 +42,7 @@ class FunctionalTest(LiveServerTestCase):
                 if time.time() - start_time > MAX_WAIT:
                     raise e
                 time.sleep(0.5)
+
 
 class SessionTestCase(FunctionalTest):
 

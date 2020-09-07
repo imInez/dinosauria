@@ -4,6 +4,7 @@ from helpers.tests_helpers import create_test_user
 
 User = get_user_model()
 
+
 class UserModelTest(TestCase):
 
     def test_creating_new_user(self):

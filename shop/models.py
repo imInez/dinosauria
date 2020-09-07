@@ -2,7 +2,6 @@ from django.db import models
 from django.urls import reverse
 
 
-
 class Product(models.Model):
     name = models.CharField(max_length=100, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)

@@ -1,6 +1,5 @@
 from .base import FunctionalTest
 from helpers import tests_helpers
-import time
 
 class AddProductToBasketTest(FunctionalTest):
 

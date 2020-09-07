@@ -79,8 +79,6 @@ def validate(request, auth):
 
 
 # cart
-
-
 def add(request, product_id, form):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
@@ -91,8 +89,6 @@ def add(request, product_id, form):
 
 
 # addresses
-
-
 def get_address(request):
     return ShipmentAddress.objects.filter(profile=Profile.objects.filter(email=request.user.email).first().id)
 
@@ -128,19 +124,6 @@ def fill_many_addresses(request):
                 form.fields[key].initial = value
             forms.append(form)
         return forms
-
-
-# def has_address(request):
-#     user_profile = Profile.objects.filter(user_id=request.user.id).first()
-#     user_address = ShipmentAddress.objects.filter(profile=user_profile).first()
-#     if user_address:
-#         address_fields = {'name': user_address.name, 'surname': user_address.surname, 'street': user_address.street,
-#                           'building_flat': user_address.building_flat, 'city': user_address.city,
-#                           'zipcode': user_address.zipcode, 'is_main': user_address.is_main, }
-#         if any(address_fields.values()):
-#             return address_fields
-#     else:
-#         return False
 
 
 def update_address(request, address_form, addresses, profile):

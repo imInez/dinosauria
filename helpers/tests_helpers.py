@@ -2,8 +2,6 @@ from shop.models import Product
 from orders.models import Order, OrderProduct
 from django.contrib.auth import get_user_model
 from users.models import Profile, ShipmentAddress
-from django.contrib.auth import authenticate
-import os, time
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from django.utils import timezone
@@ -49,6 +47,7 @@ def create_test_user(fill_address=False, create_one=True):
 
     return User.objects.all()
 
+
 def create_address(user):
     address = ShipmentAddress()
     address.profile = user.profile
@@ -62,6 +61,7 @@ def create_address(user):
     address.is_main = True
     address.save()
     return address
+
 
 def create_user_ft(ft):
     # They click on register link in navbar
@@ -166,7 +166,7 @@ def update_user_data(email=False, phone=False):
 
 
 def _slugify(name):
-    return(name.replace(' ', '-'))
+    return name.replace(' ', '-')
 
 
 def create_test_items(create_one=False):

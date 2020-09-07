@@ -1,8 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse
-from .models import Order, OrderProduct
+from .models import Order
 from cart.cart import Cart
-from users.models import ShipmentAddress
 from helpers.views_helpers import get_profile
 from django.views.decorators.http import require_POST
 
@@ -10,6 +9,7 @@ from django.views.decorators.http import require_POST
 def clear_session(request, var):
     if request.session.get(var):
         del request.session[var]
+
 
 @require_POST
 def create_order(request):
