@@ -26,7 +26,7 @@ Dinosauria store - Products
                 {% csrf_token %}
             </form>
 
-            <h5>Product name: {{ product.name }}</h5>
+            <h5>Product name: <span name="product-name">{{ product.name }}</span></h5>
             <h5>Product price: <span name="product-price">{{ product.price }}</span></h5>
             <p>Product ID: <span name="product-id">{{ product.id }}</span></p>
             <p name="product-desc">{% if product.description  %} {{ product.description }} {% endif %}</p>

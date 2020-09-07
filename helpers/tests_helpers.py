@@ -100,7 +100,6 @@ def fill_in_registration_form_ft(ft):
     pass2_input.send_keys('testingPassword101')
 
 
-
 def login_user(client, user=None, fill_address=False):
     if not user:
         user = create_test_user(fill_address=fill_address).first()
@@ -161,8 +160,10 @@ def update_user_data_ft(ft, is_user, update_phone=False, update_email=False, upd
     except NoSuchElementException:
         pass
 
+
 def update_user_data(email=False, phone=False):
     pass
+
 
 def _slugify(name):
     return(name.replace(' ', '-'))
@@ -189,7 +190,7 @@ def create_test_items(create_one=False):
 
 def add_items_to_cart(cart, products):
     for product in products:
-        cart.add_product(product)
+        cart.add_product_to_cart(product)
         cart.save()
     return cart
 
@@ -214,3 +215,19 @@ def make_a_successful_order(user, product):
 
 def make_a_failure_order(self):
     pass
+
+
+def fill_in_card_details(ft, success=None):
+    number = ft.browser.find_element_by_id('credit-card-number')
+    number.send_keys('4111111111111111')
+    number.send_keys(Keys.ENTER)
+    cvv = ft.browser.find_element_by_id('cvv')
+    cvv.send_keys('123')
+    cvv.send_keys(Keys.ENTER)
+    expiration = ft.browser.find_element_by_id('expiration')
+    if success:
+        expiration.send_keys('1222')
+        expiration.send_keys(Keys.ENTER)
+    else:
+        expiration.send_keys('0120')
+        expiration.send_keys(Keys.ENTER)
