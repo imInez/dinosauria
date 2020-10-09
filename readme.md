@@ -1,7 +1,7 @@
 
 # Dinosauria
 
-See it live: www.dinosauria.herokuapp.com
+See it live: http://dinosauria.herokuapp.com
 
 ![dinosauria](dino.png)
 
